@@ -110,22 +110,23 @@
 
 ## 基础组件映射
 
-| UI DSL Component | 真实组件 |
-| --- | --- |
-| `Button` | `Button` |
-| `Input` | `Input` |
-| `Textarea` | `Textarea` |
-| `Select` | `Select` |
-| `Checkbox` | `Checkbox` |
-| `RadioGroup` | `RadioGroup` |
-| `Switch` | `Switch` |
-| `Badge` | `Badge` |
-| `Dialog` | `Dialog` |
-| `Dropdown` | `DropdownMenu` |
-| `Tooltip` | `Tooltip` |
-| `Toast` | `Toast` |
-| `Tabs` | `Tabs` |
-| `Table` | `Table` |
+| UI DSL Component | 真实组件 | Element Plus |
+| --- | --- | --- |
+| `Button` | `Button` | `ElButton` |
+| `Input` | `Input` | `ElInput` |
+| `Textarea` | `Textarea` | `ElInput` (type=textarea) |
+| `Select` | `Select` | `ElSelect` |
+| `Checkbox` | `Checkbox` | `ElCheckbox` |
+| `RadioGroup` | `RadioGroup` | `ElRadioGroup` |
+| `Switch` | `Switch` | `ElSwitch` |
+| `Badge` | `Badge` | `ElTag` |
+| `Dialog` | `Dialog` | `ElDialog` |
+| `Dropdown` | `DropdownMenu` | `ElDropdown` |
+| `Tooltip` | `Tooltip` | `ElTooltip` |
+| `Toast` | `Toast` | `ElMessage` |
+| `Tabs` | `Tabs` | `ElTabs` |
+| `Table` | `Table` | `ElTable` |
+| `Skeleton` | `Skeleton` | `ElSkeleton` |
 
 ## 复合组件映射
 
@@ -173,7 +174,8 @@
 
 ## 图标
 
-- 优先使用 `lucide-react`
+- 优先使用 `@element-plus/icons-vue`
+- 常用图标：`Search`、`Edit`、`Delete`、`Plus`、`ArrowDown`、`Close`
 - 按钮中有合适图标时使用图标
 - 图标按钮必须有 tooltip 或 aria-label
 - 不手写 SVG，除非项目已有特殊图标系统
