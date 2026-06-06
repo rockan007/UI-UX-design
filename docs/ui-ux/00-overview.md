@@ -38,16 +38,17 @@
 首选技术栈：
 
 ```text
-Next.js + TypeScript + Tailwind CSS + shadcn/ui + lucide-react
+Vue 3 + TypeScript + Element Plus + Tailwind CSS + @element-plus/icons-vue + Vite
 ```
 
 ### 推荐原因
 
-- **Next.js**：目录结构清晰，适合前台和后台页面共存，Agent 熟悉度高
-- **TypeScript**：组件 props 更容易约束，页面数据结构更清楚
-- **Tailwind CSS**：样式表达直接，容易通过 token 和 class 约束视觉系统
-- **shadcn/ui**：组件可复制可改造，适合后台系统，配合 Tailwind 和 TypeScript 好
-- **lucide-react**：图标风格统一，避免手写 SVG
+- **Vue 3**：Composition API 逻辑复用清晰，适合中大型前后台系统
+- **TypeScript**：结合 `defineProps<T>()` 强类型约束组件接口
+- **Element Plus**：组件体系完整，内置 Table、Form、Dialog 等后台高频组件，减少自定义
+- **Tailwind CSS**：用于布局、间距、颜色微调等原子化样式，与 Element Plus CSS 变量互补
+- **@element-plus/icons-vue**：与 Element Plus 原生配套，风格统一
+- **Vite**：开发体验快，Vue 生态默认构建工具
 
 ### 如果项目已有技术栈
 
@@ -60,6 +61,8 @@ Claude Code 应先识别当前项目技术栈、组件库、样式系统和路�
 - 同时混用多个组件库
 - 随机新增图标库
 - 用内联样式替代设计系统
+- 不要混用 Element Plus 和其他 UI 框架（如 Ant Design Vue、Naive UI）
+- 不要用 Tailwind 重写 Element Plus 组件内部样式，优先使用 Element Plus CSS 变量覆盖
 
 ## Claude Code UI/UX 优化工作流
 
