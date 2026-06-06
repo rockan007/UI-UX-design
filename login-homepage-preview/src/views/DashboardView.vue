@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { DataAnalysis, ShoppingCart, Money, Warning, TrendCharts, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
+import { DataAnalysis, ShoppingCart, Money, Warning, TrendCharts, ArrowUp, ArrowDown, Expand } from '@element-plus/icons-vue'
 
-const router = useRouter()
+const drawerOpen = ref(false)
 
-const activeMenu = ref('dashboard')
+const menuItems = [
+  { key: 'dashboard', label: '仪表盘', active: true },
+  { key: 'users', label: '用户管理' },
+  { key: 'orders', label: '订单管理' },
+  { key: 'settings', label: '系统设置' },
+]
 
 const metrics = [
   { label: '活跃用户', value: '12,483', change: '+12%', trend: 'up', icon: DataAnalysis },
@@ -66,8 +70,14 @@ const timeline = [
 
     <!-- Main Content -->
     <main class="flex-1 p-6 overflow-y-auto">
-      <!-- Page Header -->
-      <div class="mb-6">
+      <!-- Mobile Header -->
+      <div class="flex items-center gap-3 mb-6 md:hidden">
+        <el-button :icon="Expand" text @click="drawerOpen = true" class="!text-neutral-800" />
+        <h1 class="text-xl font-semibold text-neutral-950">仪表盘</h1>
+      </div>
+
+      <!-- Page Header (Desktop) -->
+      <div class="hidden md:block mb-6">
         <h1 class="text-2xl font-semibold text-neutral-950">仪表盘</h1>
         <p class="text-sm text-neutral-500 mt-1">过去 30 天的核心数据概览</p>
       </div>
@@ -169,5 +179,35 @@ const timeline = [
         </div>
       </div>
     </main>
+
+    <!-- Mobile Drawer -->
+    <el-drawer
+      v-model="drawerOpen"
+      direction="ltr"
+      size="260px"
+      :with-header="false"
+    >
+      <div class="px-4 py-5">
+        <div class="flex items-center gap-2 mb-8">
+          <div class="w-7 h-7 bg-brand-600 rounded-btn flex items-center justify-center">
+            <el-icon :size="16" color="white"><TrendCharts /></el-icon>
+          </div>
+          <span class="font-semibold text-sm text-neutral-950">管理后台</span>
+        </div>
+        <nav class="flex flex-col gap-1">
+          <div
+            v-for="item in menuItems"
+            :key="item.key"
+            class="px-3 py-2 rounded-btn text-sm cursor-pointer transition-colors duration-150"
+            :class="item.active
+              ? 'bg-brand-50 text-brand-600 font-medium'
+              : 'text-neutral-500 hover:bg-neutral-50'"
+            @click="drawerOpen = false"
+          >
+            {{ item.label }}
+          </div>
+        </nav>
+      </div>
+    </el-drawer>
   </div>
 </template>
