@@ -1,5 +1,5 @@
 .superpowers/
-.claude/
+.claude/*
 !.claude/skills/
 .claude/skills/*
 !.claude/skills/ui-ux-agent-designer/
