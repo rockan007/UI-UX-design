@@ -55,13 +55,13 @@ const timeline = [
           >
             仪表盘
           </div>
-          <div class="px-3 py-2 rounded-btn text-sm text-neutral-500 cursor-pointer hover:bg-neutral-50 transition-colors duration-150">
+          <div class="px-3 py-2 rounded-btn text-sm text-neutral-500 cursor-pointer hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-brand-600 focus-visible:outline transition-colors duration-150" tabindex="0">
             用户管理
           </div>
-          <div class="px-3 py-2 rounded-btn text-sm text-neutral-500 cursor-pointer hover:bg-neutral-50 transition-colors duration-150">
+          <div class="px-3 py-2 rounded-btn text-sm text-neutral-500 cursor-pointer hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-brand-600 focus-visible:outline transition-colors duration-150" tabindex="0">
             订单管理
           </div>
-          <div class="px-3 py-2 rounded-btn text-sm text-neutral-500 cursor-pointer hover:bg-neutral-50 transition-colors duration-150">
+          <div class="px-3 py-2 rounded-btn text-sm text-neutral-500 cursor-pointer hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-brand-600 focus-visible:outline transition-colors duration-150" tabindex="0">
             系统设置
           </div>
         </nav>
@@ -87,7 +87,7 @@ const timeline = [
         <div
           v-for="m in metrics"
           :key="m.label"
-          class="bg-white rounded-btn border border-neutral-200 p-4"
+          class="bg-white rounded-btn border border-neutral-200 p-4 hover:shadow-md hover:border-brand-200 cursor-pointer transition-all duration-150"
         >
           <div class="flex items-center justify-between mb-3">
             <span class="text-sm text-neutral-500">{{ m.label }}</span>
@@ -122,7 +122,8 @@ const timeline = [
             >
               <span class="text-xs text-neutral-500">{{ val }}</span>
               <div
-                class="w-full rounded-t-sm transition-all duration-300"
+                class="w-full rounded-t-sm transition-all duration-150 cursor-pointer hover:brightness-90"
+                :title="`${chartDays[i]}: ${val} 单`"
                 :style="{
                   height: `${(val / maxValue) * 160}px`,
                   background: `linear-gradient(180deg, #2563eb 0%, #eff6ff 100%)`,
@@ -145,7 +146,8 @@ const timeline = [
               <span class="text-sm text-neutral-500 w-10">{{ cat.name }}</span>
               <div class="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
                 <div
-                  class="h-full rounded-full transition-all duration-500"
+                  class="h-full rounded-full transition-all duration-150 cursor-pointer hover:brightness-90"
+                  :title="`${cat.name}: ${cat.value}`"
                   :style="{ width: `${(cat.value / maxCat) * 100}%`, background: cat.color }"
                 ></div>
               </div>
@@ -162,7 +164,7 @@ const timeline = [
           <div
             v-for="(item, i) in timeline"
             :key="i"
-            class="flex gap-3 pb-5 relative"
+            class="flex gap-3 pb-5 relative hover:bg-neutral-50 -mx-2 px-2 rounded-btn transition-colors duration-150"
             :class="{ 'border-l-2': i < timeline.length - 1 }"
             :style="{ borderLeftColor: item.active ? '#2563eb' : '#e5e5e5', paddingLeft: '16px' }"
           >
