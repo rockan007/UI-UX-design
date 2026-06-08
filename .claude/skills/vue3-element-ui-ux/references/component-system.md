@@ -20,7 +20,7 @@ Component hierarchy and Element Plus mapping. Always map UI DSL to these compone
 
 `AdminShell` (`AdminLayout` + `AdminHeader` + `AdminSidebar`), `TopBar`, `Breadcrumbs`, `MetricGrid`, `DataTable`, `FilterBar`, `BulkActionBar`, `DetailPanel`, `AuditTimeline`, `PermissionNotice`
 
-`AdminShell` is the mandatory layout wrapper for all `/admin/*` pages. See `design-principles.md` Admin Shell Layout section for full structure. The sidebar (`AdminSidebar`) supports multi-level menus via `el-sub-menu`.
+`AdminShell` is the mandatory layout wrapper for all admin pages (under `{admin-prefix}`). See `design-principles.md` Admin Shell Layout section for full structure. The sidebar (`AdminSidebar`) supports multi-level menus via `el-sub-menu`.
 
 ### Data Visualization (admin dashboards only, not frontend)
 
