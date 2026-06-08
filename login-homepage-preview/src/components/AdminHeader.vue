@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { Bell, User } from '@element-plus/icons-vue'
 
-const notificationCount = 3
+const notificationCount = ref(3)
 
 const handleCommand = (command: string) => {
   if (command === 'profile') {
@@ -11,7 +12,7 @@ const handleCommand = (command: string) => {
   }
 }
 
-const handleLanguageChange = (command: string) => {
+const handleLanguageChange = (_command: string) => {
   // handle language switch
 }
 </script>
