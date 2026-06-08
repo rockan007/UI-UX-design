@@ -55,7 +55,7 @@ For high-frequency operational users. Optimize for efficiency, stability, and sc
 
 ## Admin Shell Layout (Mandatory)
 
-All admin pages (`/admin/*`) must use the shared `AdminLayout` shell. Never build standalone admin pages with their own sidebar or header.
+All admin pages must use the shared `AdminLayout` shell regardless of their route prefix (`{admin-prefix}`). Never build standalone admin pages with their own sidebar or header.
 
 **Layout structure:**
 
@@ -90,7 +90,7 @@ AdminLayout (el-container, h-screen)
 - `src/components/AdminSidebar.vue` — sidebar with multi-level menu
 
 **When creating a new admin page:**
-1. Add the route as a child under `/admin` with `AdminLayout` as the parent component.
+1. Add the route as a child under `{admin-prefix}` with `AdminLayout` as the parent component.
 2. Add the corresponding menu item to `AdminSidebar.vue`'s menu structure.
 3. Do not create new layout wrappers, sidebars, or headers in the page component itself.
 
