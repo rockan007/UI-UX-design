@@ -24,8 +24,8 @@ const router = createRouter({
     },
     {
       path: '/admin',
+      name: 'admin',
       component: AdminLayout,
-      redirect: '/admin',
       children: [
         {
           path: '',
