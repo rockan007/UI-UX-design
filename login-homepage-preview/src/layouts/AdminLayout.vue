@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import { ref, provide } from 'vue'
+import { ref } from 'vue'
 import { Expand } from '@element-plus/icons-vue'
 import AdminHeader from '../components/AdminHeader.vue'
 import AdminSidebar from '../components/AdminSidebar.vue'
 
 const isCollapse = ref(false)
 const sidebarRef = ref<InstanceType<typeof AdminSidebar> | null>(null)
-
-provide('sidebarCollapsed', isCollapse)
 </script>
 
 <template>
-  <el-container class="h-screen">
+  <el-container class="h-screen admin-layout-outer">
     <!-- Header -->
     <AdminHeader />
 
@@ -22,7 +20,7 @@ provide('sidebarCollapsed', isCollapse)
     </div>
 
     <!-- Body -->
-    <el-container>
+    <el-container class="admin-layout-body">
       <!-- Sidebar -->
       <AdminSidebar
         ref="sidebarRef"
@@ -39,12 +37,19 @@ provide('sidebarCollapsed', isCollapse)
 </template>
 
 <style scoped>
-.el-container {
+.admin-layout-outer {
   flex-direction: column;
+}
+
+.admin-layout-body {
+  flex-direction: row;
+  flex: 1;
+  min-height: 0;
 }
 
 .el-main {
   --el-main-padding: 0;
   padding: 24px;
+  flex: 1;
 }
 </style>

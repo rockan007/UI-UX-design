@@ -39,6 +39,10 @@ const navigateMobile = (path: string) => {
   router.push(path)
 }
 
+const parentPath = (item: typeof menuItems[number]) => {
+  return item.children?.length ? item.children[0].path : item.path
+}
+
 defineExpose({ openMobileDrawer })
 </script>
 
@@ -48,8 +52,8 @@ defineExpose({ openMobileDrawer })
     <div class="flex flex-col h-full">
       <!-- Collapse toggle at top-right -->
       <div
-        class="flex py-2 pr-3"
-        :class="isCollapse ? 'justify-center pr-0' : 'justify-end'"
+        class="flex py-2"
+        :class="isCollapse ? 'justify-center pr-0' : 'justify-end pr-3'"
       >
         <el-button
           text
@@ -115,7 +119,7 @@ defineExpose({ openMobileDrawer })
             :class="route.path === item.path || route.path.startsWith(item.path + '/')
               ? 'bg-brand-50 text-brand-600 font-medium'
               : 'text-neutral-500 hover:bg-neutral-50'"
-            @click="navigateMobile(item.path)"
+            @click="navigateMobile(parentPath(item))"
           >
             {{ item.title }}
           </div>
