@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { DataAnalysis, User, List, Setting, Fold, Expand } from '@element-plus/icons-vue'
 
 defineProps<{
@@ -12,6 +12,7 @@ const emit = defineEmits<{
 }>()
 
 const route = useRoute()
+const router = useRouter()
 const mobileDrawerOpen = ref(false)
 
 const menuItems = [
@@ -31,6 +32,11 @@ const menuItems = [
 
 const openMobileDrawer = () => {
   mobileDrawerOpen.value = true
+}
+
+const navigateMobile = (path: string) => {
+  mobileDrawerOpen.value = false
+  router.push(path)
 }
 
 defineExpose({ openMobileDrawer })
@@ -109,7 +115,7 @@ defineExpose({ openMobileDrawer })
             :class="route.path === item.path || route.path.startsWith(item.path + '/')
               ? 'bg-brand-50 text-brand-600 font-medium'
               : 'text-neutral-500 hover:bg-neutral-50'"
-            @click="mobileDrawerOpen = false"
+            @click="navigateMobile(item.path)"
           >
             {{ item.title }}
           </div>
@@ -121,7 +127,7 @@ defineExpose({ openMobileDrawer })
               :class="route.path === child.path
                 ? 'bg-brand-50 text-brand-600 font-medium'
                 : 'text-neutral-500 hover:bg-neutral-50'"
-              @click="mobileDrawerOpen = false"
+              @click="navigateMobile(child.path)"
             >
               {{ child.title }}
             </div>
