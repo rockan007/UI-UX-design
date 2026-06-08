@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Bell, Avatar } from '@element-plus/icons-vue'
+import { Bell, User } from '@element-plus/icons-vue'
 
 const notificationCount = 3
 
@@ -52,7 +52,7 @@ const handleLanguageChange = (command: string) => {
       <el-dropdown trigger="click" @command="handleCommand">
         <div class="flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity duration-150">
           <el-icon :size="20" class="text-brand-600">
-            <Avatar />
+            <User />
           </el-icon>
           <span class="text-sm text-neutral-800">Admin</span>
           <span class="text-xs text-neutral-300">&#9660;</span>
