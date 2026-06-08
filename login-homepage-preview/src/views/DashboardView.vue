@@ -1,15 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { DataAnalysis, ShoppingCart, Money, Warning, TrendCharts, ArrowUp, ArrowDown, Expand } from '@element-plus/icons-vue'
-
-const drawerOpen = ref(false)
-
-const menuItems = [
-  { key: 'dashboard', label: '仪表盘', active: true },
-  { key: 'users', label: '用户管理' },
-  { key: 'orders', label: '订单管理' },
-  { key: 'settings', label: '系统设置' },
-]
+import { DataAnalysis, ShoppingCart, Money, Warning, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 
 const metrics = [
   { label: '活跃用户', value: '12,483', change: '+12%', trend: 'up', icon: DataAnalysis },
@@ -38,178 +28,110 @@ const timeline = [
 </script>
 
 <template>
-  <div class="flex min-h-screen bg-neutral-100">
-    <!-- Sidebar -->
-    <aside class="w-[220px] bg-white border-r border-neutral-200 flex-shrink-0 hidden md:block">
-      <div class="px-5 py-5">
-        <div class="flex items-center gap-2 mb-8">
-          <div class="w-7 h-7 bg-brand-600 rounded-btn flex items-center justify-center">
-            <el-icon :size="16" color="white"><TrendCharts /></el-icon>
-          </div>
-          <span class="font-semibold text-sm text-neutral-950">管理后台</span>
-        </div>
+  <div>
+    <!-- Page Header -->
+    <div class="mb-6">
+      <h1 class="text-2xl font-semibold text-neutral-950">仪表盘</h1>
+      <p class="text-sm text-neutral-500 mt-1">过去 30 天的核心数据概览</p>
+    </div>
 
-        <nav class="flex flex-col gap-1">
+    <!-- Metric Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div
+        v-for="m in metrics"
+        :key="m.label"
+        class="bg-white rounded-btn border border-neutral-200 p-4 hover:shadow-md hover:border-brand-200 cursor-pointer transition-all duration-150"
+      >
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-sm text-neutral-500">{{ m.label }}</span>
+          <el-icon :size="18" color="#737373">
+            <component :is="m.icon" />
+          </el-icon>
+        </div>
+        <div class="text-2xl font-bold text-neutral-950 mb-1">{{ m.value }}</div>
+        <div class="flex items-center gap-1 text-sm" :class="{
+          'text-green-600': m.trend === 'up',
+          'text-red-600': m.trend === 'down',
+          'text-neutral-500': m.trend === 'flat',
+        }">
+          <el-icon v-if="m.trend === 'up'" :size="14"><ArrowUp /></el-icon>
+          <el-icon v-else-if="m.trend === 'down'" :size="14"><ArrowDown /></el-icon>
+          <span>{{ m.change }}</span>
+          <span class="text-neutral-400 text-xs ml-1">vs 上月</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <!-- Bar Chart -->
+      <div class="md:col-span-2 bg-white rounded-btn border border-neutral-200 p-5">
+        <h3 class="text-base font-semibold text-neutral-950 mb-5">订单趋势（近 7 天）</h3>
+        <div class="flex items-end gap-3 h-[200px] px-2">
           <div
-            class="px-3 py-2 rounded-btn text-sm font-medium bg-brand-50 text-brand-600 cursor-pointer"
-          >
-            仪表盘
-          </div>
-          <div class="px-3 py-2 rounded-btn text-sm text-neutral-500 cursor-pointer hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-brand-600 focus-visible:outline transition-colors duration-150" tabindex="0">
-            用户管理
-          </div>
-          <div class="px-3 py-2 rounded-btn text-sm text-neutral-500 cursor-pointer hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-brand-600 focus-visible:outline transition-colors duration-150" tabindex="0">
-            订单管理
-          </div>
-          <div class="px-3 py-2 rounded-btn text-sm text-neutral-500 cursor-pointer hover:bg-neutral-50 focus-visible:outline-2 focus-visible:outline-brand-600 focus-visible:outline transition-colors duration-150" tabindex="0">
-            系统设置
-          </div>
-        </nav>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 p-6 overflow-y-auto">
-      <!-- Mobile Header -->
-      <div class="flex items-center gap-3 mb-6 md:hidden">
-        <el-button :icon="Expand" text @click="drawerOpen = true" class="!text-neutral-800" />
-        <h1 class="text-xl font-semibold text-neutral-950">仪表盘</h1>
-      </div>
-
-      <!-- Page Header (Desktop) -->
-      <div class="hidden md:block mb-6">
-        <h1 class="text-2xl font-semibold text-neutral-950">仪表盘</h1>
-        <p class="text-sm text-neutral-500 mt-1">过去 30 天的核心数据概览</p>
-      </div>
-
-      <!-- Metric Cards -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div
-          v-for="m in metrics"
-          :key="m.label"
-          class="bg-white rounded-btn border border-neutral-200 p-4 hover:shadow-md hover:border-brand-200 cursor-pointer transition-all duration-150"
-        >
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-sm text-neutral-500">{{ m.label }}</span>
-            <el-icon :size="18" color="#737373">
-              <component :is="m.icon" />
-            </el-icon>
-          </div>
-          <div class="text-2xl font-bold text-neutral-950 mb-1">{{ m.value }}</div>
-          <div class="flex items-center gap-1 text-sm" :class="{
-            'text-green-600': m.trend === 'up',
-            'text-red-600': m.trend === 'down',
-            'text-neutral-500': m.trend === 'flat',
-          }">
-            <el-icon v-if="m.trend === 'up'" :size="14"><ArrowUp /></el-icon>
-            <el-icon v-else-if="m.trend === 'down'" :size="14"><ArrowDown /></el-icon>
-            <span>{{ m.change }}</span>
-            <span class="text-neutral-400 text-xs ml-1">vs 上月</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Charts Row -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <!-- Line Chart -->
-        <div class="md:col-span-2 bg-white rounded-btn border border-neutral-200 p-5">
-          <h3 class="text-base font-semibold text-neutral-950 mb-5">订单趋势（近 7 天）</h3>
-          <div class="flex items-end gap-3 h-[200px] px-2">
-            <div
-              v-for="(val, i) in chartValues"
-              :key="i"
-              class="flex-1 flex flex-col items-center gap-1"
-            >
-              <span class="text-xs text-neutral-500">{{ val }}</span>
-              <div
-                class="w-full rounded-t-sm transition-all duration-150 cursor-pointer hover:brightness-90"
-                :title="`${chartDays[i]}: ${val} 单`"
-                :style="{
-                  height: `${(val / maxValue) * 160}px`,
-                  background: `linear-gradient(180deg, #2563eb 0%, #eff6ff 100%)`,
-                }"
-              ></div>
-              <span class="text-xs text-neutral-400 mt-2">{{ chartDays[i] }}</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bar Chart -->
-        <div class="bg-white rounded-btn border border-neutral-200 p-5">
-          <h3 class="text-base font-semibold text-neutral-950 mb-5">按类别分布</h3>
-          <div class="flex flex-col gap-4 justify-center h-[200px]">
-            <div
-              v-for="cat in categories"
-              :key="cat.name"
-              class="flex items-center gap-3"
-            >
-              <span class="text-sm text-neutral-500 w-10">{{ cat.name }}</span>
-              <div class="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
-                <div
-                  class="h-full rounded-full transition-all duration-150 cursor-pointer hover:brightness-90"
-                  :title="`${cat.name}: ${cat.value}`"
-                  :style="{ width: `${(cat.value / maxCat) * 100}%`, background: cat.color }"
-                ></div>
-              </div>
-              <span class="text-sm text-neutral-800 w-9 text-right">{{ cat.value }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Activity Timeline -->
-      <div class="bg-white rounded-btn border border-neutral-200 p-5">
-        <h3 class="text-base font-semibold text-neutral-950 mb-5">最近活动</h3>
-        <div class="flex flex-col">
-          <div
-            v-for="(item, i) in timeline"
+            v-for="(val, i) in chartValues"
             :key="i"
-            class="flex gap-3 pb-5 relative hover:bg-neutral-50 -mx-2 px-2 rounded-btn transition-colors duration-150"
-            :class="{ 'border-l-2': i < timeline.length - 1 }"
-            :style="{ borderLeftColor: item.active ? '#2563eb' : '#e5e5e5', paddingLeft: '16px' }"
+            class="flex-1 flex flex-col items-center gap-1"
           >
+            <span class="text-xs text-neutral-500">{{ val }}</span>
             <div
-              class="absolute w-2 h-2 rounded-full"
-              :style="{ left: '-5px', top: '4px', background: item.active ? '#2563eb' : '#d4d4d4' }"
+              class="w-full rounded-t-sm transition-all duration-150 cursor-pointer hover:brightness-90"
+              :title="`${chartDays[i]}: ${val} 单`"
+              :style="{
+                height: `${(val / maxValue) * 160}px`,
+                background: `linear-gradient(180deg, #2563eb 0%, #eff6ff 100%)`,
+              }"
             ></div>
-            <div>
-              <div class="text-sm text-neutral-950">{{ item.title }}</div>
-              <div class="text-sm text-neutral-500 mt-1">{{ item.desc }}</div>
-              <div class="text-xs text-neutral-300 mt-2">{{ item.time }}</div>
-            </div>
+            <span class="text-xs text-neutral-400 mt-2">{{ chartDays[i] }}</span>
           </div>
         </div>
       </div>
-    </main>
 
-    <!-- Mobile Drawer -->
-    <el-drawer
-      v-model="drawerOpen"
-      direction="ltr"
-      size="260px"
-      :with-header="false"
-    >
-      <div class="px-4 py-5">
-        <div class="flex items-center gap-2 mb-8">
-          <div class="w-7 h-7 bg-brand-600 rounded-btn flex items-center justify-center">
-            <el-icon :size="16" color="white"><TrendCharts /></el-icon>
-          </div>
-          <span class="font-semibold text-sm text-neutral-950">管理后台</span>
-        </div>
-        <nav class="flex flex-col gap-1">
+      <!-- Category Chart -->
+      <div class="bg-white rounded-btn border border-neutral-200 p-5">
+        <h3 class="text-base font-semibold text-neutral-950 mb-5">按类别分布</h3>
+        <div class="flex flex-col gap-4 justify-center h-[200px]">
           <div
-            v-for="item in menuItems"
-            :key="item.key"
-            class="px-3 py-2 rounded-btn text-sm cursor-pointer transition-colors duration-150"
-            :class="item.active
-              ? 'bg-brand-50 text-brand-600 font-medium'
-              : 'text-neutral-500 hover:bg-neutral-50'"
-            @click="drawerOpen = false"
+            v-for="cat in categories"
+            :key="cat.name"
+            class="flex items-center gap-3"
           >
-            {{ item.label }}
+            <span class="text-sm text-neutral-500 w-10">{{ cat.name }}</span>
+            <div class="flex-1 bg-neutral-100 rounded-full h-4 overflow-hidden">
+              <div
+                class="h-full rounded-full transition-all duration-150 cursor-pointer hover:brightness-90"
+                :title="`${cat.name}: ${cat.value}`"
+                :style="{ width: `${(cat.value / maxCat) * 100}%`, background: cat.color }"
+              ></div>
+            </div>
+            <span class="text-sm text-neutral-800 w-9 text-right">{{ cat.value }}</span>
           </div>
-        </nav>
+        </div>
       </div>
-    </el-drawer>
+    </div>
+
+    <!-- Activity Timeline -->
+    <div class="bg-white rounded-btn border border-neutral-200 p-5">
+      <h3 class="text-base font-semibold text-neutral-950 mb-5">最近活动</h3>
+      <div class="flex flex-col">
+        <div
+          v-for="(item, i) in timeline"
+          :key="i"
+          class="flex gap-3 pb-5 relative hover:bg-neutral-50 -mx-2 px-2 rounded-btn transition-colors duration-150"
+          :class="{ 'border-l-2': i < timeline.length - 1 }"
+          :style="{ borderLeftColor: item.active ? '#2563eb' : '#e5e5e5', paddingLeft: '16px' }"
+        >
+          <div
+            class="absolute w-2 h-2 rounded-full"
+            :style="{ left: '-5px', top: '4px', background: item.active ? '#2563eb' : '#d4d4d4' }"
+          ></div>
+          <div>
+            <div class="text-sm text-neutral-950">{{ item.title }}</div>
+            <div class="text-sm text-neutral-500 mt-1">{{ item.desc }}</div>
+            <div class="text-xs text-neutral-300 mt-2">{{ item.time }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
