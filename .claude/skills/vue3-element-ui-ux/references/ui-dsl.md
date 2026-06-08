@@ -30,7 +30,7 @@ Required fields: `page`, `type`, `route`, `goal`, `layout`, `header`, `sections`
 {
   "page": "UserManagement",
   "type": "admin",
-  "route": "/admin/users",
+  "route": "{admin-prefix}/users",
   "goal": "Admin views, filters, and manages users",
   "layout": "admin-list",
   "header": {
@@ -63,7 +63,7 @@ Required fields: `page`, `type`, `route`, `goal`, `layout`, `header`, `sections`
 {
   "page": "CreateUser",
   "type": "admin",
-  "route": "/admin/users/new",
+  "route": "{admin-prefix}/users/new",
   "goal": "Admin creates a new user",
   "layout": "admin-form",
   "header": { "title": "Add User", "description": "Create account and assign initial role" },
@@ -99,7 +99,7 @@ Required fields: `page`, `type`, `route`, `goal`, `layout`, `header`, `sections`
 {
   "page": "Dashboard",
   "type": "admin",
-  "route": "/admin",
+  "route": "{admin-prefix}",
   "goal": "Admin views key metrics and trends",
   "layout": "admin-dashboard",
   "header": { "title": "Dashboard", "description": "Core metrics for the past 30 days" },
@@ -128,7 +128,7 @@ Required fields: `page`, `type`, `route`, `goal`, `layout`, `header`, `sections`
 {
   "page": "OrderDetail",
   "type": "admin",
-  "route": "/admin/orders/:id",
+  "route": "{admin-prefix}/orders/:id",
   "goal": "Admin views and processes order details",
   "layout": "admin-detail",
   "header": {
@@ -158,7 +158,7 @@ Required fields: `page`, `type`, `route`, `goal`, `layout`, `header`, `sections`
 {
   "page": "Settings",
   "type": "admin",
-  "route": "/admin/settings",
+  "route": "{admin-prefix}/settings",
   "goal": "Admin configures system parameters",
   "layout": "admin-form",
   "header": { "title": "Settings", "description": "Manage site configuration and security" },
