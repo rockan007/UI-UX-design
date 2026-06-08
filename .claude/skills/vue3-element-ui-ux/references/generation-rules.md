@@ -16,6 +16,8 @@ Rules, workflow, and prompt templates for page generation. Follow these exactly.
 8. Do not introduce new UI libraries.
 9. Every page must cover all required states.
 10. After implementation, run UI/UX review.
+11. **All admin pages (`/admin/*`) must use the shared `AdminLayout` shell.** Never create an admin page with its own sidebar, header, or layout wrapper. Add the route as a child under `/admin` and add the menu item to `AdminSidebar.vue`.
+12. AdminSidebar supports multi-level menus via `el-sub-menu`. When adding a parent category, nest child items under `el-sub-menu`. Keep nesting to 1-2 levels.
 
 ### Code Constraints
 
@@ -25,6 +27,7 @@ Rules, workflow, and prompt templates for page generation. Follow these exactly.
 - Don't create single-use components.
 - Don't write random colors, radii, shadows.
 - Mobile must not be just a compressed desktop layout.
+- **Don't create standalone admin pages with their own layout.** All admin pages are children of AdminLayout.
 
 ### Required States
 

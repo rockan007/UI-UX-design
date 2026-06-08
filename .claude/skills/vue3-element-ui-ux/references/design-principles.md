@@ -53,6 +53,47 @@ For high-frequency operational users. Optimize for efficiency, stability, and sc
 - Card-heavy layouts when tables or lists are more efficient.
 - Confused primary/secondary button hierarchy.
 
+## Admin Shell Layout (Mandatory)
+
+All admin pages (`/admin/*`) must use the shared `AdminLayout` shell. Never build standalone admin pages with their own sidebar or header.
+
+**Layout structure:**
+
+```
+AdminLayout (el-container, h-screen)
+├── AdminHeader (el-header, 48px)
+│   ├── Left: system icon + system name
+│   └── Right: notification badge + language dropdown + user avatar dropdown
+├── Mobile bar (md:hidden) — hamburger button to open drawer
+└── el-container (body)
+    ├── AdminSidebar (el-aside, 220px expanded / 64px collapsed)
+    │   ├── Collapse toggle (☰ hamburger icon, top-right)
+    │   └── el-menu (router mode, collapse prop)
+    │       ├── el-menu-item — leaf menu items (icon + label)
+    │       └── el-sub-menu — parent menu with children
+    └── el-main (bg-neutral-50, padding 24px)
+        └── router-view — page content
+```
+
+**Sidebar menu rules:**
+- Menu supports multi-level nesting via `el-sub-menu`. One level of nesting is standard; avoid deep nesting beyond 2 levels.
+- Leaf items use `el-menu-item` with `index` = route path for router navigation.
+- Parent items use `el-sub-menu` with children; the parent itself does not navigate.
+- Collapse state: expanded (220px, icon + label), collapsed (64px, icon only with tooltip).
+- Active item: `bg-brand-50 + text-brand-600 + font-medium`.
+- Inactive hover: `bg-neutral-50`.
+- Mobile: full menu rendered inside `el-drawer` (260px, left side, no header).
+
+**File locations:**
+- `src/layouts/AdminLayout.vue` — layout shell
+- `src/components/AdminHeader.vue` — top bar
+- `src/components/AdminSidebar.vue` — sidebar with multi-level menu
+
+**When creating a new admin page:**
+1. Add the route as a child under `/admin` with `AdminLayout` as the parent component.
+2. Add the corresponding menu item to `AdminSidebar.vue`'s menu structure.
+3. Do not create new layout wrappers, sidebars, or headers in the page component itself.
+
 ## Content Guidelines
 
 ### Error Messages

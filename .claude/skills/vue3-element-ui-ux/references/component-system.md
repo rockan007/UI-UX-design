@@ -18,7 +18,9 @@ Component hierarchy and Element Plus mapping. Always map UI DSL to these compone
 
 ### Admin Components
 
-`AdminShell`, `SidebarNav`, `TopBar`, `Breadcrumbs`, `MetricGrid`, `DataTable`, `FilterBar`, `BulkActionBar`, `DetailPanel`, `AuditTimeline`, `PermissionNotice`
+`AdminShell` (`AdminLayout` + `AdminHeader` + `AdminSidebar`), `TopBar`, `Breadcrumbs`, `MetricGrid`, `DataTable`, `FilterBar`, `BulkActionBar`, `DetailPanel`, `AuditTimeline`, `PermissionNotice`
+
+`AdminShell` is the mandatory layout wrapper for all `/admin/*` pages. See `design-principles.md` Admin Shell Layout section for full structure. The sidebar (`AdminSidebar`) supports multi-level menus via `el-sub-menu`.
 
 ### Data Visualization (admin dashboards only, not frontend)
 
@@ -74,12 +76,14 @@ Chart rules:
 
 ## Layout Mapping
 
+All admin layouts use the shared `AdminLayout` shell. Individual pages only provide content, never their own sidebar or header.
+
 | UI DSL Layout | Composition |
 | --- | --- |
-| `admin-list` | `AdminShell + PageHeader + FilterBar + DataTable` |
-| `admin-form` | `AdminShell + PageHeader + FormSection + ActionBar` |
-| `admin-detail` | `AdminShell + PageHeader + DetailPanel` |
-| `admin-dashboard` | `AdminShell + PageHeader + MetricGrid + SimpleBarChart + SimpleLineChart` |
+| `admin-list` | `AdminLayout + PageHeader + FilterBar + DataTable` |
+| `admin-form` | `AdminLayout + PageHeader + FormSection + ActionBar` |
+| `admin-detail` | `AdminLayout + PageHeader + DetailPanel` |
+| `admin-dashboard` | `AdminLayout + PageHeader + MetricGrid + SimpleBarChart + SimpleLineChart` |
 | `frontend-list` | `PageShell + SearchPanel + ResultList` |
 | `frontend-detail` | `PageShell + DetailSummary + ContentSection` |
 
