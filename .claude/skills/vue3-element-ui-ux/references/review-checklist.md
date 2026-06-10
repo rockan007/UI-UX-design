@@ -61,7 +61,7 @@ Then fix the issues. Do not change business logic.
 ## 5. Table Experience
 
 - [ ] High-frequency fields are left-aligned.
-- [ ] Action column is clear and right-aligned.
+- [ ] Action column: icon-only when ≥2 buttons, each button wrapped in tooltip, left/right aligned per text direction (no center), column width calculated for worst-case button count.
 - [ ] Filter area is compact.
 - [ ] Status, time, amount, quantity fields are scannable.
 - [ ] Batch actions are clear.
