@@ -45,6 +45,18 @@ Component interaction behavior rules. Every component must have proper interacti
 
 > Applies to: admin primarily.
 
+### Action Buttons
+
+Icon-only action buttons in table operation columns:
+
+- Hover: tooltip appears after 300ms (`:show-after="300"`), no hide delay (`:hide-after="0"`).
+- Placement: `top` to avoid overlapping adjacent table rows.
+- Minimum click target: 28×28px (default for `el-button size="small" :icon`).
+- Destructive action (delete): `type="danger"`.
+- Primary/view action: `type="primary"`.
+- Other actions: default `link` style.
+- Each button must have accessible label via `el-tooltip content`.
+
 ## Charts
 
 ### Bar / Column Charts
