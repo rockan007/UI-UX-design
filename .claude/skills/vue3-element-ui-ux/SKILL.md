@@ -43,6 +43,7 @@ When asked to create or improve a page:
 - Admin pages: optimize for scanability, density, tables, filters, forms, repeated use.
 - Frontend pages: optimize for clarity, task completion, readable hierarchy, mobile usability.
 - Override Element Plus theme only via CSS custom properties, not Tailwind.
+- Configure Element Plus Chinese locale in `main.ts`: `import zhCn from 'element-plus/dist/locale/zh-cn.mjs'` and `app.use(ElementPlus, { locale: zhCn })`. Never leave the default English locale — built-in component text (pagination, table, select, dialog) must match the project language.
 
 ## Output Pattern
 

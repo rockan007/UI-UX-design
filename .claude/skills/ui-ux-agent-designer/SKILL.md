@@ -55,6 +55,7 @@ When the user asks to create or improve a page:
 - For admin pages, optimize for scanability, density, tables, filters, forms, and repeated use.
 - For frontend pages, optimize for clarity, task completion, readable hierarchy, and mobile usability.
 - After implementation, run available checks and inspect desktop/mobile rendering when the project supports it.
+- Configure the UI framework's locale to match the project's primary language. Built-in component text (pagination labels, empty states, placeholders) must display in the same language as the page content.
 
 ## Output Pattern
 

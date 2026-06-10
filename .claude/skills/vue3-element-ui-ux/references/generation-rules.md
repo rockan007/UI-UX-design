@@ -18,6 +18,7 @@ Rules, workflow, and prompt templates for page generation. Follow these exactly.
 10. After implementation, run UI/UX review.
 11. **All admin pages must use the shared `AdminLayout` shell.** Never create an admin page with its own sidebar, header, or layout wrapper. Add the route as a child under `{admin-prefix}` and add the menu item to `AdminSidebar.vue`.
 12. AdminSidebar supports multi-level menus via `el-sub-menu`. When adding a parent category, nest child items under `el-sub-menu`. Keep nesting to 1-2 levels.
+13. **Configure Element Plus Chinese locale in `main.ts`.** Import `zhCn` from `element-plus/dist/locale/zh-cn.mjs` and pass `{ locale: zhCn }` to `app.use(ElementPlus, ...)`. This ensures pagination ("共 X 条", "X条/页"), table empty text ("暂无数据"), select placeholder ("请选择"), and all other built-in component text display in Chinese — matching the page content language.
 
 ### Code Constraints
 

@@ -19,12 +19,18 @@
 
 **全局配置 Element Plus 中文语言包。**
 
-### 改动点
+### 代码改动
 
-仅修改 `login-homepage-preview/src/main.ts`：
+修改 `login-homepage-preview/src/main.ts`：
 
 1. 新增 import：`import zhCn from 'element-plus/dist/locale/zh-cn.mjs'`
 2. 修改 `app.use` 调用：`app.use(ElementPlus, { locale: zhCn })`
+
+### Skill 改动
+
+1. **`vue3-element-ui-ux/SKILL.md`** — 非协商规则新增：必须配置 Element Plus 中文 locale
+2. **`vue3-element-ui-ux/references/generation-rules.md`** — 必须遵守规则新增第 13 条
+3. **`ui-ux-agent-designer/SKILL.md`** — 非协商规则新增：UI 框架 locale 必须匹配项目语言
 
 ### 不做的事
 
