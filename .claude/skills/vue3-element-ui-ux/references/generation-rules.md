@@ -157,6 +157,37 @@ After completion: list issues found, changes made, checks run.
 
 Extra focus: compact filter area, scannable table, clear batch actions, not too many action columns, empty state with next step, mobile usability.
 
+### Action Column Rule
+
+When a table's operation column contains 2+ actions:
+
+- **Icon-only:** Use `el-button` with `:icon` only, no text content. Text labels move to tooltip.
+- **Tooltip:** Wrap each button with `el-tooltip`, `content` = action name, `placement="top"`, `:show-after="300"`, `:hide-after="0"`.
+- **Column width:** `(28 + 8) × maxPossibleActions + 16`, round up to nearest 10px. `maxPossibleActions` is the total number of buttons defined in the template (including `v-if` conditional ones), not per-row visible count.
+- **Alignment:** Follow text direction — LTR pages left-align, RTL pages right-align. Do NOT center the action column.
+- **Gap:** `gap-2` (8px) between buttons via Tailwind.
+- **Button types:** Primary/view action → `type="primary"`, delete → `type="danger"`, others → default `link`.
+
+Example for 3 max buttons (width = 130px):
+
+```html
+<el-table-column label="操作" width="130" fixed="right">
+  <template #default="{ row }">
+    <div class="flex items-center gap-2">
+      <el-tooltip content="查看" placement="top" :show-after="300" :hide-after="0">
+        <el-button type="primary" link size="small" :icon="View" @click="handleView(row)" />
+      </el-tooltip>
+      <el-tooltip content="编辑" placement="top" :show-after="300" :hide-after="0">
+        <el-button link size="small" :icon="Edit" @click="handleEdit(row)" />
+      </el-tooltip>
+      <el-tooltip content="删除" placement="top" :show-after="300" :hide-after="0">
+        <el-button type="danger" link size="small" :icon="Delete" @click="handleDelete(row)" />
+      </el-tooltip>
+    </div>
+  </template>
+</el-table-column>
+```
+
 ### Form Page
 
 Extra focus: reasonable field grouping, clear required marks, errors near fields, explicit submit feedback, clear cancel/back/save actions, smooth mobile input.
