@@ -5,3 +5,4 @@
 .claude/skills/*
 !.claude/skills/ui-ux-agent-designer/
 !.claude/skills/vue3-element-ui-ux/
+.worktrees/
