@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Search, Edit, Delete, View } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { TableColumnCtx } from 'element-plus'
+
+const { t } = useI18n()
 
 // ── Types ───────────────────────────────────────────
 type OrderStatus = 'pending' | 'paid' | 'shipped' | 'completed' | 'refunded' | 'cancelled'
@@ -38,16 +41,14 @@ const mockOrders: Order[] = [
 ]
 
 // ── Status Config ───────────────────────────────────
-const statusMap: Record<OrderStatus, { label: string; type: string }> = {
-  pending:    { label: '待支付', type: 'warning' },
-  paid:       { label: '已支付', type: '' },
-  shipped:    { label: '已发货', type: 'info' },
-  completed:  { label: '已完成', type: 'success' },
-  refunded:   { label: '已退款', type: 'danger' },
-  cancelled:  { label: '已取消', type: 'info' },
+const statusMap: Record<OrderStatus, { labelKey: string; type: string }> = {
+  pending:    { labelKey: 'orders.status.pending', type: 'warning' },
+  paid:       { labelKey: 'orders.status.paid', type: '' },
+  shipped:    { labelKey: 'orders.status.shipped', type: 'info' },
+  completed:  { labelKey: 'orders.status.completed', type: 'success' },
+  refunded:   { labelKey: 'orders.status.refunded', type: 'danger' },
+  cancelled:  { labelKey: 'orders.status.cancelled', type: 'info' },
 }
-
-const statusSteps = ['pending', 'paid', 'shipped', 'completed'] as OrderStatus[]
 
 // ── State ───────────────────────────────────────────
 const searchKeyword = ref('')
@@ -93,22 +94,20 @@ const handleSearch = () => { currentPage.value = 1 }
 const handleFilterChange = () => { currentPage.value = 1 }
 
 const handleView = (row: Order) => {
-  ElMessage.info(`查看订单详情：${row.id}`)
+  ElMessage.info(t('orders.viewDetail', { id: row.id }))
 }
 const handleEdit = (row: Order) => {
-  ElMessage.info(`处理订单：${row.id}`)
+  ElMessage.info(t('orders.processOrder', { id: row.id }))
 }
 const handleDelete = (row: Order) => {
   ElMessageBox.confirm(
-    `确定要删除订单「${row.id}」吗？`,
-    '删除确认',
-    { confirmButtonText: '确定删除', cancelButtonText: '取消', type: 'warning' },
+    t('orders.deleteConfirm', { id: row.id }),
+    t('orders.deleteTitle'),
+    { confirmButtonText: t('orders.deleteConfirmBtn'), cancelButtonText: t('common.cancel'), type: 'warning' },
   )
-    .then(() => ElMessage.success(`已删除订单 ${row.id}`))
+    .then(() => ElMessage.success(t('orders.deletedMessage', { id: row.id })))
     .catch(() => { /* cancelled */ })
 }
-
-const formatAmount = (val: number) => `¥${val.toLocaleString('zh-CN')}`
 
 const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
   return column.property === 'status'
@@ -121,23 +120,23 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
   <div>
     <!-- Page Header -->
     <div class="mb-6">
-      <h1 class="text-2xl font-semibold text-neutral-950">订单管理</h1>
-      <p class="text-sm text-neutral-500 mt-1">查看和处理客户订单</p>
+      <h1 class="text-2xl font-semibold text-neutral-950">{{ t('orders.title') }}</h1>
+      <p class="text-sm text-neutral-500 mt-1">{{ t('orders.description') }}</p>
     </div>
 
     <!-- Summary Cards -->
     <div class="grid grid-cols-3 gap-4 mb-4">
       <div class="bg-white rounded-btn border border-neutral-200 p-4">
-        <div class="text-sm text-neutral-500 mb-1">今日订单总量</div>
+        <div class="text-sm text-neutral-500 mb-1">{{ t('orders.totalOrders') }}</div>
         <div class="text-2xl font-bold text-neutral-950">{{ summary.totalOrders }}</div>
       </div>
       <div class="bg-white rounded-btn border border-neutral-200 p-4">
-        <div class="text-sm text-neutral-500 mb-1">待处理订单</div>
+        <div class="text-sm text-neutral-500 mb-1">{{ t('orders.pendingOrders') }}</div>
         <div class="text-2xl font-bold text-warning-600" style="color: #d97706">{{ summary.pendingCount }}</div>
       </div>
       <div class="bg-white rounded-btn border border-neutral-200 p-4">
-        <div class="text-sm text-neutral-500 mb-1">已完成交易额</div>
-        <div class="text-2xl font-bold text-green-600">{{ formatAmount(summary.totalRevenue) }}</div>
+        <div class="text-sm text-neutral-500 mb-1">{{ t('orders.completedRevenue') }}</div>
+        <div class="text-2xl font-bold text-green-600">{{ $n(summary.totalRevenue, 'currency') }}</div>
       </div>
     </div>
 
@@ -146,7 +145,7 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
       <div class="flex flex-wrap items-center gap-3">
         <el-input
           v-model="searchKeyword"
-          placeholder="搜索订单号 / 客户 / 手机号 / 商品"
+          :placeholder="t('orders.searchPlaceholder')"
           :prefix-icon="Search"
           clearable
           class="w-64"
@@ -155,20 +154,20 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
         />
         <el-select
           v-model="statusFilter"
-          placeholder="订单状态"
+          :placeholder="t('orders.filterByStatus')"
           class="w-28"
           @change="handleFilterChange"
         >
-          <el-option label="全部" value="all" />
-          <el-option v-for="(cfg, key) in statusMap" :key="key" :label="cfg.label" :value="key" />
+          <el-option :label="t('common.all')" value="all" />
+          <el-option v-for="(cfg, key) in statusMap" :key="key" :label="t(cfg.labelKey)" :value="key" />
         </el-select>
         <el-select
           v-model="channelFilter"
-          placeholder="下单渠道"
+          :placeholder="t('orders.filterByChannel')"
           class="w-28"
           @change="handleFilterChange"
         >
-          <el-option label="全部" value="all" />
+          <el-option :label="t('common.all')" value="all" />
           <el-option label="APP" value="APP" />
           <el-option label="网页" value="网页" />
           <el-option label="小程序" value="小程序" />
@@ -182,13 +181,13 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
         :data="pagedOrders"
         :cell-style="cellStyle"
         style="width: 100%"
-        empty-text="暂无订单数据"
+        :empty-text="t('orders.empty')"
         row-key="id"
         stripe
       >
-        <el-table-column prop="id" label="订单号" width="200" />
-        <el-table-column prop="customer" label="客户" width="100" />
-        <el-table-column prop="items" label="商品" min-width="180">
+        <el-table-column prop="id" :label="t('orders.columns.orderNo')" width="200" />
+        <el-table-column prop="customer" :label="t('orders.columns.customer')" width="100" />
+        <el-table-column prop="items" :label="t('orders.columns.items')" min-width="180">
           <template #default="{ row }">
             <div class="flex flex-wrap gap-1">
               <el-tag
@@ -206,44 +205,44 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="total" label="金额" width="120" sortable>
+        <el-table-column prop="total" :label="t('orders.columns.amount')" width="120" sortable>
           <template #default="{ row }">
-            <span class="font-semibold text-neutral-950">{{ formatAmount(row.total) }}</span>
+            <span class="font-semibold text-neutral-950">{{ $n(row.total, 'currency') }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" width="110">
+        <el-table-column prop="status" :label="t('orders.columns.status')" width="110">
           <template #default="{ row }">
             <el-tag
               :type="statusMap[row.status].type"
               size="small"
               effect="light"
             >
-              {{ statusMap[row.status].label }}
+              {{ t(statusMap[row.status].labelKey) }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="channel" label="渠道" width="80">
+        <el-table-column prop="channel" :label="t('orders.columns.channel')" width="80">
           <template #default="{ row }">
             <span class="text-sm text-neutral-500">{{ row.channel }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="createdAt" label="下单时间" width="150" sortable />
-        <el-table-column label="操作" width="130" fixed="right">
+        <el-table-column prop="createdAt" :label="t('orders.columns.createdAt')" width="150" sortable />
+        <el-table-column :label="t('orders.columns.actions')" width="130" fixed="right">
           <template #default="{ row }">
             <div class="flex items-center gap-2">
-              <el-tooltip content="查看" placement="top" :show-after="300" :hide-after="0">
+              <el-tooltip :content="t('common.view')" placement="top" :show-after="300" :hide-after="0">
                 <el-button type="primary" link size="small" :icon="View" @click="handleView(row)" />
               </el-tooltip>
               <el-tooltip
                 v-if="row.status === 'pending' || row.status === 'paid'"
-                content="处理"
+                :content="t('common.edit')"
                 placement="top"
                 :show-after="300"
                 :hide-after="0"
               >
                 <el-button link size="small" :icon="Edit" @click="handleEdit(row)" />
               </el-tooltip>
-              <el-tooltip content="删除" placement="top" :show-after="300" :hide-after="0">
+              <el-tooltip :content="t('common.delete')" placement="top" :show-after="300" :hide-after="0">
                 <el-button type="danger" link size="small" :icon="Delete" @click="handleDelete(row)" />
               </el-tooltip>
             </div>
