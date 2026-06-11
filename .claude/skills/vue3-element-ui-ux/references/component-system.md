@@ -55,6 +55,7 @@ Chart rules:
 | `Tabs` | `Tabs` | `ElTabs` |
 | `Table` | `Table` | `ElTable` |
 | `Skeleton` | `Skeleton` | `ElSkeleton` |
+| `LocaleSwitcher` | `LocaleSwitcher` | `ElDropdown` + `ElDropdownMenu` + `ElDropdownItem` |
 
 ### Composite Components
 
@@ -69,6 +70,7 @@ Chart rules:
 | `LoadingState` | `LoadingState` or `Skeleton` | Loading indicator |
 | `ErrorState` | `ErrorState` | Request/permission failure |
 | `ConfirmDialog` | `ConfirmDialog` | Destructive action confirmation |
+| `LocaleSwitcher` | `LocaleSwitcher` | Language toggle dropdown in header |
 | `MetricCard` | `MetricCard` | KPI card |
 | `SimpleBarChart` | `SimpleBarChart` | Bar chart |
 | `SimpleLineChart` | `SimpleLineChart` | Line chart |
