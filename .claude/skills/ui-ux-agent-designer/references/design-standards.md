@@ -178,3 +178,12 @@ Every important page should consider:
 - Tabs: selected gets bottom border + brand color; hover shifts text color.
 - Breadcrumbs: last item not clickable `text-primary`; earlier items hover `brand-600`.
 
+
+
+### Internationalization
+
+For multi-language projects:
+
+- Design text with expansion tolerance — Chinese→English can be 30–50% longer; labels and buttons must not overflow.
+- Support RTL direction — use logical CSS properties (`margin-inline-start`, `text-align: start`) instead of physical ones.
+- Use locale-aware formatting for dates, numbers, and currencies — never hardcode formats.
