@@ -158,16 +158,16 @@ step progress connector, tree branch line), that edge's corner must remain sharp
 
 ### Cards
 
-- **Clickable card**: hover shadow-sm → shadow-md, border neutral → brand. `cursor: pointer`. Buttons inside use `@click.stop`.
+- **Clickable card**: hover elevates shadow + border shifts to accent color. `cursor: pointer`. Buttons inside use `@click.stop`.
 - **Display-only card**: no hover, `cursor: default`.
 
 ### Tables
 
-- Row hover: `bg-neutral-50`. Clickable row: `cursor: pointer`.
-- Selected row: `bg-brand-50` + left `2px solid brand`.
+- Row hover: subtle background change. Clickable row: `cursor: pointer`.
+- Selected row: distinct background + left accent border.
 - Sortable header: hover color shift + click toggles sort icon.
 - Non-sortable header: `cursor: default`.
-- Pagination: current page highlighted, hover `bg-neutral-100`.
+- Pagination: current page highlighted with distinct background; page buttons have hover feedback.
 
 ### Charts
 
@@ -187,10 +187,10 @@ step progress connector, tree branch line), that edge's corner must remain sharp
 
 ### Navigation
 
-- Sidebar: active item `bg-brand-50 + text-brand-600 + font-medium`; inactive hover `bg-neutral-50`.
+- Sidebar: active item must be visually distinct (background highlight + color shift + weight change); inactive items show subtle hover feedback.
 - Collapsed sidebar: `overflow-x: hidden` to clip overflow content and prevent horizontal scrollbar.
 - Tabs: selected gets bottom border + brand color; hover shifts text color.
-- Breadcrumbs: last item not clickable `text-primary`; earlier items hover `brand-600`.
+- Breadcrumbs: last item not clickable, uses primary text color; earlier items clickable with accent hover.
 
 
 
