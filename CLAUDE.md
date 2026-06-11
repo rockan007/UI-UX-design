@@ -153,3 +153,21 @@ consult `.claude/skills/vue3-element-ui-ux/references/`.
 2. Check all required states (loading, empty, error, disabled, hover, focus, validation, permission, mobile)
 3. Output findings ordered by severity
 4. Fix issues — if they're skill-level problems, update the skill; if they're one-off page bugs, fix the page
+
+## File Cleanup
+
+- **Playwright screenshots** (`.png` files in project root) are temporary byproducts of
+  visual verification. Never commit them. After verifying UI changes, delete them:
+  `rm -f *.png .playwright-mcp/` before committing, or add them to `.gitignore`.
+- **`.playwright-mcp/`** directory is also temporary. Delete together with screenshots.
+
+## Push Workflow
+
+When pushing accumulated changes:
+
+1. `git push origin main` — push main repo
+2. If `ui-ux-agent-designer` skill files were modified, also push the subtree:
+   `git subtree push --prefix=.claude/skills/ui-ux-agent-designer skill main`
+3. `vue3-element-ui-ux` has no independent remote — it lives only in the main repo
+4. Verify both remotes updated: `git log --oneline origin/main -3 &&
+   git log --oneline skill/main -3`
