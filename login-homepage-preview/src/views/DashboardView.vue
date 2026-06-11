@@ -12,7 +12,7 @@ const metrics = [
   { labelKey: 'dashboard.metrics.pending', value: '23', change: '0%', trend: 'flat', icon: Warning },
 ]
 
-const chartDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+const chartDays = computed(() => tm('dashboard.days') as string[])
 const chartValues = [80, 110, 95, 140, 120, 90, 60]
 const maxValue = Math.max(...chartValues)
 

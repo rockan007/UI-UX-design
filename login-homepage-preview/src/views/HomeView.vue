@@ -81,7 +81,7 @@ const goToLogin = () => router.push('/login')
 
     <!-- Footer -->
     <footer class="border-t border-neutral-200 py-6 text-center">
-      <p class="text-xs text-neutral-500" v-html="t('home.copyright')"></p>
+      <p class="text-xs text-neutral-500">{{ t('home.copyright') }}</p>
     </footer>
   </div>
 </template>

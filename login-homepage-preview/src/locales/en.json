@@ -101,6 +101,7 @@
     "searchPlaceholder": "Search order no. / customer / phone / product",
     "filterByStatus": "Status",
     "filterByChannel": "Channel",
+    "channel": { "web": "Web", "miniprogram": "Mini Program" },
     "columns": {
       "orderNo": "Order No.",
       "customer": "Customer",

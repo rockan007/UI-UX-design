@@ -169,8 +169,8 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
         >
           <el-option :label="t('common.all')" value="all" />
           <el-option label="APP" value="APP" />
-          <el-option label="网页" value="网页" />
-          <el-option label="小程序" value="小程序" />
+          <el-option :label="t('orders.channel.web')" value="网页" />
+          <el-option :label="t('orders.channel.miniprogram')" value="小程序" />
         </el-select>
       </div>
     </div>

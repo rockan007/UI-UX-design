@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Expand } from '@element-plus/icons-vue'
 import AdminHeader from '../components/AdminHeader.vue'
 import AdminSidebar from '../components/AdminSidebar.vue'
 
+const { t } = useI18n()
 const isCollapse = ref(false)
 const sidebarRef = ref<InstanceType<typeof AdminSidebar> | null>(null)
 </script>
@@ -16,7 +18,7 @@ const sidebarRef = ref<InstanceType<typeof AdminSidebar> | null>(null)
     <!-- Mobile Menu Button -->
     <div class="flex items-center gap-3 px-4 py-2 md:hidden bg-white border-b border-neutral-200">
       <el-button :icon="Expand" text @click="sidebarRef?.openMobileDrawer()" class="!text-neutral-800" />
-      <span class="text-sm font-semibold text-neutral-950">管理系统</span>
+      <span class="text-sm font-semibold text-neutral-950">{{ t('header.systemName') }}</span>
     </div>
 
     <!-- Body -->

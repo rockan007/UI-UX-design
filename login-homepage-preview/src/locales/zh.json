@@ -101,6 +101,7 @@
     "searchPlaceholder": "搜索订单号 / 客户 / 手机号 / 商品",
     "filterByStatus": "订单状态",
     "filterByChannel": "下单渠道",
+    "channel": { "web": "网页", "miniprogram": "小程序" },
     "columns": {
       "orderNo": "订单号",
       "customer": "客户",
