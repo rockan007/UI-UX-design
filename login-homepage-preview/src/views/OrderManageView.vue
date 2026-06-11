@@ -41,7 +41,7 @@ const mockOrders: Order[] = [
 ]
 
 // ── Status Config ───────────────────────────────────
-const statusMap: Record<OrderStatus, { labelKey: string; type: string }> = {
+const statusMap: Record<string, { labelKey: string; type: string }> = {
   pending:    { labelKey: 'orders.status.pending', type: 'warning' },
   paid:       { labelKey: 'orders.status.paid', type: '' },
   shipped:    { labelKey: 'orders.status.shipped', type: 'info' },
