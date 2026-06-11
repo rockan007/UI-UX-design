@@ -174,6 +174,9 @@ step progress connector, tree branch line), that edge's corner must remain sharp
 - Bar hover: brightness shift + tooltip (200ms delay, label + value + unit).
 - Clickable data points: `cursor: pointer`.
 - Empty data: show empty state, not blank area.
+- **Bar spacing:** Gap between bars should be 50%–100% of bar width. Sweet spot: ~50% (bar width ≈ 2× gap).
+- **Bar width is fixed,** not stretched across the container. Stretched bars lose rhythm between discrete data points.
+- **Bar tops must be straight.** Never use rounded corners on bar/column tops — they obscure exact endpoint values.
 
 ### Forms
 
@@ -185,6 +188,7 @@ step progress connector, tree branch line), that edge's corner must remain sharp
 ### Navigation
 
 - Sidebar: active item `bg-brand-50 + text-brand-600 + font-medium`; inactive hover `bg-neutral-50`.
+- Collapsed sidebar: `overflow-x: hidden` to clip overflow content and prevent horizontal scrollbar.
 - Tabs: selected gets bottom border + brand color; hover shifts text color.
 - Breadcrumbs: last item not clickable `text-primary`; earlier items hover `brand-600`.
 

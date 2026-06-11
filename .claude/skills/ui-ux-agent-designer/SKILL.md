@@ -54,8 +54,9 @@ When the user asks to create or improve a page:
 - Every important task must define trigger, feedback, success, failure, and recovery behavior.
 - For admin pages, optimize for scanability, density, tables, filters, forms, and repeated use.
 - For frontend pages, optimize for clarity, task completion, readable hierarchy, and mobile usability.
+- For multi-language projects, design text with expansion tolerance (Chinese→English can be 30–50% longer), support RTL direction via logical CSS properties, and use locale-aware formatting for dates, numbers, and currencies.
 - After implementation, run available checks and inspect desktop/mobile rendering when the project supports it.
-- Configure the UI framework's locale to match the project's primary language. Built-in component text (pagination labels, empty states, placeholders) must display in the same language as the page content.
+- Configure the UI framework's locale to match the project's primary language. If the project has an i18n system, locale must switch dynamically with the user's language choice rather than being hardcoded. Built-in component text (pagination labels, empty states, placeholders) must display in the same language as the page content.
 
 ## Output Pattern
 
