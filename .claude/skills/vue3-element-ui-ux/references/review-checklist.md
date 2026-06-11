@@ -122,3 +122,19 @@ Check whether this page fully covers:
 
 Fill in any missing states. Do not change business logic.
 ```
+
+## 9. i18n (when enabled — check `package.json` for `"vue3ElementUiUx": { "i18n": true }`)
+
+- [ ] All user-facing text uses `$t()` keys — no hardcoded Chinese/English strings in templates.
+- [ ] Element Plus locale syncs via `el-config-provider` + `watch(locale, ...)` in App.vue.
+- [ ] Numbers formatted with `$n()`, dates with `$d()`, currencies with locale-aware format definitions in `locales/index.ts`.
+- [ ] No bare `toLocaleString()` or manual `¥`/`$` prefix in templates.
+- [ ] `LocaleSwitcher` component is present in header, functional (click toggles all text + el components + formatting).
+- [ ] `LocaleSwitcher` collapses to globe icon on mobile (< 768px).
+- [ ] Active language highlighted in switcher with brand color + medium weight.
+- [ ] `locale` persisted to `localStorage`, restored on page load.
+- [ ] `<html lang>` attribute updated on locale switch.
+- [ ] Logical CSS properties used for margin/padding (`ms-*`/`me-*` not `ml-*`/`mr-*`).
+- [ ] Text alignment uses logical properties (`text-start`/`text-end` not `text-left`/`text-right`).
+- [ ] Directional icons use `rtl:rotate-180` variant.
+- [ ] Action column alignment follows text direction (already covered by action column rule — verify RTL flips naturally).
