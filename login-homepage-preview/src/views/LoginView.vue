@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { UserFilled } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 
+const { t } = useI18n()
 const router = useRouter()
 const formRef = ref<FormInstance>()
 const submitting = ref(false)
@@ -17,12 +19,12 @@ const form = reactive({
 
 const rules: FormRules = {
   email: [
-    { required: true, message: '请输入邮箱', trigger: 'blur' },
-    { type: 'email', message: '请输入有效的邮箱地址', trigger: 'blur' },
+    { required: true, message: t('login.validation.emailRequired'), trigger: 'blur' },
+    { type: 'email', message: t('login.validation.emailInvalid'), trigger: 'blur' },
   ],
   password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, message: '密码至少 6 位', trigger: 'blur' },
+    { required: true, message: t('login.validation.passwordRequired'), trigger: 'blur' },
+    { min: 6, message: t('login.validation.passwordMinLength'), trigger: 'blur' },
   ],
 }
 
@@ -51,8 +53,8 @@ const handleLogin = async () => {
         <div class="w-12 h-12 bg-brand-600 rounded-card mx-auto mb-4 flex items-center justify-center">
           <el-icon :size="24" color="white"><UserFilled /></el-icon>
         </div>
-        <h1 class="text-xl font-semibold text-neutral-950">欢迎回来</h1>
-        <p class="text-sm text-neutral-500 mt-1">登录您的账号以继续</p>
+        <h1 class="text-xl font-semibold text-neutral-950">{{ t('login.title') }}</h1>
+        <p class="text-sm text-neutral-500 mt-1">{{ t('login.subtitle') }}</p>
       </div>
 
       <!-- Error Alert -->
@@ -74,20 +76,20 @@ const handleLogin = async () => {
         label-position="top"
         @submit.prevent="handleLogin"
       >
-        <el-form-item label="邮箱" prop="email">
+        <el-form-item :label="t('login.email')" prop="email">
           <el-input
             v-model="form.email"
-            placeholder="name@example.com"
+            :placeholder="t('login.emailPlaceholder')"
             size="large"
             :prefix-icon="UserFilled"
           />
         </el-form-item>
 
-        <el-form-item label="密码" prop="password">
+        <el-form-item :label="t('login.password')" prop="password">
           <el-input
             v-model="form.password"
             type="password"
-            placeholder="请输入密码"
+            :placeholder="t('login.passwordPlaceholder')"
             size="large"
             show-password
           />
@@ -95,9 +97,9 @@ const handleLogin = async () => {
 
         <div class="flex items-center justify-between mb-6">
           <el-checkbox v-model="form.remember" size="small">
-            <span class="text-sm text-neutral-500">记住我</span>
+            <span class="text-sm text-neutral-500">{{ t('login.rememberMe') }}</span>
           </el-checkbox>
-          <a href="#" class="text-sm text-brand-600 no-underline hover:text-brand-700">忘记密码？</a>
+          <a href="#" class="text-sm text-brand-600 no-underline hover:text-brand-700">{{ t('login.forgotPassword') }}</a>
         </div>
 
         <el-button
@@ -108,7 +110,7 @@ const handleLogin = async () => {
           :disabled="submitting"
           @click="handleLogin"
         >
-          {{ submitting ? '登录中...' : '登录' }}
+          {{ submitting ? t('login.submitting') : t('login.submit') }}
         </el-button>
       </el-form>
     </div>
