@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { DataAnalysis, User, List, Setting, Fold, Expand } from '@element-plus/icons-vue'
 
 defineProps<{
@@ -13,21 +14,22 @@ const emit = defineEmits<{
 
 const route = useRoute()
 const router = useRouter()
+const { t } = useI18n()
 const mobileDrawerOpen = ref(false)
 
 const menuItems = [
-  { path: '/admin', title: '仪表盘' },
+  { path: '/admin', titleKey: 'sidebar.dashboard' },
   {
     path: '/admin/users',
-    title: '用户管理',
+    titleKey: 'sidebar.userManagement',
     children: [
-      { path: '/admin/users/list', title: '用户列表' },
-      { path: '/admin/users/roles', title: '角色管理' },
-      { path: '/admin/users/permissions', title: '权限管理' },
+      { path: '/admin/users/list', titleKey: 'sidebar.userList' },
+      { path: '/admin/users/roles', titleKey: 'sidebar.roleManagement' },
+      { path: '/admin/users/permissions', titleKey: 'sidebar.permissionManagement' },
     ],
   },
-  { path: '/admin/orders', title: '订单管理' },
-  { path: '/admin/settings', title: '系统设置' },
+  { path: '/admin/orders', titleKey: 'sidebar.orderManagement' },
+  { path: '/admin/settings', titleKey: 'sidebar.systemSettings' },
 ]
 
 const openMobileDrawer = () => {
@@ -59,7 +61,7 @@ defineExpose({ openMobileDrawer })
           text
           @click="emit('toggle-collapse')"
           class="!text-neutral-500 hover:!text-neutral-800 !p-1.5 !min-w-0"
-          :title="isCollapse ? '展开侧边栏' : '折叠侧边栏'"
+          :title="isCollapse ? t('sidebar.expand') : t('sidebar.collapse')"
         >
           <el-icon :size="18">
             <Fold v-if="!isCollapse" />
@@ -78,27 +80,27 @@ defineExpose({ openMobileDrawer })
       >
         <el-menu-item index="/admin">
           <el-icon :size="18"><DataAnalysis /></el-icon>
-          <template #title>仪表盘</template>
+          <template #title>{{ t('sidebar.dashboard') }}</template>
         </el-menu-item>
 
         <el-sub-menu index="/admin/users">
           <template #title>
             <el-icon :size="18"><User /></el-icon>
-            <span>用户管理</span>
+            <span>{{ t('sidebar.userManagement') }}</span>
           </template>
-          <el-menu-item index="/admin/users/list">用户列表</el-menu-item>
-          <el-menu-item index="/admin/users/roles">角色管理</el-menu-item>
-          <el-menu-item index="/admin/users/permissions">权限管理</el-menu-item>
+          <el-menu-item index="/admin/users/list">{{ t('sidebar.userList') }}</el-menu-item>
+          <el-menu-item index="/admin/users/roles">{{ t('sidebar.roleManagement') }}</el-menu-item>
+          <el-menu-item index="/admin/users/permissions">{{ t('sidebar.permissionManagement') }}</el-menu-item>
         </el-sub-menu>
 
         <el-menu-item index="/admin/orders">
           <el-icon :size="18"><List /></el-icon>
-          <template #title>订单管理</template>
+          <template #title>{{ t('sidebar.orderManagement') }}</template>
         </el-menu-item>
 
         <el-menu-item index="/admin/settings">
           <el-icon :size="18"><Setting /></el-icon>
-          <template #title>系统设置</template>
+          <template #title>{{ t('sidebar.systemSettings') }}</template>
         </el-menu-item>
       </el-menu>
     </div>
@@ -121,7 +123,7 @@ defineExpose({ openMobileDrawer })
               : 'text-neutral-500 hover:bg-neutral-50'"
             @click="navigateMobile(parentPath(item))"
           >
-            {{ item.title }}
+            {{ t(item.titleKey) }}
           </div>
           <template v-if="item.children">
             <div
@@ -133,7 +135,7 @@ defineExpose({ openMobileDrawer })
                 : 'text-neutral-500 hover:bg-neutral-50'"
               @click="navigateMobile(child.path)"
             >
-              {{ child.title }}
+              {{ t(child.titleKey) }}
             </div>
           </template>
         </template>
