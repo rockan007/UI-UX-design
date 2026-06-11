@@ -1,6 +1,9 @@
 {
   "name": "login-homepage-preview",
   "private": true,
+  "vue3ElementUiUx": {
+    "i18n": true
+  },
   "version": "0.0.0",
   "type": "module",
   "scripts": {
