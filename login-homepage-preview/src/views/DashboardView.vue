@@ -120,7 +120,7 @@ const timeline = computed(() => {
         <div
           v-for="(item, i) in timeline"
           :key="i"
-          class="flex gap-3 pb-5 relative hover:bg-neutral-50 -mx-2 px-2 rounded-btn transition-colors duration-150"
+          class="flex gap-3 pb-5 relative hover:bg-neutral-50 -mx-2 px-2 rounded-r-btn transition-colors duration-150"
           :class="{ 'border-l-2': i < timeline.length - 1 }"
           :style="{ borderLeftColor: item.active ? '#2563eb' : '#e5e5e5', paddingLeft: '16px' }"
         >

@@ -13,6 +13,24 @@ Component interaction behavior rules. Every component must have proper interacti
 
 > Applies to: both
 
+### Connector Lines vs. Border Radius
+
+**Rule:** When a container has a visible connector line on one side (timeline vertical line,
+step connector, branch line), that side's border-radius must be `0`. Rounding the corner
+breaks visual continuity of the connector line.
+
+| Connector side | CSS |
+|---|---|
+| Left border | `border-l-*` + `rounded-l-none` |
+| Right border | `border-r-*` + `rounded-r-none` |
+| Top border | `border-t-*` + `rounded-t-none` |
+| Bottom border | `border-b-*` + `rounded-b-none` |
+
+Do not apply a uniform `rounded-*` to containers that use `border-l-*` / `border-r-*` as connector lines.
+Use directional radius instead: `rounded-r-btn` for a left-side connector, `rounded-l-btn` for a right-side connector.
+
+> Applies to: both
+
 ## Cards
 
 ### Clickable Cards

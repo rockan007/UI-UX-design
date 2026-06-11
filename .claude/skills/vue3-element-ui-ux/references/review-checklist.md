@@ -46,6 +46,7 @@ Then fix the issues. Do not change business logic.
 - [ ] Labels and badges share a unified style.
 - [ ] Section spacing is stable.
 - [ ] Border radius and shadows are restrained.
+- [ ] **Connector lines vs. border-radius:** Containers with a border connector line on one side have that side's border-radius set to `0`. Use directional radius (`rounded-r-*`, `rounded-l-none`) instead of uniform `rounded-*`.
 
 ## 4. Form Experience
 

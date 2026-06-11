@@ -146,6 +146,16 @@ Every important page should consider:
 - Loading: skeleton or spinner; avoid layout shift.
 - Transitions: hover/focus 150ms, toggle 200ms, dialog/drawer 300ms.
 
+### Connector Lines and Border Radius
+
+When a UI element has a visible connector line on one edge (timeline vertical line,
+step progress connector, tree branch line), that edge's corner must remain sharp.
+
+- A container using a left/right border as a connector must set that side's radius to `0`.
+- Do not apply uniform border-radius to elements that serve as connector-line hosts.
+- The connector line is a continuous visual path — rounding its edge breaks the user's
+  perception of sequence or hierarchy.
+
 ### Cards
 
 - **Clickable card**: hover shadow-sm → shadow-md, border neutral → brand. `cursor: pointer`. Buttons inside use `@click.stop`.
