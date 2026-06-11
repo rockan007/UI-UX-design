@@ -1,49 +1,52 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { DataAnalysis, ShoppingCart, Money, Warning, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
 
+const { t, tm } = useI18n()
+
 const metrics = [
-  { label: '活跃用户', value: '12,483', change: '+12%', trend: 'up', icon: DataAnalysis },
-  { label: '今日订单', value: '347', change: '+5%', trend: 'up', icon: ShoppingCart },
-  { label: '收入', value: '¥38,200', change: '-3%', trend: 'down', icon: Money },
-  { label: '待处理', value: '23', change: '0%', trend: 'flat', icon: Warning },
+  { labelKey: 'dashboard.metrics.activeUsers', value: '12,483', change: '+12%', trend: 'up', icon: DataAnalysis },
+  { labelKey: 'dashboard.metrics.ordersToday', value: '347', change: '+5%', trend: 'up', icon: ShoppingCart },
+  { labelKey: 'dashboard.metrics.revenue', value: '¥38,200', change: '-3%', trend: 'down', icon: Money },
+  { labelKey: 'dashboard.metrics.pending', value: '23', change: '0%', trend: 'flat', icon: Warning },
 ]
 
 const chartDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
 const chartValues = [80, 110, 95, 140, 120, 90, 60]
 const maxValue = Math.max(...chartValues)
 
-const categories = [
-  { name: '设计', value: 142, color: '#2563eb' },
-  { name: '开发', value: 98, color: '#0891b2' },
-  { name: '营销', value: 76, color: '#d97706' },
-  { name: '运维', value: 51, color: '#16a34a' },
-]
-const maxCat = Math.max(...categories.map((c) => c.value))
+const categories = computed(() => [
+  { name: t('dashboard.categories.design'), value: 142, color: '#2563eb' },
+  { name: t('dashboard.categories.development'), value: 98, color: '#0891b2' },
+  { name: t('dashboard.categories.marketing'), value: 76, color: '#d97706' },
+  { name: t('dashboard.categories.operations'), value: 51, color: '#16a34a' },
+])
+const maxCat = Math.max(...categories.value.map((c) => c.value))
 
-const timeline = [
-  { title: '新订单 #ORD-20240606-042', desc: '用户 张三 下单 ¥2,380', time: '2 分钟前', active: true },
-  { title: '用户注册', desc: '新用户 李四 通过邀请链接注册', time: '15 分钟前', active: false },
-  { title: '订单完成', desc: '#ORD-20240606-040 已确认收货', time: '1 小时前', active: false },
-]
+const timeline = computed(() => {
+  const items = tm('dashboard.timeline') as Array<{ title: string; desc: string; time: string }>
+  return items.map((item, i) => ({ ...item, active: i === 0 }))
+})
 </script>
 
 <template>
   <div>
     <!-- Page Header -->
     <div class="mb-6">
-      <h1 class="text-2xl font-semibold text-neutral-950">仪表盘</h1>
-      <p class="text-sm text-neutral-500 mt-1">过去 30 天的核心数据概览</p>
+      <h1 class="text-2xl font-semibold text-neutral-950">{{ t('dashboard.title') }}</h1>
+      <p class="text-sm text-neutral-500 mt-1">{{ t('dashboard.description') }}</p>
     </div>
 
     <!-- Metric Cards -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
       <div
         v-for="m in metrics"
-        :key="m.label"
+        :key="m.labelKey"
         class="bg-white rounded-btn border border-neutral-200 p-4 hover:shadow-md hover:border-brand-200 cursor-pointer transition-all duration-150"
       >
         <div class="flex items-center justify-between mb-3">
-          <span class="text-sm text-neutral-500">{{ m.label }}</span>
+          <span class="text-sm text-neutral-500">{{ t(m.labelKey) }}</span>
           <el-icon :size="18" color="#737373">
             <component :is="m.icon" />
           </el-icon>
@@ -57,7 +60,7 @@ const timeline = [
           <el-icon v-if="m.trend === 'up'" :size="14"><ArrowUp /></el-icon>
           <el-icon v-else-if="m.trend === 'down'" :size="14"><ArrowDown /></el-icon>
           <span>{{ m.change }}</span>
-          <span class="text-neutral-400 text-xs ml-1">vs 上月</span>
+          <span class="text-neutral-400 text-xs ml-1">{{ t('dashboard.vsLastMonth') }}</span>
         </div>
       </div>
     </div>
@@ -66,7 +69,7 @@ const timeline = [
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
       <!-- Bar Chart -->
       <div class="md:col-span-2 bg-white rounded-btn border border-neutral-200 p-5">
-        <h3 class="text-base font-semibold text-neutral-950 mb-5">订单趋势（近 7 天）</h3>
+        <h3 class="text-base font-semibold text-neutral-950 mb-5">{{ t('dashboard.chartOrderTrend') }}</h3>
         <div class="flex items-end gap-3 h-[200px] px-2">
           <div
             v-for="(val, i) in chartValues"
@@ -89,7 +92,7 @@ const timeline = [
 
       <!-- Category Chart -->
       <div class="bg-white rounded-btn border border-neutral-200 p-5">
-        <h3 class="text-base font-semibold text-neutral-950 mb-5">按类别分布</h3>
+        <h3 class="text-base font-semibold text-neutral-950 mb-5">{{ t('dashboard.chartCategory') }}</h3>
         <div class="flex flex-col gap-4 justify-center h-[200px]">
           <div
             v-for="cat in categories"
@@ -112,7 +115,7 @@ const timeline = [
 
     <!-- Activity Timeline -->
     <div class="bg-white rounded-btn border border-neutral-200 p-5">
-      <h3 class="text-base font-semibold text-neutral-950 mb-5">最近活动</h3>
+      <h3 class="text-base font-semibold text-neutral-950 mb-5">{{ t('dashboard.activity') }}</h3>
       <div class="flex flex-col">
         <div
           v-for="(item, i) in timeline"
