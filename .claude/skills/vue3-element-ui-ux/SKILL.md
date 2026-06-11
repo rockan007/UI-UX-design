@@ -24,6 +24,7 @@ Do not start writing page code before outputting UI DSL.
 
 When asked to create or improve a page:
 
+0. Check `package.json` for `"vue3ElementUiUx": { "i18n": true }`. If enabled, load `references/i18n-rules.md` before proceeding.
 1. Identify page type (frontend vs admin) using `references/design-principles.md`.
 2. Load design tokens from `references/design-tokens.md`.
 3. Generate UI DSL following `references/ui-dsl.md`.
@@ -43,13 +44,21 @@ When asked to create or improve a page:
 - Admin pages: optimize for scanability, density, tables, filters, forms, repeated use.
 - Frontend pages: optimize for clarity, task completion, readable hierarchy, mobile usability.
 - Override Element Plus theme only via CSS custom properties, not Tailwind.
-- Configure Element Plus Chinese locale in `main.ts`: `import zhCn from 'element-plus/dist/locale/zh-cn.mjs'` and `app.use(ElementPlus, { locale: zhCn })`. Never leave the default English locale — built-in component text (pagination, table, select, dialog) must match the project language.
+- Configure Element Plus locale in `main.ts`:
+  - If project i18n is NOT enabled: `import zhCn from 'element-plus/dist/locale/zh-cn.mjs'` and `app.use(ElementPlus, { locale: zhCn })`.
+  - If i18n IS enabled (`"vue3ElementUiUx": { "i18n": true }` in package.json): locale is handled via `elLocaleMap` + `el-config-provider` as defined in `references/i18n-rules.md`. Do not hardcode `zhCn` separately.
+  - Never leave the default English locale — built-in component text must match the project language.
+- Action columns with 2+ buttons: icon-only + `el-tooltip`, column width = `(28 + 8) × maxButtons + 16`.
+- Connector lines (timeline, step) must not have border-radius on the connector side — use directional radius (`rounded-r-*`).
+- Bar charts: gap = 50%–100% of bar width, bar width fixed (not `flex-1`), bar tops straight (no `rounded-t-*`).
+- Collapsed sidebar: `overflow-x: hidden` to prevent horizontal scrollbar.
 
 ## Output Pattern
 
 For a new page, output in this order:
 1. Page type and UX goal
 2. UI DSL
+2a. (if i18n enabled) Locale keys used for all user-facing text
 3. Component mapping summary
 4. Code implementation
 5. Interaction states covered
@@ -63,4 +72,5 @@ For a new page, output in this order:
 - Read `references/ui-dsl.md` for DSL schema and page templates.
 - Read `references/generation-rules.md` for agent rules, workflow steps, and prompt templates.
 - Read `references/interaction-rules.md` for hover, focus, disabled, loading behavior on every component type.
+- Read `references/i18n-rules.md` when project i18n is enabled, for vue-i18n setup, locale file conventions, formatting rules (`$t`, `$n`, `$d`), `LocaleSwitcher` component, and RTL direction support.
 - Read `references/review-checklist.md` for post-implementation quality checks.
