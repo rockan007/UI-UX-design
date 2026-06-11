@@ -1,0 +1,172 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "search": "Search",
+    "reset": "Reset",
+    "confirm": "Confirm",
+    "back": "Back",
+    "submit": "Submit",
+    "all": "All",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Sign in to your account to continue",
+    "email": "Email",
+    "emailPlaceholder": "name@example.com",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "submit": "Login",
+    "submitting": "Signing in...",
+    "validation": {
+      "emailRequired": "Please enter your email",
+      "emailInvalid": "Please enter a valid email address",
+      "passwordRequired": "Please enter your password",
+      "passwordMinLength": "Password must be at least 6 characters"
+    }
+  },
+  "home": {
+    "productName": "Product Name",
+    "copyright": "© 2026 Product Name · All rights reserved",
+    "nav": {
+      "home": "Home",
+      "features": "Features",
+      "about": "About"
+    },
+    "hero": {
+      "title": "Work Smarter",
+      "description": "An all-in-one solution that helps teams collaborate, manage, and deliver. Get started instantly with no complex setup.",
+      "cta": "Try for Free",
+      "secondary": "Learn More"
+    },
+    "features": {
+      "project": {
+        "title": "Project Management",
+        "description": "Kanban, Gantt, task assignments — full control over your project workflow"
+      },
+      "team": {
+        "title": "Team Collaboration",
+        "description": "Instant messaging, file sharing, comments — seamless team communication"
+      },
+      "data": {
+        "title": "Data Analytics",
+        "description": "Custom reports, real-time dashboards — data-driven decisions"
+      }
+    },
+    "cta": {
+      "title": "Get Started Now",
+      "subtitle": "Trusted by 10,000+ teams",
+      "button": "Try for Free"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "description": "Core metrics for the past 30 days",
+    "metrics": {
+      "activeUsers": "Active Users",
+      "ordersToday": "Orders Today",
+      "revenue": "Revenue",
+      "pending": "Pending"
+    },
+    "vsLastMonth": "vs last month",
+    "chartOrderTrend": "Order Trend (7 days)",
+    "chartCategory": "By Category",
+    "activity": "Recent Activity",
+    "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    "timeline": [
+      { "title": "New Order #ORD-20240606-042", "desc": "User Zhang San placed ¥2,380 order", "time": "2 min ago" },
+      { "title": "User Registration", "desc": "New user Li Si registered via invite link", "time": "15 min ago" },
+      { "title": "Order Completed", "desc": "#ORD-20240606-040 confirmed receipt", "time": "1 hour ago" }
+    ],
+    "categories": {
+      "design": "Design",
+      "development": "Development",
+      "marketing": "Marketing",
+      "operations": "Operations"
+    }
+  },
+  "orders": {
+    "title": "Order Management",
+    "description": "View and process customer orders",
+    "totalOrders": "Today's Orders",
+    "pendingOrders": "Pending Orders",
+    "completedRevenue": "Completed Revenue",
+    "searchPlaceholder": "Search order no. / customer / phone / product",
+    "filterByStatus": "Status",
+    "filterByChannel": "Channel",
+    "columns": {
+      "orderNo": "Order No.",
+      "customer": "Customer",
+      "items": "Items",
+      "amount": "Amount",
+      "status": "Status",
+      "channel": "Channel",
+      "createdAt": "Order Time",
+      "actions": "Actions"
+    },
+    "status": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "shipped": "Shipped",
+      "completed": "Completed",
+      "refunded": "Refunded",
+      "cancelled": "Cancelled"
+    },
+    "empty": "No order data",
+    "deleteConfirm": "Delete order \"{id}\"?",
+    "deleteTitle": "Confirm Delete",
+    "deleteConfirmBtn": "Delete",
+    "deletedMessage": "Order {id} deleted",
+    "viewDetail": "View order: {id}",
+    "processOrder": "Process order: {id}",
+    "moreItems": "+{count}"
+  },
+  "users": {
+    "list": {
+      "title": "User List",
+      "description": "Manage user accounts in the system",
+      "placeholder": "User list content (to be implemented)"
+    },
+    "roles": {
+      "title": "Role Management",
+      "description": "Manage roles and permission assignments",
+      "placeholder": "Role management content (to be implemented)"
+    },
+    "permissions": {
+      "title": "Permission Management",
+      "description": "Configure system permissions and access control",
+      "placeholder": "Permission management content (to be implemented)"
+    }
+  },
+  "settings": {
+    "title": "System Settings",
+    "description": "Configure system parameters and preferences",
+    "placeholder": "System settings content (to be implemented)"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "userManagement": "User Management",
+    "userList": "User List",
+    "roleManagement": "Role Management",
+    "permissionManagement": "Permission Management",
+    "orderManagement": "Order Management",
+    "systemSettings": "System Settings",
+    "expand": "Expand sidebar",
+    "collapse": "Collapse sidebar"
+  },
+  "header": {
+    "systemName": "Admin System",
+    "profile": "Profile",
+    "logout": "Log Out",
+    "chinese": "中文",
+    "english": "English",
+    "notifications": "Notifications"
+  }
+}

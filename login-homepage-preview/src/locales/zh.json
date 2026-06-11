@@ -1,0 +1,172 @@
+{
+  "common": {
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "删除",
+    "edit": "编辑",
+    "view": "查看",
+    "search": "搜索",
+    "reset": "重置",
+    "confirm": "确认",
+    "back": "返回",
+    "submit": "提交",
+    "all": "全部",
+    "yes": "是",
+    "no": "否"
+  },
+  "login": {
+    "title": "欢迎回来",
+    "subtitle": "登录您的账号以继续",
+    "email": "邮箱",
+    "emailPlaceholder": "name@example.com",
+    "password": "密码",
+    "passwordPlaceholder": "请输入密码",
+    "rememberMe": "记住我",
+    "forgotPassword": "忘记密码？",
+    "submit": "登录",
+    "submitting": "登录中...",
+    "validation": {
+      "emailRequired": "请输入邮箱",
+      "emailInvalid": "请输入有效的邮箱地址",
+      "passwordRequired": "请输入密码",
+      "passwordMinLength": "密码至少 6 位"
+    }
+  },
+  "home": {
+    "productName": "产品名称",
+    "copyright": "© 2026 产品名称 · 保留所有权利",
+    "nav": {
+      "home": "首页",
+      "features": "功能",
+      "about": "关于"
+    },
+    "hero": {
+      "title": "让工作更高效",
+      "description": "一体化解决方案，帮助团队协作、管理和交付。即刻开始，无需复杂配置。",
+      "cta": "免费试用",
+      "secondary": "了解更多"
+    },
+    "features": {
+      "project": {
+        "title": "项目管理",
+        "description": "看板、甘特图、任务分配，掌控项目全流程"
+      },
+      "team": {
+        "title": "团队协作",
+        "description": "即时通讯、文件共享、评论，团队无缝沟通"
+      },
+      "data": {
+        "title": "数据分析",
+        "description": "自定义报表、实时仪表盘，数据驱动决策"
+      }
+    },
+    "cta": {
+      "title": "现在开始",
+      "subtitle": "已有 10,000+ 团队在使用",
+      "button": "免费试用"
+    }
+  },
+  "dashboard": {
+    "title": "仪表盘",
+    "description": "过去 30 天的核心数据概览",
+    "metrics": {
+      "activeUsers": "活跃用户",
+      "ordersToday": "今日订单",
+      "revenue": "收入",
+      "pending": "待处理"
+    },
+    "vsLastMonth": "vs 上月",
+    "chartOrderTrend": "订单趋势（近 7 天）",
+    "chartCategory": "按类别分布",
+    "activity": "最近活动",
+    "days": ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+    "timeline": [
+      { "title": "新订单 #ORD-20240606-042", "desc": "用户 张三 下单 ¥2,380", "time": "2 分钟前" },
+      { "title": "用户注册", "desc": "新用户 李四 通过邀请链接注册", "time": "15 分钟前" },
+      { "title": "订单完成", "desc": "#ORD-20240606-040 已确认收货", "time": "1 小时前" }
+    ],
+    "categories": {
+      "design": "设计",
+      "development": "开发",
+      "marketing": "营销",
+      "operations": "运维"
+    }
+  },
+  "orders": {
+    "title": "订单管理",
+    "description": "查看和处理客户订单",
+    "totalOrders": "今日订单总量",
+    "pendingOrders": "待处理订单",
+    "completedRevenue": "已完成交易额",
+    "searchPlaceholder": "搜索订单号 / 客户 / 手机号 / 商品",
+    "filterByStatus": "订单状态",
+    "filterByChannel": "下单渠道",
+    "columns": {
+      "orderNo": "订单号",
+      "customer": "客户",
+      "items": "商品",
+      "amount": "金额",
+      "status": "状态",
+      "channel": "渠道",
+      "createdAt": "下单时间",
+      "actions": "操作"
+    },
+    "status": {
+      "pending": "待支付",
+      "paid": "已支付",
+      "shipped": "已发货",
+      "completed": "已完成",
+      "refunded": "已退款",
+      "cancelled": "已取消"
+    },
+    "empty": "暂无订单数据",
+    "deleteConfirm": "确定要删除订单「{id}」吗？",
+    "deleteTitle": "删除确认",
+    "deleteConfirmBtn": "确定删除",
+    "deletedMessage": "已删除订单 {id}",
+    "viewDetail": "查看订单详情：{id}",
+    "processOrder": "处理订单：{id}",
+    "moreItems": "+{count}"
+  },
+  "users": {
+    "list": {
+      "title": "用户列表",
+      "description": "管理系统中的用户账号",
+      "placeholder": "用户列表内容（待实现）"
+    },
+    "roles": {
+      "title": "角色管理",
+      "description": "管理角色及其权限分配",
+      "placeholder": "角色管理内容（待实现）"
+    },
+    "permissions": {
+      "title": "权限管理",
+      "description": "配置系统权限和访问控制",
+      "placeholder": "权限管理内容（待实现）"
+    }
+  },
+  "settings": {
+    "title": "系统设置",
+    "description": "配置系统参数和偏好",
+    "placeholder": "系统设置内容（待实现）"
+  },
+  "sidebar": {
+    "dashboard": "仪表盘",
+    "userManagement": "用户管理",
+    "userList": "用户列表",
+    "roleManagement": "角色管理",
+    "permissionManagement": "权限管理",
+    "orderManagement": "订单管理",
+    "systemSettings": "系统设置",
+    "expand": "展开侧边栏",
+    "collapse": "折叠侧边栏"
+  },
+  "header": {
+    "systemName": "管理系统",
+    "profile": "个人设置",
+    "logout": "退出登录",
+    "chinese": "中文",
+    "english": "English",
+    "notifications": "通知"
+  }
+}
