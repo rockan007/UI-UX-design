@@ -47,6 +47,7 @@ Then fix the issues. Do not change business logic.
 - [ ] Section spacing is stable.
 - [ ] Border radius and shadows are restrained.
 - [ ] **Connector lines vs. border-radius:** Containers with a border connector line on one side have that side's border-radius set to `0`. Use directional radius (`rounded-r-*`, `rounded-l-none`) instead of uniform `rounded-*`.
+- [ ] **Bar chart spacing:** Gap between bars is 50%–100% of bar width. Bar tops are straight (no `rounded-t-*`). Bar width is fixed (not `flex-1`).
 
 ## 4. Form Experience
 

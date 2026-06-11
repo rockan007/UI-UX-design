@@ -82,6 +82,13 @@ Icon-only action buttons in table operation columns:
 - Tooltip: 200ms delay, content = "label + value + unit", disappears on leave.
 - Clickable data points: `cursor: pointer`.
 
+### Spacing & Shape
+
+- **Gap-to-bar ratio:** Gap between bars should be 50%–100% of bar width. Default to ~50% (bar = 2× gap).
+- **Bar width is fixed** — do not use `flex-1` to stretch bars across the container.
+- **Straight bar tops only.** Never use `rounded-t-*` on bar chart columns. The top edge must be a precise visual endpoint.
+- Bars that are too wide relative to gaps (>4:1 ratio) appear visually unbalanced and lose the rhythm of discrete data points.
+
 ### Line Charts
 - Data point hover: dot enlarges + tooltip.
 - The line itself does not respond to hover.

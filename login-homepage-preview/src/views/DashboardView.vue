@@ -70,15 +70,15 @@ const timeline = computed(() => {
       <!-- Bar Chart -->
       <div class="md:col-span-2 bg-white rounded-btn border border-neutral-200 p-5">
         <h3 class="text-base font-semibold text-neutral-950 mb-5">{{ t('dashboard.chartOrderTrend') }}</h3>
-        <div class="flex items-end gap-3 h-[200px] px-2">
+        <div class="flex items-end justify-center gap-5 h-[200px] px-2">
           <div
             v-for="(val, i) in chartValues"
             :key="i"
-            class="flex-1 flex flex-col items-center gap-1"
+            class="flex flex-col items-center gap-1"
           >
             <span class="text-xs text-neutral-500">{{ val }}</span>
             <div
-              class="w-full rounded-t-sm transition-all duration-150 cursor-pointer hover:brightness-90"
+              class="w-10 transition-all duration-150 cursor-pointer hover:brightness-90"
               :title="`${chartDays[i]}: ${val} 单`"
               :style="{
                 height: `${(val / maxValue) * 160}px`,
