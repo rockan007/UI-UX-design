@@ -150,6 +150,7 @@ defineExpose({ openMobileDrawer })
   border-right: 1px solid #e5e5e5;
   transition: width 0.2s ease;
   flex-shrink: 0;
+  overflow-x: hidden;
 }
 
 .admin-menu {

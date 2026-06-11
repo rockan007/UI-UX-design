@@ -122,6 +122,7 @@ Icon-only action buttons in table operation columns:
 - Inactive hover: `bg-neutral-50`.
 - Active and focus states must be visible.
 - Collapse/expand: 200ms transition.
+- Collapsed state: `overflow-x: hidden` to clip overflow content and prevent horizontal scrollbar.
 
 ### Tabs
 - Selected: bottom `2px` border + brand-600 text.

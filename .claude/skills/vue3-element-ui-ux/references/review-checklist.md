@@ -96,6 +96,7 @@ Check at these widths:
 - [ ] Filters, menus, dialogs are usable.
 - [ ] Tables have a mobile solution (card list or horizontal scroll).
 - [ ] Primary action is visible on mobile.
+- [ ] Collapsed sidebar has `overflow-x: hidden` to prevent horizontal scrollbar from overflow content.
 
 ## 8. Accessibility
 
