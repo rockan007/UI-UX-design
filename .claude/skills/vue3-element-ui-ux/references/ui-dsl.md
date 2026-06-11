@@ -16,11 +16,17 @@ Structured interface plan before code. Output UI DSL first for every page — ne
   "sections": [],
   "actions": [],
   "states": [],
-  "responsive": {}
+  "responsive": {},
+  "locale": {
+    "enabled": false,
+    "default-locale": "zh",
+    "supported": ["zh"]
+  }
 }
 ```
 
 Required fields: `page`, `type`, `route`, `goal`, `layout`, `header`, `sections`, `actions`, `states`, `responsive`.
+Optional fields when i18n is enabled: locale (enabled, default-locale, supported).
 
 ## Page Templates
 
