@@ -18,7 +18,9 @@ Rules, workflow, and prompt templates for page generation. Follow these exactly.
 10. After implementation, run UI/UX review.
 11. **All admin pages must use the shared `AdminLayout` shell.** Never create an admin page with its own sidebar, header, or layout wrapper. Add the route as a child under `{admin-prefix}` and add the menu item to `AdminSidebar.vue`.
 12. AdminSidebar supports multi-level menus via `el-sub-menu`. When adding a parent category, nest child items under `el-sub-menu`. Keep nesting to 1-2 levels.
-13. **Configure Element Plus Chinese locale in `main.ts`.** Import `zhCn` from `element-plus/dist/locale/zh-cn.mjs` and pass `{ locale: zhCn }` to `app.use(ElementPlus, ...)`. This ensures pagination ("共 X 条", "X条/页"), table empty text ("暂无数据"), select placeholder ("请选择"), and all other built-in component text display in Chinese — matching the page content language.
+13. **Configure Element Plus locale in `main.ts`.** If project i18n is NOT enabled (no `"vue3ElementUiUx": { "i18n": true }` in package.json): import `zhCn` from `element-plus/dist/locale/zh-cn.mjs` and pass `{ locale: zhCn }` to `app.use(ElementPlus, ...)`. If i18n IS enabled: the i18n infrastructure (`i18n-rules.md`) handles this via `elLocaleMap` and `el-config-provider` — do not hardcode `zhCn` separately.
+
+14. **If project i18n is enabled** (package.json contains `"vue3ElementUiUx": { "i18n": true }`), read `i18n-rules.md` before generating any page. All user-facing text must use `$t()` keys, formatting must use `$n()` / `$d()`, and `LocaleSwitcher` must be included in the header.
 
 ### Code Constraints
 
