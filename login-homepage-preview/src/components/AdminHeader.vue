@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Bell, User } from '@element-plus/icons-vue'
+import LocaleSwitcher from './LocaleSwitcher.vue'
+
+const { t } = useI18n()
 
 const notificationCount = ref(3)
 
@@ -11,10 +15,6 @@ const handleCommand = (command: string) => {
     // handle logout
   }
 }
-
-const handleLanguageChange = (_command: string) => {
-  // handle language switch
-}
 </script>
 
 <template>
@@ -24,7 +24,7 @@ const handleLanguageChange = (_command: string) => {
       <div class="w-6 h-6 bg-brand-600 rounded-input flex items-center justify-center flex-shrink-0">
         <span class="text-white text-xs font-bold">S</span>
       </div>
-      <span class="font-semibold text-sm text-neutral-950 whitespace-nowrap">管理系统</span>
+      <span class="font-semibold text-sm text-neutral-950 whitespace-nowrap">{{ t('header.systemName') }}</span>
     </div>
 
     <!-- Right: Actions -->
@@ -37,17 +37,7 @@ const handleLanguageChange = (_command: string) => {
       </el-badge>
 
       <!-- Language Switcher -->
-      <el-dropdown trigger="click" @command="handleLanguageChange">
-        <span class="text-sm text-neutral-500 cursor-pointer hover:text-neutral-800 transition-colors duration-150">
-          中文
-        </span>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item command="zh">中文</el-dropdown-item>
-            <el-dropdown-item command="en">English</el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+      <LocaleSwitcher />
 
       <!-- User Menu -->
       <el-dropdown trigger="click" @command="handleCommand">
@@ -60,8 +50,8 @@ const handleLanguageChange = (_command: string) => {
         </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item command="profile">个人设置</el-dropdown-item>
-            <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
+            <el-dropdown-item command="profile">{{ t('header.profile') }}</el-dropdown-item>
+            <el-dropdown-item command="logout" divided>{{ t('header.logout') }}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
