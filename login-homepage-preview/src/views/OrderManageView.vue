@@ -130,16 +130,19 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
 
 <template>
   <div>
-    <!-- Breadcrumb -->
-    <el-breadcrumb separator="/" class="mb-4 md:mb-6">
-      <el-breadcrumb-item>{{ t('orders.title') }}</el-breadcrumb-item>
-    </el-breadcrumb>
-
-    <!-- Create Button: Desktop -->
-    <div class="hidden md:flex items-center justify-end mb-3">
-      <el-button type="primary" :icon="Plus" @click="router.push('/admin/orders/create')">
-        {{ t('orders.createTitle') }}
-      </el-button>
+    <!-- Breadcrumb + Mobile Create -->
+    <div class="flex items-center justify-between mb-4 md:mb-6">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item>{{ t('orders.title') }}</el-breadcrumb-item>
+      </el-breadcrumb>
+      <el-button
+        type="primary"
+        circle
+        :icon="Plus"
+        size="small"
+        class="md:hidden"
+        @click="router.push('/admin/orders/create')"
+      />
     </div>
 
     <!-- Summary Cards -->
@@ -189,6 +192,10 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
         <el-option :label="t('orders.channel.web')" value="网页" />
         <el-option :label="t('orders.channel.miniprogram')" value="小程序" />
       </el-select>
+      <div class="flex-1"></div>
+      <el-button type="primary" :icon="Plus" @click="router.push('/admin/orders/create')">
+        {{ t('orders.createTitle') }}
+      </el-button>
     </div>
 
     <!-- Filter Bar: Mobile search + drawer trigger -->
@@ -332,13 +339,6 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
           background
         />
       </div>
-    </div>
-
-    <!-- Create Button: Mobile -->
-    <div class="flex md:hidden justify-end mb-2">
-      <el-button type="primary" size="small" :icon="Plus" @click="router.push('/admin/orders/create')">
-        {{ t('orders.createTitle') }}
-      </el-button>
     </div>
 
     <!-- Card List: Mobile -->
