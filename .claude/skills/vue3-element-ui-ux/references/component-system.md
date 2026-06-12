@@ -18,7 +18,7 @@ Component hierarchy and Element Plus mapping. Always map UI DSL to these compone
 
 ### Admin Components
 
-`AdminShell` (`AdminLayout` + `AdminHeader` + `AdminSidebar`), `TopBar`, `Breadcrumbs`, `MetricGrid`, `DataTable`, `FilterBar`, `BulkActionBar`, `DetailPanel`, `AuditTimeline`, `PermissionNotice`
+`AdminShell` (`AdminLayout` + `AdminHeader` + `AdminSidebar`), `TopBar`, `Breadcrumbs`, `MetricGrid`, `ZoneContainer`, `DataTable`, `FilterBar`, `BulkActionBar`, `DetailPanel`, `AuditTimeline`, `PermissionNotice`
 
 `AdminShell` is the mandatory layout wrapper for all admin pages (under `{admin-prefix}`). See `design-principles.md` Admin Shell Layout section for full structure. The sidebar (`AdminSidebar`) supports multi-level menus via `el-sub-menu`.
 
@@ -31,7 +31,7 @@ Chart rules:
 - No 3D, pie, donut, or radar charts.
 - Always show labels and values.
 - No legend when ≤ 2 data series.
-- Use brand + neutral colors only.
+- Use brand and semantic colors (blue, cyan, amber, green) from `design-tokens.md`. Neutral fill for empty/zero states.
 - Support empty data state.
 - **Bar spacing:** Gap between bars must be 50%–100% of bar width. Sweet spot: gap ≈ 50% of bar width (bar width = 2× gap).
 - **Bar tops must be straight.** No rounded corners on bar/column tops — they obscure exact endpoint values.
@@ -74,7 +74,9 @@ Chart rules:
 | `ErrorState` | `ErrorState` | Request/permission failure |
 | `ConfirmDialog` | `ConfirmDialog` | Destructive action confirmation |
 | `LocaleSwitcher` | `LocaleSwitcher` | Language toggle dropdown in header |
-| `MetricCard` | `MetricCard` | KPI card |
+| `ZoneContainer` | `ZoneContainer` | Tinted region wrapper grouping related cards, `rounded-md` + `surface-*` bg + padding |
+| `AccentCard` | `AccentCard` | Stat card with left 3px colored border stripe |
+| `MetricCard` | `MetricCard` | KPI card with left accent stripe (`border-l-*`) per data category |
 | `SimpleBarChart` | `SimpleBarChart` | Bar chart |
 | `SimpleLineChart` | `SimpleLineChart` | Line chart |
 | `StatusTimeline` | `StatusTimeline` | Activity timeline |
@@ -104,6 +106,10 @@ All admin layouts use the shared `AdminLayout` shell. Individual pages only prov
 | `warning` | Warning state |
 | `error` | Error state |
 | `muted` | Low-emphasis text |
+| `accent-blue` | Blue accent stripe (user/system metrics) |
+| `accent-cyan` | Cyan accent stripe (order/transaction metrics) |
+| `accent-amber` | Amber accent stripe (revenue/pending metrics) |
+| `accent-green` | Green accent stripe (success/completion metrics) |
 
 ## State Mapping
 
