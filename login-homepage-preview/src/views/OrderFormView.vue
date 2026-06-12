@@ -12,7 +12,6 @@ const router = useRouter()
 
 const isEdit = computed(() => route.name === 'order-edit')
 const isView = computed(() => route.name === 'order-detail')
-const isCreate = computed(() => !isEdit.value && !isView.value)
 const pageTitle = computed(() => {
   if (isEdit.value) return t('orders.editTitle')
   if (isView.value) return ''
