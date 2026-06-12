@@ -160,6 +160,58 @@ After completion: list issues found, changes made, checks run.
 
 Extra focus: compact filter area, scannable table, clear batch actions, not too many action columns, empty state with next step, mobile usability.
 
+### Admin List Page — Action Button Placement
+
+Primary action buttons (e.g., "创建", "新增") do not occupy their own row. They are consolidated into existing UI rows:
+
+**Desktop (>=768px):**
+
+The create button lives inside the filter bar row, right-aligned via a spacer element:
+
+```html
+<!-- Filter Bar: Desktop — includes action button -->
+<div class="hidden md:flex flex-wrap items-center gap-3 bg-white rounded-btn border border-neutral-200 p-4 mb-4">
+  <el-input v-model="keyword" :placeholder="searchPlaceholder" :prefix-icon="Search" clearable class="w-64" />
+  <el-select v-model="statusFilter" class="w-28">...</el-select>
+  <el-select v-model="channelFilter" class="w-28">...</el-select>
+  <div class="flex-1"></div>
+  <el-button type="primary" :icon="Plus" @click="router.push('/admin/{entity}/create')">
+    创建{entity}
+  </el-button>
+</div>
+```
+
+Key points:
+- `<div class="flex-1"></div>` pushes the button to the right edge
+- Button keeps text label on desktop — space is available
+- No standalone button row above or below the filter bar
+
+**Mobile (<768px):**
+
+The create button becomes a compact `circle` icon button in the breadcrumb row's top-right corner:
+
+```html
+<div class="flex items-center justify-between mb-4 md:mb-6">
+  <el-breadcrumb separator="/">
+    <el-breadcrumb-item>{entity name}</el-breadcrumb-item>
+  </el-breadcrumb>
+  <el-button
+    type="primary"
+    circle
+    :icon="Plus"
+    size="small"
+    class="md:hidden"
+    @click="router.push('/admin/{entity}/create')"
+  />
+</div>
+```
+
+Key points:
+- `circle` + `:icon="Plus"` — icon-only, no text to save horizontal space
+- `size="small"` — compact but still meets 44px tap target
+- `class="md:hidden"` — hidden on desktop (desktop button is in filter bar)
+- Breadcrumb `mb-4 md:mb-6` moves to the parent flex div — breadcrumb itself loses its margin
+
 ### Action Column Rule
 
 When a table's operation column contains 2+ actions:

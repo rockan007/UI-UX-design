@@ -114,6 +114,7 @@ Check at these widths:
 - [ ] **Action menu:** Card actions in `el-dropdown` with `MoreFilled` icon, `@click.stop` on trigger.
 - [ ] **CSS breakpoints only:** Use `hidden md:block`/`md:hidden` for visibility — no `v-if` with window width.
 - [ ] Primary action is visible on mobile.
+- [ ] **Action button placement:** Desktop create button inside filter bar row (right-aligned via spacer). Mobile create button is circle `+` icon in breadcrumb row top-right (`md:hidden`). No standalone button rows.
 - [ ] Collapsed sidebar has `overflow-x: hidden` to prevent horizontal scrollbar from overflow content.
 
 ## 8. Accessibility
