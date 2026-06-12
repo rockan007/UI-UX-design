@@ -276,12 +276,12 @@ Each form section is an independent card with left accent stripe, replacing the 
 ```html
 <el-form label-position="top" class="flex flex-col gap-4">
   <!-- Section 1 -->
-  <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-blue-600 p-5 md:p-6">
+  <div class="bg-white rounded-r-btn rounded-l-none border border-neutral-200 border-l-[3px] border-l-blue-600 p-5 md:p-6">
     <div class="text-sm font-semibold text-blue-700 mb-4 uppercase tracking-wide">基本信息</div>
     <!-- fields... -->
   </div>
   <!-- Section 2 -->
-  <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-cyan-600 p-5 md:p-6">
+  <div class="bg-white rounded-r-btn rounded-l-none border border-neutral-200 border-l-[3px] border-l-cyan-600 p-5 md:p-6">
     <div class="text-sm font-semibold text-cyan-700 mb-4 uppercase tracking-wide">其他信息</div>
     <!-- fields... -->
   </div>
@@ -583,9 +583,10 @@ On mount, if editing, load existing data and pre-fill the form. On submit, call 
 
 **Form field grouping:**
 
-- **Required fields** first, grouped under a section label (e.g., "基本信息")
-- **Secondary fields** below a divider (`border-t border-neutral-100 pt-4`), grouped under "其他信息"
-- Submit/Cancel buttons in a footer area, also separated by divider
+- **Required fields** first, grouped under a "基本信息" section card with blue left accent stripe (`border-l-blue-600`)
+- **Secondary fields** in a separate "其他信息" section card with cyan left accent stripe (`border-l-cyan-600`)
+- **Section cards** separated by `gap-4`, not dividers (see Admin Form Page supplement above)
+- **Submit/Cancel buttons** in the toolbar row with the breadcrumb at the top of the page (see Admin Form Page supplement above)
 
 **Detail page structure:**
 

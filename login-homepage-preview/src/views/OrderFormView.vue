@@ -151,7 +151,7 @@ async function handleSubmit() {
       @submit.prevent="handleSubmit"
     >
       <!-- Section: 基本信息 -->
-      <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-blue-600 p-5 md:p-6">
+      <div class="bg-white rounded-r-btn rounded-l-none border border-neutral-200 border-l-[3px] border-l-blue-600 p-5 md:p-6">
         <div class="text-sm font-semibold text-blue-700 mb-4 uppercase tracking-wide">{{ $t('基本信息') }}</div>
 
         <!-- Grid row: customer, phone, amount -->
@@ -193,7 +193,7 @@ async function handleSubmit() {
       </div>
 
       <!-- Section: 其他信息 -->
-      <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-cyan-600 p-5 md:p-6">
+      <div class="bg-white rounded-r-btn rounded-l-none border border-neutral-200 border-l-[3px] border-l-cyan-600 p-5 md:p-6">
         <div class="text-sm font-semibold text-cyan-700 mb-4 uppercase tracking-wide">{{ $t('其他信息') }}</div>
 
         <!-- Grid row: deliveryMethod -->
