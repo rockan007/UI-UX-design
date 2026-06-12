@@ -195,6 +195,61 @@ Example for 3 max buttons (width = 130px):
 
 Extra focus: reasonable field grouping, clear required marks, errors near fields, explicit submit feedback, clear cancel/back/save actions, smooth mobile input.
 
+### Admin Dashboard & Stat Pages
+
+Extra focus: container variety, section shading, visual rhythm. Admin pages with multiple data zones must not use uniform white-card styling throughout.
+
+**Container Tier Selection:**
+
+| Content Type | Container Tier | Style |
+| --- | --- | --- |
+| Stat/metric cards | Accent Card | White bg + border + left 3px stripe (`border-l-[3px] border-l-{color} border border-neutral-200 rounded-btn`) |
+| Chart/visualization panels | Raised Panel | White bg + no border + `shadow-sm rounded-btn` |
+| Tables, lists, activity feeds | Standard Block | White bg + border (current default) |
+
+**Stripe Color Assignment:**
+
+- Blue (`#2563eb`): user, traffic, system KPI metrics
+- Cyan (`#0891b2`): order, transaction, processing metrics
+- Amber (`#d97706`): revenue, finance, pending, warning metrics
+- Green (`#16a34a`): success, completion, growth metrics
+
+**Section Shading:**
+
+When a dashboard has 3+ zones (each with a heading), wrap each zone in a tinted container:
+
+```html
+<!-- Example: charts zone with blue tint -->
+<div class="bg-surface-blue rounded-btn p-5 mb-6">
+  <h3 class="text-base font-semibold text-neutral-950 mb-4">Charts</h3>
+  <!-- chart panels inside -->
+</div>
+```
+
+- Use `surface-blue` for user/system zones, `surface-cyan` for order/transaction zones, `surface-amber` for revenue/finance zones, `surface-green` for completion zones, `surface-neutral` for secondary/chart housing zones, `surface-warm` for activity/log zones.
+- Pages with 1-2 zones: no section shading needed — individual containers provide enough variety.
+- Zone backgrounds always use the lightest tint tokens (`*-50` level). Never saturated or dark backgrounds.
+
+**Stat Card Template:**
+
+```html
+<div class="bg-white border border-neutral-200 rounded-btn p-4 hover:shadow-md transition-shadow duration-150"
+     :style="{ borderLeft: '3px solid #2563eb' }">
+  <div class="text-sm text-neutral-500 mb-2">{{ label }}</div>
+  <div class="text-2xl font-bold text-neutral-950 mb-1">{{ value }}</div>
+  <div class="text-sm text-green-600">↑ +12% vs last month</div>
+</div>
+```
+
+**Chart Panel Template (Raised Panel):**
+
+```html
+<div class="bg-white rounded-btn p-5 shadow-sm">
+  <h3 class="text-base font-semibold text-neutral-950 mb-5">Chart Title</h3>
+  <!-- chart content -->
+</div>
+```
+
 ### Detail Page
 
 Extra focus: key info above the fold, visible status and primary action, clear detail groupings, secondary info (history, logs, notes) not competing with primary, easy return to list.
