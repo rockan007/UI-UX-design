@@ -18,7 +18,7 @@ Component hierarchy and Element Plus mapping. Always map UI DSL to these compone
 
 ### Admin Components
 
-`AdminShell` (`AdminLayout` + `AdminHeader` + `AdminSidebar`), `TopBar`, `Breadcrumbs`, `MetricGrid`, `ZoneContainer`, `DataTable`, `FilterBar`, `BulkActionBar`, `DetailPanel`, `AuditTimeline`, `PermissionNotice`
+`AdminShell` (`AdminLayout` + `AdminHeader` + `AdminSidebar`), `TopBar`, `Breadcrumbs`, `MetricGrid`, `ZoneContainer`, `DataTable`, `FilterBar`, `FilterDrawer`, `BulkActionBar`, `DetailPanel`, `AuditTimeline`, `PermissionNotice`
 
 `AdminShell` is the mandatory layout wrapper for all admin pages (under `{admin-prefix}`). See `design-principles.md` Admin Shell Layout section for full structure. The sidebar (`AdminSidebar`) supports multi-level menus via `el-sub-menu`.
 
@@ -66,7 +66,9 @@ Chart rules:
 | --- | --- | --- |
 | `PageHeader` | `PageHeader` | Title, description, primary action |
 | `FilterBar` | `FilterBar` | Filter controls, reset |
+| `FilterDrawer` | `FilterDrawer` | Mobile filter drawer (`el-drawer` direction btt), search + filter button trigger, Apply/Reset |
 | `DataTable` | `DataTable` | Table, pagination, row actions |
+| `CardList` | `CardList` | Mobile card list replacing `el-table` at < 768px, 4-layer card per row, three-dot action menu |
 | `FormSection` | `FormSection` | Grouped form fields |
 | `ActionBar` | `ActionBar` | Save, cancel, batch actions |
 | `EmptyState` | `EmptyState` | Empty data explanation |
@@ -87,7 +89,7 @@ All admin layouts use the shared `AdminLayout` shell. Individual pages only prov
 
 | UI DSL Layout | Composition |
 | --- | --- |
-| `admin-list` | `AdminLayout + PageHeader + FilterBar + DataTable` |
+| `admin-list` | `AdminLayout + PageHeader + FilterBar + DataTable` (desktop ≥ 768px) / `AdminLayout + PageHeader + FilterDrawer + CardList` (mobile < 768px) |
 | `admin-form` | `AdminLayout + PageHeader + FormSection + ActionBar` |
 | `admin-detail` | `AdminLayout + PageHeader + DetailPanel` |
 | `admin-dashboard` | `AdminLayout + PageHeader + MetricGrid + SimpleBarChart + SimpleLineChart` |
