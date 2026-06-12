@@ -232,23 +232,66 @@ When a dashboard has 3+ zones (each with a heading), wrap each zone in a tinted 
 
 **Stat Card Template:**
 
+Stat cards use accent stripes and stand alone on the page background — do NOT wrap them in a tinted zone. The stripe color comes from the data object via `:style`.
+
 ```html
-<div class="bg-white border border-neutral-200 rounded-btn p-4 hover:shadow-md transition-shadow duration-150"
-     :style="{ borderLeft: '3px solid #2563eb' }">
-  <div class="text-sm text-neutral-500 mb-2">{{ label }}</div>
-  <div class="text-2xl font-bold text-neutral-950 mb-1">{{ value }}</div>
-  <div class="text-sm text-green-600">↑ +12% vs last month</div>
+<!-- Stat card grid — no zone wrapper, cards float on page background -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-6">
+  <div class="bg-white border border-neutral-200 rounded-btn p-3 md:p-4
+              hover:shadow-md transition-shadow duration-150 cursor-pointer"
+       :style="{ borderLeft: `3px solid ${m.color}` }">
+    <div class="text-sm text-neutral-500 mb-2">{{ label }}</div>
+    <div class="text-xl md:text-2xl font-bold text-neutral-950 mb-1">{{ value }}</div>
+    <div class="text-sm text-green-600">↑ +12% vs last month</div>
+  </div>
 </div>
 ```
+
+Key points:
+- No zone wrapper — accent stripes already distinguish the cards visually.
+- Responsive: `p-3 md:p-4` for padding, `text-xl md:text-2xl` for value, `gap-3 md:gap-4` for grid spacing.
+- Stripe colors come from the data model, not hardcoded.
 
 **Chart Panel Template (Raised Panel):**
 
 ```html
-<div class="bg-white rounded-btn p-5 shadow-sm">
+<div class="bg-white rounded-btn shadow-sm p-4 md:p-5">
   <h3 class="text-base font-semibold text-neutral-950 mb-5">Chart Title</h3>
   <!-- chart content -->
 </div>
 ```
+
+**Bar Chart — Responsive Width:**
+
+On desktop, bars use fixed width (`md:w-10`) for consistent rhythm. On mobile, bars adapt to fill available space (`flex-1 w-full`) to prevent overflow without scrollbars.
+
+```html
+<div class="flex items-end justify-center gap-3 md:gap-5 h-[200px] px-1 md:px-2">
+  <div v-for="(val, i) in chartValues" :key="i"
+       class="flex-1 md:flex-initial flex flex-col items-center gap-1">
+    <span class="text-xs text-neutral-500">{{ val }}</span>
+    <div class="w-full md:w-10 transition-all duration-150 cursor-pointer hover:brightness-90"
+         :style="{ height: `${(val / max) * 160}px`, background: '...' }"></div>
+    <span class="text-xs text-neutral-400 mt-2">{{ label }}</span>
+  </div>
+</div>
+```
+
+Key points:
+- Bar column: `flex-1 md:flex-initial` — fills space on mobile, natural width on desktop.
+- Bar shape: `w-full md:w-10` — adaptive on mobile, fixed 40px on desktop.
+- Gap: `gap-3 md:gap-5` — tighter on mobile, ratio ~50% on desktop.
+- No horizontal scrollbar — bars shrink to fit instead.
+
+**Zone Wrapper — Responsive Padding:**
+
+```html
+<div class="bg-surface-neutral rounded-btn p-4 md:p-5 mb-4 md:mb-6">
+  <!-- grouped content -->
+</div>
+```
+
+Mobile: 16px padding / 16px bottom margin. Desktop: 20px padding / 24px bottom margin.
 
 ### Detail Page
 

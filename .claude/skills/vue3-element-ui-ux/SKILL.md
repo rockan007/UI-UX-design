@@ -50,7 +50,8 @@ When asked to create or improve a page:
   - Never leave the default English locale — built-in component text must match the project language.
 - Action columns with 2+ buttons: icon-only + `el-tooltip`, column width = `(28 + 8) × maxButtons + 16`.
 - Connector lines (timeline, step) must not have border-radius on the connector side — use directional radius (`rounded-r-*`).
-- Bar charts: gap = 50%–100% of bar width, bar width fixed (not `flex-1`), bar tops straight (no `rounded-t-*`).
+- Bar charts: gap = 50%–100% of bar width, bar tops straight (no `rounded-t-*`). Desktop: fixed `w-10` + `gap-5`. Mobile: `flex-1 w-full` adaptive (no scrollbar). Use `flex-1 md:flex-initial` on column + `w-full md:w-10` on bar.
+- Admin pages use container hierarchy: accent cards (stat/metrics, left 3px stripe), raised panels (charts, `shadow-sm` + no border), standard blocks (tables/forms/lists, border). Zone wrappers use responsive `p-4 md:p-5 mb-4 md:mb-6`. Stat cards stand alone (no zone wrapper).
 - Collapsed sidebar: `overflow-x: hidden` to prevent horizontal scrollbar.
 
 ## Output Pattern

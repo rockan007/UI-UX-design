@@ -35,7 +35,7 @@ Chart rules:
 - Support empty data state.
 - **Bar spacing:** Gap between bars must be 50%–100% of bar width. Sweet spot: gap ≈ 50% of bar width (bar width = 2× gap).
 - **Bar tops must be straight.** No rounded corners on bar/column tops — they obscure exact endpoint values.
-- **Bar width is fixed,** not stretched. Use `w-*` (e.g., `w-10`) rather than `flex-1` to maintain gap:width ratio.
+- **Bar width:** Desktop: fixed `w-10` (40px) with `gap-5` (20px) for 50% ratio. Mobile: `flex-1 w-full` to adapt to narrow screens without scrollbars. Use `flex-1 md:flex-initial` on bar columns and `w-full md:w-10` on the bar itself.
 
 ## Element Plus Mapping
 
