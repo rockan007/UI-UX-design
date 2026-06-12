@@ -74,6 +74,17 @@ For high-frequency operational users. Optimize for efficiency, stability, and sc
 - Confused primary/secondary button hierarchy.
 - Flat uniform card styling across the entire page — vary container treatments per the container tier system.
 
+## Mobile List Pages
+
+At viewports below 768px, admin list pages switch from table to card list layout. Desktop table layout remains unchanged above 768px.
+
+- Each table row becomes a stacked card with 4 layers: primary ID + status, person/entity + amount, attribute tags, meta info + actions.
+- Search input stays visible. Other filters move into a bottom drawer (`el-drawer` direction btt).
+- Pagination simplifies to prev/next buttons with page indicator (`1 / N`).
+- Summary cards use `grid-cols-2` on mobile with compact padding (`p-2.5` vs `p-4`) and smaller type (`text-base` vs `text-2xl`).
+- Action buttons move into a three-dot dropdown (`el-dropdown` with `MoreFilled` icon) to save horizontal space.
+- Use `hidden md:block`/`hidden md:flex` for desktop elements, `md:hidden` for mobile elements. Do not use `v-if` with window width — CSS breakpoints are sufficient.
+
 ## Admin Shell Layout (Mandatory)
 
 All admin pages must use the shared `AdminLayout` shell regardless of their route prefix (`{admin-prefix}`). Never build standalone admin pages with their own sidebar or header.
