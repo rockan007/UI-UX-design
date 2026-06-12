@@ -38,32 +38,30 @@ const timeline = computed(() => {
       <p class="text-sm text-neutral-500 mt-1">{{ t('dashboard.description') }}</p>
     </div>
 
-    <!-- Metric Cards Zone -->
-    <div class="bg-surface-blue rounded-btn p-4 md:p-5 mb-4 md:mb-6">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-        <div
-          v-for="m in metrics"
-          :key="m.labelKey"
-          class="bg-white border border-neutral-200 rounded-btn p-3 md:p-4 hover:shadow-md transition-shadow duration-150 cursor-pointer"
-          :style="{ borderLeft: `3px solid ${m.color}` }"
-        >
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-sm text-neutral-500">{{ t(m.labelKey) }}</span>
-            <el-icon :size="18" color="#737373">
-              <component :is="m.icon" />
-            </el-icon>
-          </div>
-          <div class="text-xl md:text-2xl font-bold text-neutral-950 mb-1">{{ m.value }}</div>
-          <div class="flex items-center gap-1 text-sm" :class="{
-            'text-green-600': m.trend === 'up',
-            'text-red-600': m.trend === 'down',
-            'text-neutral-500': m.trend === 'flat',
-          }">
-            <el-icon v-if="m.trend === 'up'" :size="14"><ArrowUp /></el-icon>
-            <el-icon v-else-if="m.trend === 'down'" :size="14"><ArrowDown /></el-icon>
-            <span>{{ m.change }}</span>
-            <span class="text-neutral-400 text-xs ml-1">{{ t('dashboard.vsLastMonth') }}</span>
-          </div>
+    <!-- Metric Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-6">
+      <div
+        v-for="m in metrics"
+        :key="m.labelKey"
+        class="bg-white border border-neutral-200 rounded-btn p-3 md:p-4 hover:shadow-md transition-shadow duration-150 cursor-pointer"
+        :style="{ borderLeft: `3px solid ${m.color}` }"
+      >
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-sm text-neutral-500">{{ t(m.labelKey) }}</span>
+          <el-icon :size="18" color="#737373">
+            <component :is="m.icon" />
+          </el-icon>
+        </div>
+        <div class="text-xl md:text-2xl font-bold text-neutral-950 mb-1">{{ m.value }}</div>
+        <div class="flex items-center gap-1 text-sm" :class="{
+          'text-green-600': m.trend === 'up',
+          'text-red-600': m.trend === 'down',
+          'text-neutral-500': m.trend === 'flat',
+        }">
+          <el-icon v-if="m.trend === 'up'" :size="14"><ArrowUp /></el-icon>
+          <el-icon v-else-if="m.trend === 'down'" :size="14"><ArrowDown /></el-icon>
+          <span>{{ m.change }}</span>
+          <span class="text-neutral-400 text-xs ml-1">{{ t('dashboard.vsLastMonth') }}</span>
         </div>
       </div>
     </div>
