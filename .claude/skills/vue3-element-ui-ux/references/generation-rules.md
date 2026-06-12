@@ -276,12 +276,12 @@ Each form section is an independent card with left accent stripe, replacing the 
 ```html
 <el-form label-position="top" class="flex flex-col gap-4">
   <!-- Section 1 -->
-  <div class="bg-white rounded-r-btn rounded-l-none border border-neutral-200 border-l-[3px] border-l-blue-600 p-5 md:p-6">
+  <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-blue-600 p-5 md:p-6">
     <div class="text-sm font-semibold text-blue-700 mb-4 uppercase tracking-wide">基本信息</div>
     <!-- fields... -->
   </div>
   <!-- Section 2 -->
-  <div class="bg-white rounded-r-btn rounded-l-none border border-neutral-200 border-l-[3px] border-l-cyan-600 p-5 md:p-6">
+  <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-cyan-600 p-5 md:p-6">
     <div class="text-sm font-semibold text-cyan-700 mb-4 uppercase tracking-wide">其他信息</div>
     <!-- fields... -->
   </div>
