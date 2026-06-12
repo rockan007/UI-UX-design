@@ -69,9 +69,10 @@ Remove `max-w-2xl` constraint. Form content uses the full available width.
 - Desktop fields: `grid grid-cols-1 md:grid-cols-3 gap-4` (3-column grid)
 - Mobile fields: stack to single column naturally (`grid-cols-1`)
 - Full-width fields (textarea, dynamic item list) break out of the 3-column grid and
-  occupy a full row by themselves. They sit between grid rows, not inside them.
-  Example: address textarea (`:rows="2"`), remark textarea (`:rows="2"`), dynamic
-  item list with add/remove buttons — each spans the full card width.
+  occupy a full row by themselves. **Full-width fields are placed at the end of their
+  section** — after the grid-row fields — so short inputs come first and long inputs
+  form a natural visual endpoint. Example: address textarea, remark textarea, dynamic
+  item list with add/remove buttons — each spans the full card width, placed last.
 - `label-position="top"` maintained for all fields
 
 ### 4. Primary/Secondary Button Distinction
