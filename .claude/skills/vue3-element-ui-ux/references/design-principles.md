@@ -85,6 +85,15 @@ At viewports below 768px, admin list pages switch from table to card list layout
 - Action buttons move into a three-dot dropdown (`el-dropdown` with `MoreFilled` icon) to save horizontal space.
 - Use `hidden md:block`/`hidden md:flex` for desktop elements, `md:hidden` for mobile elements. Do not use `v-if` with window width — CSS breakpoints are sufficient.
 
+## Admin CRUD Navigation
+
+- List → Create: "创建" button on list page, navigates to `/admin/{entity}/create`.
+- List → Detail: clicking a row/card navigates to `/admin/{entity}/:id`.
+- Detail → Edit: "编辑" button on detail page, navigates to `/admin/{entity}/:id/edit`.
+- Create/Edit share a single form component, detecting mode via route name.
+- All navigation reflected in breadcrumb, tracking the operation path.
+- Form fields: required fields grouped under "基本信息", secondary fields under "其他信息" with divider.
+
 ## Admin Shell Layout (Mandatory)
 
 All admin pages must use the shared `AdminLayout` shell regardless of their route prefix (`{admin-prefix}`). Never build standalone admin pages with their own sidebar or header.

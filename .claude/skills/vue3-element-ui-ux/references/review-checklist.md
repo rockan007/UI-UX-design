@@ -55,6 +55,10 @@ Then fix the issues. Do not change business logic.
 - [ ] **Shadows restricted:** Only chart/data-viz containers use `shadow-sm`. Tables, forms, stat cards, and list containers do not use shadows.
 - [ ] **Tonal backgrounds restrained:** Zone tint backgrounds use only `*-50` level tokens. No saturated or dark backgrounds.
 - [ ] **Breadcrumb:** Admin pages use `el-breadcrumb` separator `/` instead of `<h1>` header. Last item is current page (not clickable). Earlier items have `:to` links. Reflects operation path, not sidebar hierarchy.
+- [ ] **CRUD breadcrumb:** Create/edit/detail pages have multi-level breadcrumbs reflecting operation path (e.g., `订单管理 / ORD-001 / 编辑`).
+- [ ] **Form grouping:** Required fields first under "基本信息", secondary fields separated by divider under "其他信息".
+- [ ] **Detail page:** Record ID + status in header, info in 2-column cards, action bar at bottom with edit/delete.
+- [ ] **CRUD navigation:** List has "创建" button; row/card click navigates to detail; detail has edit/delete actions. Create and edit share one form component.
 
 ## 4. Form Experience
 

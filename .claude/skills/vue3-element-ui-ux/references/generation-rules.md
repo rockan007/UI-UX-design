@@ -418,3 +418,53 @@ Every admin page starts with an `el-breadcrumb` replacing the traditional `<h1>`
   <el-breadcrumb-item>操作记录</el-breadcrumb-item>
 </el-breadcrumb>
 ```
+
+### Admin CRUD Pattern
+
+Admin entity management follows a standard CRUD flow: list → create → detail → edit.
+
+**Route structure:**
+
+```
+/admin/{entity}              → List page
+/admin/{entity}/create       → Create form
+/admin/{entity}/:id          → Detail page
+/admin/{entity}/:id/edit     → Edit form
+```
+
+**Breadcrumb for CRUD pages:**
+
+- List: `{entity name}`
+- Create: `{entity name} / 创建{entity}`
+- Detail: `{entity name} / {record id}`
+- Edit: `{entity name} / {record id} / 编辑`
+
+**Shared form pattern (create/edit):**
+
+Use the same form component for create and edit. Detect mode via route name:
+
+```typescript
+const isEdit = computed(() => route.name === '{entity}-edit')
+const pageTitle = computed(() => isEdit.value ? '编辑' : '创建')
+```
+
+On mount, if editing, load existing data and pre-fill the form. On submit, call update or create based on mode.
+
+**Form field grouping:**
+
+- **Required fields** first, grouped under a section label (e.g., "基本信息")
+- **Secondary fields** below a divider (`border-t border-neutral-100 pt-4`), grouped under "其他信息"
+- Submit/Cancel buttons in a footer area, also separated by divider
+
+**Detail page structure:**
+
+- Breadcrumb with back navigation
+- Header: record ID + status badge
+- Detail cards: 2-column grid for key info (`grid grid-cols-1 md:grid-cols-2 gap-4`)
+- Secondary info card (full-width, conditional)
+- Action bar: Edit + Delete buttons
+
+**List page integration:**
+
+- "创建" button: desktop above table (`hidden md:flex justify-end`), mobile above card list (`flex md:hidden justify-end`)
+- Row/card click navigates to detail: `@row-click` on `el-table`, `@click` + `cursor-pointer` on card
