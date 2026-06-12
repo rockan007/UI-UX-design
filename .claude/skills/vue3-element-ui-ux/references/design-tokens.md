@@ -29,10 +29,34 @@ Exact values for all visual properties. Do not guess colors, spacing, or font si
 
 | Token | Value | Usage |
 | --- | --- | --- |
-| `success` | `#16a34a` | Success badge, toast |
+| `success` | `#16a34a` | Success badge, completion, positive growth |
 | `danger` | `#dc2626` | Delete button, error text |
-| `warning` | `#d97706` | Warning badge |
-| `info` | `#0891b2` | Info badge, tooltip |
+| `warning` | `#d97706` | Warning badge, pending items, revenue/finance |
+| `info` | `#0891b2` | Info badge, tooltip, orders/transactions |
+
+### Tonal Backgrounds
+
+Light tinted backgrounds for zone shading and colored card surfaces on admin pages.
+
+| Token | Value | Usage |
+| --- | --- | --- |
+| `surface-blue` | `#eff6ff` | Blue-tinted zone/card background (user, system metrics) |
+| `surface-cyan` | `#ecfeff` | Cyan-tinted zone/card background (order, transaction metrics) |
+| `surface-amber` | `#fffbeb` | Amber-tinted zone/card background (revenue, pending, warning metrics) |
+| `surface-green` | `#f0fdf4` | Green-tinted zone/card background (success, completion metrics) |
+| `surface-warm` | `#fafaf9` | Warm-gray zone background (activity feeds, logs) |
+| `surface-neutral` | `#f5f5f5` | Neutral-gray zone background (chart housing, secondary sections) |
+
+### Tonal Borders
+
+Matching border colors for tonal card surfaces.
+
+| Token | Value | Usage |
+| --- | --- | --- |
+| `border-blue` | `#bfdbfe` | Blue zone/card border |
+| `border-cyan` | `#a5f3fc` | Cyan card border |
+| `border-amber` | `#fde68a` | Amber card border |
+| `border-green` | `#bbf7d0` | Green card border |
 
 ### Rules
 
@@ -107,9 +131,22 @@ Only neutrals invert. Brand and semantic colors stay the same:
 | `radius-xl` | `12px` | Drawers, large cards |
 | `radius-full` | `9999px` | Badge pills, avatars |
 
+## Accent Stripes
+
+Stat/metric cards in admin pages use a 3px left border stripe to differentiate data categories:
+
+| Color | Value | Semantic | Example Metrics |
+| --- | --- | --- | --- |
+| Blue | `#2563eb` | Neutral-positive | Users, traffic, system KPIs |
+| Cyan | `#0891b2` | Flow/in-progress | Orders, transactions, processing |
+| Amber | `#d97706` | Attention needed | Revenue, finance, pending items, warnings |
+| Green | `#16a34a` | Positive/complete | Completion rate, success rate, growth |
+
+Usage: `border-left: 3px solid {color}` + standard card border on remaining sides.
+
 ## Shadows
 
-Only 3 levels, only for overlay components:
+### Overlay Shadows (dialog, drawer, dropdown)
 
 | Level | Value | Usage |
 | --- | --- | --- |
@@ -117,7 +154,11 @@ Only 3 levels, only for overlay components:
 | `shadow-md` | `0 4px 6px rgba(0,0,0,0.04), 0 2px 4px rgba(0,0,0,0.06)` | Dialog, popover |
 | `shadow-lg` | `0 10px 15px rgba(0,0,0,0.06), 0 4px 6px rgba(0,0,0,0.06)` | Drawer, sheet |
 
-No decorative shadows on cards, tables, forms, or content areas.
+### Container Shadows (admin chart panels only)
+
+`shadow-sm` may also be used on chart containers and data visualization panels to create a raised effect distinct from data tables. Stat/metric cards, tables, forms, and list containers must not use shadows.
+
+No decorative shadows on cards, tables, forms, or content areas — except chart containers as noted above.
 
 ## Animation
 
