@@ -389,3 +389,32 @@ Desktop pagination inside the table container uses `hidden md:flex` wrapper and 
 ### Detail Page
 
 Extra focus: key info above the fold, visible status and primary action, clear detail groupings, secondary info (history, logs, notes) not competing with primary, easy return to list.
+
+### Breadcrumb Navigation
+
+Every admin page starts with an `el-breadcrumb` replacing the traditional `<h1>` header. The separator is `/`. Spacing: `mb-4 md:mb-6`.
+
+**Rule:** Breadcrumbs reflect the functional operation path, NOT the sidebar menu hierarchy.
+
+- Level 1 = current menu entry page (e.g. "用户列表", "订单管理")
+- Level 2+ = operation depth (create form, detail record, sub-operation)
+- Last level = current page, plain text, not clickable
+- Previous levels = clickable `:to` links navigating to their respective pages
+
+**Single-level (menu entry page):**
+
+```html
+<el-breadcrumb separator="/" class="mb-4 md:mb-6">
+  <el-breadcrumb-item>{{ pageTitle }}</el-breadcrumb-item>
+</el-breadcrumb>
+```
+
+**Multi-level (deeper pages):**
+
+```html
+<el-breadcrumb separator="/" class="mb-4 md:mb-6">
+  <el-breadcrumb-item :to="{ path: '/admin/users/list' }">用户列表</el-breadcrumb-item>
+  <el-breadcrumb-item :to="{ path: '/admin/users/detail/ORD-001' }">ORD-001</el-breadcrumb-item>
+  <el-breadcrumb-item>操作记录</el-breadcrumb-item>
+</el-breadcrumb>
+```

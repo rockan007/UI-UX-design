@@ -54,6 +54,7 @@ Then fix the issues. Do not change business logic.
 - [ ] **Section shading:** Pages with 3+ zones use tinted `surface-*` wrappers for visual grouping. Pages with 1-2 zones stay flat.
 - [ ] **Shadows restricted:** Only chart/data-viz containers use `shadow-sm`. Tables, forms, stat cards, and list containers do not use shadows.
 - [ ] **Tonal backgrounds restrained:** Zone tint backgrounds use only `*-50` level tokens. No saturated or dark backgrounds.
+- [ ] **Breadcrumb:** Admin pages use `el-breadcrumb` separator `/` instead of `<h1>` header. Last item is current page (not clickable). Earlier items have `:to` links. Reflects operation path, not sidebar hierarchy.
 
 ## 4. Form Experience
 

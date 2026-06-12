@@ -57,6 +57,7 @@ Chart rules:
 | `Toast` | `Toast` | `ElMessage` |
 | `Tabs` | `Tabs` | `ElTabs` |
 | `Table` | `Table` | `ElTable` |
+| `Breadcrumb` | `Breadcrumb` | `ElBreadcrumb` + `ElBreadcrumbItem` |
 | `Skeleton` | `Skeleton` | `ElSkeleton` |
 | `LocaleSwitcher` | `LocaleSwitcher` | `ElDropdown` + `ElDropdownMenu` + `ElDropdownItem` |
 
