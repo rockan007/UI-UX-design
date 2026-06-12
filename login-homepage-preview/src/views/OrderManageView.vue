@@ -125,11 +125,10 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
 
 <template>
   <div>
-    <!-- Page Header -->
-    <div class="mb-6">
-      <h1 class="text-2xl font-semibold text-neutral-950">{{ t('orders.title') }}</h1>
-      <p class="text-sm text-neutral-500 mt-1">{{ t('orders.description') }}</p>
-    </div>
+    <!-- Breadcrumb -->
+    <el-breadcrumb separator="/" class="mb-4 md:mb-6">
+      <el-breadcrumb-item>{{ t('orders.title') }}</el-breadcrumb-item>
+    </el-breadcrumb>
 
     <!-- Summary Cards -->
     <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 mb-4">

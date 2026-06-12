@@ -32,11 +32,10 @@ const timeline = computed(() => {
 
 <template>
   <div>
-    <!-- Page Header -->
-    <div class="mb-4 md:mb-6">
-      <h1 class="text-2xl font-semibold text-neutral-950">{{ t('dashboard.title') }}</h1>
-      <p class="text-sm text-neutral-500 mt-1">{{ t('dashboard.description') }}</p>
-    </div>
+    <!-- Breadcrumb -->
+    <el-breadcrumb separator="/" class="mb-4 md:mb-6">
+      <el-breadcrumb-item>{{ t('dashboard.title') }}</el-breadcrumb-item>
+    </el-breadcrumb>
 
     <!-- Metric Cards -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-4 md:mb-6">

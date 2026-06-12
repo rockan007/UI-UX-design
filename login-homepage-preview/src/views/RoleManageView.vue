@@ -5,12 +5,11 @@ const { t } = useI18n()
 
 <template>
   <div>
-    <div class="mb-6">
-      <h1 class="text-2xl font-semibold text-neutral-950">{{ t('users.roles.title') }}</h1>
-      <p class="text-sm text-neutral-500 mt-1">{{ t('users.roles.description') }}</p>
-    </div>
-    <div class="bg-white rounded-btn border border-neutral-200 p-12 flex items-center justify-center">
-      <p class="text-neutral-500 text-sm">{{ t('users.roles.placeholder') }}</p>
+    <el-breadcrumb separator="/" class="mb-4 md:mb-6">
+      <el-breadcrumb-item>{{ t('users.roles.title') }}</el-breadcrumb-item>
+    </el-breadcrumb>
+    <div class="bg-white rounded-btn border border-neutral-200 p-8 text-center text-sm text-neutral-500">
+      {{ t('users.roles.placeholder') }}
     </div>
   </div>
 </template>
