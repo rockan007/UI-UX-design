@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Search, Edit, Delete, View } from '@element-plus/icons-vue'
+import { Search, Edit, Delete, View, Operation, MoreFilled } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { TableColumnCtx } from 'element-plus'
 
@@ -56,6 +56,7 @@ const statusFilter = ref<'all' | OrderStatus>('all')
 const channelFilter = ref<'all' | 'APP' | '网页' | '小程序'>('all')
 const currentPage = ref(1)
 const pageSize = ref(8)
+const filterDrawerVisible = ref(false)
 
 // ── Computed ────────────────────────────────────────
 const filteredOrders = computed(() => {
@@ -109,6 +110,12 @@ const handleDelete = (row: Order) => {
     .catch(() => { /* cancelled */ })
 }
 
+const handleCardAction = (cmd: string, row: Order) => {
+  if (cmd === 'view') handleView(row)
+  else if (cmd === 'edit') handleEdit(row)
+  else if (cmd === 'delete') handleDelete(row)
+}
+
 const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
   return column.property === 'status'
     ? { textAlign: 'center' as const }
@@ -125,58 +132,110 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
     </div>
 
     <!-- Summary Cards -->
-    <div class="grid grid-cols-3 gap-4 mb-4">
-      <div class="bg-white rounded-btn border border-neutral-200 p-4">
-        <div class="text-sm text-neutral-500 mb-1">{{ t('orders.totalOrders') }}</div>
-        <div class="text-2xl font-bold text-neutral-950">{{ summary.totalOrders }}</div>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 mb-4">
+      <div class="bg-white rounded-btn border border-neutral-200 p-2.5 md:p-4">
+        <div class="text-[10px] md:text-sm text-neutral-500 mb-0.5 md:mb-1">{{ t('orders.totalOrders') }}</div>
+        <div class="text-base md:text-2xl font-bold text-neutral-950">{{ summary.totalOrders }}</div>
       </div>
-      <div class="bg-white rounded-btn border border-neutral-200 p-4">
-        <div class="text-sm text-neutral-500 mb-1">{{ t('orders.pendingOrders') }}</div>
-        <div class="text-2xl font-bold text-warning-600" style="color: #d97706">{{ summary.pendingCount }}</div>
+      <div class="bg-white rounded-btn border border-neutral-200 p-2.5 md:p-4">
+        <div class="text-[10px] md:text-sm text-neutral-500 mb-0.5 md:mb-1">{{ t('orders.pendingOrders') }}</div>
+        <div class="text-base md:text-2xl font-bold" style="color: #d97706">{{ summary.pendingCount }}</div>
       </div>
-      <div class="bg-white rounded-btn border border-neutral-200 p-4">
-        <div class="text-sm text-neutral-500 mb-1">{{ t('orders.completedRevenue') }}</div>
-        <div class="text-2xl font-bold text-green-600">{{ $n(summary.totalRevenue, 'currency') }}</div>
-      </div>
-    </div>
-
-    <!-- Filter Bar -->
-    <div class="bg-white rounded-btn border border-neutral-200 p-4 mb-4">
-      <div class="flex flex-wrap items-center gap-3">
-        <el-input
-          v-model="searchKeyword"
-          :placeholder="t('orders.searchPlaceholder')"
-          :prefix-icon="Search"
-          clearable
-          class="w-64"
-          @input="handleSearch"
-          @clear="handleSearch"
-        />
-        <el-select
-          v-model="statusFilter"
-          :placeholder="t('orders.filterByStatus')"
-          class="w-28"
-          @change="handleFilterChange"
-        >
-          <el-option :label="t('common.all')" value="all" />
-          <el-option v-for="(cfg, key) in statusMap" :key="key" :label="t(cfg.labelKey)" :value="key" />
-        </el-select>
-        <el-select
-          v-model="channelFilter"
-          :placeholder="t('orders.filterByChannel')"
-          class="w-28"
-          @change="handleFilterChange"
-        >
-          <el-option :label="t('common.all')" value="all" />
-          <el-option label="APP" value="APP" />
-          <el-option :label="t('orders.channel.web')" value="网页" />
-          <el-option :label="t('orders.channel.miniprogram')" value="小程序" />
-        </el-select>
+      <div class="bg-white rounded-btn border border-neutral-200 p-2.5 md:p-4">
+        <div class="text-[10px] md:text-sm text-neutral-500 mb-0.5 md:mb-1">{{ t('orders.completedRevenue') }}</div>
+        <div class="text-base md:text-2xl font-bold text-green-600">{{ $n(summary.totalRevenue, 'currency') }}</div>
       </div>
     </div>
 
-    <!-- Data Table -->
-    <div class="bg-white rounded-btn border border-neutral-200">
+    <!-- Filter Bar: Desktop inline -->
+    <div class="hidden md:flex flex-wrap items-center gap-3 bg-white rounded-btn border border-neutral-200 p-4 mb-4">
+      <el-input
+        v-model="searchKeyword"
+        :placeholder="t('orders.searchPlaceholder')"
+        :prefix-icon="Search"
+        clearable
+        class="w-64"
+        @input="handleSearch"
+        @clear="handleSearch"
+      />
+      <el-select
+        v-model="statusFilter"
+        :placeholder="t('orders.filterByStatus')"
+        class="w-28"
+        @change="handleFilterChange"
+      >
+        <el-option :label="t('common.all')" value="all" />
+        <el-option v-for="(cfg, key) in statusMap" :key="key" :label="t(cfg.labelKey)" :value="key" />
+      </el-select>
+      <el-select
+        v-model="channelFilter"
+        :placeholder="t('orders.filterByChannel')"
+        class="w-28"
+        @change="handleFilterChange"
+      >
+        <el-option :label="t('common.all')" value="all" />
+        <el-option label="APP" value="APP" />
+        <el-option :label="t('orders.channel.web')" value="网页" />
+        <el-option :label="t('orders.channel.miniprogram')" value="小程序" />
+      </el-select>
+    </div>
+
+    <!-- Filter Bar: Mobile search + drawer trigger -->
+    <div class="flex md:hidden items-center gap-2 mb-3">
+      <el-input
+        v-model="searchKeyword"
+        :placeholder="t('orders.searchPlaceholder')"
+        :prefix-icon="Search"
+        clearable
+        class="flex-1"
+        size="default"
+        @input="handleSearch"
+        @clear="handleSearch"
+      />
+      <el-button @click="filterDrawerVisible = true">
+        <el-icon class="mr-1"><Operation /></el-icon>
+        {{ t('common.filter') }}
+      </el-button>
+    </div>
+
+    <!-- Filter Drawer (mobile) -->
+    <el-drawer
+      v-model="filterDrawerVisible"
+      :title="t('common.filter')"
+      direction="btt"
+      size="auto"
+      :with-header="true"
+    >
+      <div class="flex flex-col gap-4 px-2">
+        <div>
+          <div class="text-sm font-medium text-neutral-950 mb-2">{{ t('orders.filterByStatus') }}</div>
+          <el-select v-model="statusFilter" class="w-full" @change="handleFilterChange">
+            <el-option :label="t('common.all')" value="all" />
+            <el-option v-for="(cfg, key) in statusMap" :key="key" :label="t(cfg.labelKey)" :value="key" />
+          </el-select>
+        </div>
+        <div>
+          <div class="text-sm font-medium text-neutral-950 mb-2">{{ t('orders.filterByChannel') }}</div>
+          <el-select v-model="channelFilter" class="w-full" @change="handleFilterChange">
+            <el-option :label="t('common.all')" value="all" />
+            <el-option label="APP" value="APP" />
+            <el-option :label="t('orders.channel.web')" value="网页" />
+            <el-option :label="t('orders.channel.miniprogram')" value="小程序" />
+          </el-select>
+        </div>
+        <div class="flex gap-3 mt-4">
+          <el-button class="flex-1" @click="statusFilter = 'all'; channelFilter = 'all'; handleFilterChange()">
+            {{ t('common.reset') }}
+          </el-button>
+          <el-button type="primary" class="flex-1" @click="filterDrawerVisible = false">
+            {{ t('common.apply') }}
+          </el-button>
+        </div>
+      </div>
+    </el-drawer>
+
+    <!-- Data Table: Desktop -->
+    <div class="hidden md:block bg-white rounded-btn border border-neutral-200">
       <el-table
         :data="pagedOrders"
         :cell-style="cellStyle"
@@ -250,8 +309,8 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
         </el-table-column>
       </el-table>
 
-      <!-- Pagination -->
-      <div class="flex justify-end px-4 py-3 border-t border-neutral-100">
+      <!-- Pagination: Desktop -->
+      <div class="hidden md:flex justify-end px-4 py-3 border-t border-neutral-100">
         <el-pagination
           v-model:current-page="currentPage"
           v-model:page-size="pageSize"
@@ -261,6 +320,84 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
           background
         />
       </div>
+    </div>
+
+    <!-- Card List: Mobile -->
+    <div class="md:hidden flex flex-col gap-2 mb-3">
+      <div v-if="pagedOrders.length === 0" class="bg-white rounded-btn border border-neutral-200 p-8 text-center text-sm text-neutral-500">
+        {{ t('orders.empty') }}
+      </div>
+      <div
+        v-for="order in pagedOrders"
+        :key="order.id"
+        class="bg-white rounded-btn border border-neutral-200 p-3"
+      >
+        <!-- Layer 1: ID + Status -->
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-brand-600">{{ order.id }}</span>
+          <el-tag :type="statusMap[order.status].type" size="small" effect="light">
+            {{ t(statusMap[order.status].labelKey) }}
+          </el-tag>
+        </div>
+        <!-- Layer 2: Customer + Amount -->
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-sm text-neutral-700">{{ order.customer }} · {{ order.phone }}</span>
+          <span class="text-sm font-semibold text-neutral-950">{{ $n(order.total, 'currency') }}</span>
+        </div>
+        <!-- Layer 3: Item tags -->
+        <div class="flex flex-wrap gap-1 mb-2">
+          <el-tag v-for="(item, i) in order.items.slice(0, 2)" :key="i" size="small" effect="plain" type="info">
+            {{ item }}
+          </el-tag>
+          <el-tag v-if="order.items.length > 2" size="small" effect="plain" type="info">
+            +{{ order.items.length - 2 }}
+          </el-tag>
+        </div>
+        <!-- Layer 4: Channel + Time + Actions -->
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] text-neutral-400">{{ order.channel }} · {{ order.createdAt }}</span>
+          <el-dropdown trigger="click" @command="(cmd: string) => handleCardAction(cmd, order)">
+            <el-button link size="small" class="text-neutral-500" @click.stop>
+              <el-icon :size="18"><MoreFilled /></el-icon>
+            </el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="view">
+                  <el-icon :size="14" class="mr-1"><View /></el-icon>
+                  {{ t('common.view') }}
+                </el-dropdown-item>
+                <el-dropdown-item v-if="order.status === 'pending' || order.status === 'paid'" command="edit">
+                  <el-icon :size="14" class="mr-1"><Edit /></el-icon>
+                  {{ t('common.edit') }}
+                </el-dropdown-item>
+                <el-dropdown-item command="delete" divided>
+                  <el-icon :size="14" class="mr-1" color="#dc2626"><Delete /></el-icon>
+                  <span class="text-red-600">{{ t('common.delete') }}</span>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination: Mobile -->
+    <div class="flex md:hidden items-center justify-center gap-3 mb-4">
+      <el-button
+        size="small"
+        :disabled="currentPage <= 1"
+        @click="currentPage--"
+      >
+        ‹ {{ t('common.prev') }}
+      </el-button>
+      <span class="text-sm text-neutral-500">{{ currentPage }} / {{ Math.ceil(total / pageSize) || 1 }}</span>
+      <el-button
+        size="small"
+        :disabled="currentPage >= Math.ceil(total / pageSize)"
+        @click="currentPage++"
+      >
+        {{ t('common.next') }} ›
+      </el-button>
     </div>
   </div>
 </template>
