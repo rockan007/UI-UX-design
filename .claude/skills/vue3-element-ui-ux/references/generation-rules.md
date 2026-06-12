@@ -293,6 +293,99 @@ Key points:
 
 Mobile: 16px padding / 16px bottom margin. Desktop: 20px padding / 24px bottom margin.
 
+### Admin List Page — Mobile Card List
+
+At viewports below 768px, admin list pages switch from `el-table` to a card list using `hidden md:block` for desktop elements and `md:hidden` for mobile elements. No JavaScript window-width detection — CSS breakpoints only.
+
+**Summary Cards (mobile):**
+- Grid: `grid-cols-2 md:grid-cols-3 gap-2 md:gap-4`
+- Padding: `p-2.5 md:p-4`
+- Label font: `text-[10px] md:text-sm`
+- Value font: `text-base md:text-2xl`
+
+**Filter Bar (mobile):**
+- Desktop: inline filter bar with `hidden md:flex` (current layout unchanged)
+- Mobile: search input (`flex-1`) + filter button triggers `el-drawer` (`direction="btt"`, `size="auto"`)
+- Drawer contains all filter dropdowns stacked vertically, with "Apply" and "Reset" buttons
+- Import `Operation` icon from `@element-plus/icons-vue` for the filter button
+
+**Card Structure (4 layers per card):**
+
+```html
+<div class="bg-white rounded-btn border border-neutral-200 p-3">
+  <!-- Layer 1: Primary ID + Status badge -->
+  <div class="flex items-center justify-between mb-2">
+    <span class="text-xs font-semibold text-brand-600">{{ row.id }}</span>
+    <el-tag :type="statusType" size="small" effect="light">{{ statusLabel }}</el-tag>
+  </div>
+  <!-- Layer 2: Person/Entity + Amount -->
+  <div class="flex items-center justify-between mb-2">
+    <span class="text-sm text-neutral-700">{{ row.customer }} · {{ row.phone }}</span>
+    <span class="text-sm font-semibold text-neutral-950">{{ formattedAmount }}</span>
+  </div>
+  <!-- Layer 3: Attribute tags (max 2 + "+N") -->
+  <div class="flex flex-wrap gap-1 mb-2">
+    <el-tag v-for="(item, i) in row.items.slice(0, 2)" :key="i" size="small" effect="plain" type="info">
+      {{ item }}
+    </el-tag>
+    <el-tag v-if="row.items.length > 2" size="small" effect="plain" type="info">+{{ row.items.length - 2 }}</el-tag>
+  </div>
+  <!-- Layer 4: Meta info + Three-dot action menu -->
+  <div class="flex items-center justify-between">
+    <span class="text-[10px] text-neutral-400">{{ row.channel }} · {{ row.createdAt }}</span>
+    <el-dropdown trigger="click" @command="(cmd) => handleCardAction(cmd, row)">
+      <el-button link size="small" class="text-neutral-500" @click.stop>
+        <el-icon :size="18"><MoreFilled /></el-icon>
+      </el-button>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item command="view">
+            <el-icon :size="14" class="mr-1"><View /></el-icon> View
+          </el-dropdown-item>
+          <el-dropdown-item command="edit">
+            <el-icon :size="14" class="mr-1"><Edit /></el-icon> Edit
+          </el-dropdown-item>
+          <el-dropdown-item command="delete" divided>
+            <el-icon :size="14" class="mr-1" color="#dc2626"><Delete /></el-icon>
+            <span class="text-red-600">Delete</span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+  </div>
+</div>
+```
+
+**Card Action Handler:**
+
+```typescript
+const handleCardAction = (cmd: string, row: RowType) => {
+  if (cmd === 'view') handleView(row)
+  else if (cmd === 'edit') handleEdit(row)
+  else if (cmd === 'delete') handleDelete(row)
+}
+```
+
+Uses `MoreFilled` from `@element-plus/icons-vue` for the three-dot icon. `@click.stop` on the dropdown trigger prevents card-level click propagation.
+
+**Pagination (mobile):**
+
+```html
+<div class="flex md:hidden items-center justify-center gap-3 mb-4">
+  <el-button size="small" :disabled="currentPage <= 1" @click="currentPage--">
+    ‹ Prev
+  </el-button>
+  <span class="text-sm text-neutral-500">{{ currentPage }} / {{ totalPages || 1 }}</span>
+  <el-button size="small" :disabled="currentPage >= totalPages" @click="currentPage++">
+    Next ›
+  </el-button>
+</div>
+```
+
+Desktop pagination inside the table container uses `hidden md:flex` wrapper and keeps full `el-pagination`.
+
+**Visibility control:** Use Tailwind responsive display classes — `hidden md:block` / `hidden md:flex` for desktop-only elements, `md:hidden` for mobile-only elements.
+
 ### Detail Page
 
 Extra focus: key info above the fold, visible status and primary action, clear detail groupings, secondary info (history, logs, notes) not competing with primary, easy return to list.
