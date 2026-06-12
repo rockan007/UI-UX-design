@@ -131,7 +131,29 @@
     "deletedMessage": "已删除订单 {id}",
     "viewDetail": "查看订单详情：{id}",
     "processOrder": "处理订单：{id}",
-    "moreItems": "+{count}"
+    "moreItems": "+{count}",
+    "createTitle": "创建订单",
+    "editTitle": "编辑订单",
+    "detailTitle": "订单详情",
+    "createSuccess": "订单创建成功",
+    "updateSuccess": "订单更新成功",
+    "fields": {
+      "customer": "客户名称",
+      "phone": "手机号",
+      "items": "商品清单",
+      "itemsAdd": "添加商品",
+      "itemName": "商品名称",
+      "amount": "金额",
+      "channel": "下单渠道",
+      "address": "收货地址",
+      "addressPlaceholder": "请输入收货地址",
+      "deliveryMethod": "配送方式",
+      "deliveryExpress": "快递",
+      "deliveryPickup": "自提",
+      "deliveryLocal": "同城配送",
+      "remark": "备注",
+      "remarkPlaceholder": "订单备注信息"
+    }
   },
   "users": {
     "list": {

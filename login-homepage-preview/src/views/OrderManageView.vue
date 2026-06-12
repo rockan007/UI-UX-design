@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Search, Edit, Delete, View, Operation, MoreFilled } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
+import { Search, Edit, Delete, View, Operation, MoreFilled, Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { TableColumnCtx } from 'element-plus'
 
 const { t } = useI18n()
+const router = useRouter()
 
 // ── Types ───────────────────────────────────────────
 type OrderStatus = 'pending' | 'paid' | 'shipped' | 'completed' | 'refunded' | 'cancelled'
@@ -39,6 +41,9 @@ const mockOrders: Order[] = [
   { id: 'ORD-20260608-014', customer: '韩冰', phone: '135****8899', items: ['Apple Watch SE', '表带'], total: 2598, status: 'shipped', channel: 'APP', createdAt: '2026-06-08 08:55' },
   { id: 'ORD-20260608-015', customer: '朱晓东', phone: '189****0011', items: ['Vision Pro'], total: 29999, status: 'paid', channel: '小程序', createdAt: '2026-06-08 09:20' },
 ]
+
+// Share mock data across pages for demo
+;(window as any).__mockOrders = mockOrders
 
 // ── Status Config ───────────────────────────────────
 const statusMap: Record<string, { labelKey: string; type: string }> = {
@@ -129,6 +134,13 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
     <el-breadcrumb separator="/" class="mb-4 md:mb-6">
       <el-breadcrumb-item>{{ t('orders.title') }}</el-breadcrumb-item>
     </el-breadcrumb>
+
+    <!-- Create Button: Desktop -->
+    <div class="hidden md:flex items-center justify-end mb-3">
+      <el-button type="primary" :icon="Plus" @click="router.push('/admin/orders/create')">
+        {{ t('orders.createTitle') }}
+      </el-button>
+    </div>
 
     <!-- Summary Cards -->
     <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 mb-4">
@@ -242,6 +254,7 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
         :empty-text="t('orders.empty')"
         row-key="id"
         stripe
+        @row-click="(row: Order) => router.push(`/admin/orders/${row.id}`)"
       >
         <el-table-column prop="id" :label="t('orders.columns.orderNo')" width="200" />
         <el-table-column prop="customer" :label="t('orders.columns.customer')" width="100" />
@@ -321,6 +334,13 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
       </div>
     </div>
 
+    <!-- Create Button: Mobile -->
+    <div class="flex md:hidden justify-end mb-2">
+      <el-button type="primary" size="small" :icon="Plus" @click="router.push('/admin/orders/create')">
+        {{ t('orders.createTitle') }}
+      </el-button>
+    </div>
+
     <!-- Card List: Mobile -->
     <div class="md:hidden flex flex-col gap-2 mb-3">
       <div v-if="pagedOrders.length === 0" class="bg-white rounded-btn border border-neutral-200 p-8 text-center text-sm text-neutral-500">
@@ -329,7 +349,8 @@ const cellStyle = ({ column }: { column: TableColumnCtx<Order> }) => {
       <div
         v-for="order in pagedOrders"
         :key="order.id"
-        class="bg-white rounded-btn border border-neutral-200 p-3"
+        class="bg-white rounded-btn border border-neutral-200 p-3 cursor-pointer"
+        @click="router.push(`/admin/orders/${order.id}`)"
       >
         <!-- Layer 1: ID + Status -->
         <div class="flex items-center justify-between mb-2">

@@ -7,6 +7,8 @@ import UserListView from '../views/UserListView.vue'
 import RoleManageView from '../views/RoleManageView.vue'
 import PermissionView from '../views/PermissionView.vue'
 import OrderManageView from '../views/OrderManageView.vue'
+import OrderFormView from '../views/OrderFormView.vue'
+import OrderDetailView from '../views/OrderDetailView.vue'
 import SettingsView from '../views/SettingsView.vue'
 
 const router = createRouter({
@@ -51,6 +53,21 @@ const router = createRouter({
           path: 'orders',
           name: 'order-manage',
           component: OrderManageView,
+        },
+        {
+          path: 'orders/create',
+          name: 'order-create',
+          component: OrderFormView,
+        },
+        {
+          path: 'orders/:id',
+          name: 'order-detail',
+          component: OrderDetailView,
+        },
+        {
+          path: 'orders/:id/edit',
+          name: 'order-edit',
+          component: OrderFormView,
         },
         {
           path: 'settings',

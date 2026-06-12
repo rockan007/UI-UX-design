@@ -131,7 +131,29 @@
     "deletedMessage": "Order {id} deleted",
     "viewDetail": "View order: {id}",
     "processOrder": "Process order: {id}",
-    "moreItems": "+{count}"
+    "moreItems": "+{count}",
+    "createTitle": "Create Order",
+    "editTitle": "Edit Order",
+    "detailTitle": "Order Detail",
+    "createSuccess": "Order created successfully",
+    "updateSuccess": "Order updated successfully",
+    "fields": {
+      "customer": "Customer Name",
+      "phone": "Phone",
+      "items": "Items",
+      "itemsAdd": "Add Item",
+      "itemName": "Item Name",
+      "amount": "Amount",
+      "channel": "Channel",
+      "address": "Shipping Address",
+      "addressPlaceholder": "Enter shipping address",
+      "deliveryMethod": "Delivery Method",
+      "deliveryExpress": "Express",
+      "deliveryPickup": "Pickup",
+      "deliveryLocal": "Local Delivery",
+      "remark": "Remark",
+      "remarkPlaceholder": "Order notes"
+    }
   },
   "users": {
     "list": {
