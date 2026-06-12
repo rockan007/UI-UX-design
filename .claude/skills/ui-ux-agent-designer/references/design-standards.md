@@ -86,7 +86,8 @@ Avoid:
 
 - Keep admin border radius around 6px to 8px unless the project already differs.
 - Use shadows for overlays, dropdowns, dialogs, and floating menus.
-- Do not make every section a floating card.
+- Data visualization panels may use subtle elevation to distinguish from data tables.
+- Do not make every section a floating card — vary container treatments for visual rhythm.
 
 ### Buttons
 
@@ -175,7 +176,7 @@ step progress connector, tree branch line), that edge's corner must remain sharp
 - Clickable data points: `cursor: pointer`.
 - Empty data: show empty state, not blank area.
 - **Bar spacing:** Gap between bars should be 50%–100% of bar width. Sweet spot: ~50% (bar width ≈ 2× gap).
-- **Bar width is fixed,** not stretched across the container. Stretched bars lose rhythm between discrete data points.
+- **Bar width:** Fixed width on desktop (preserves rhythm between discrete data points). On narrow screens, bars may adapt to fill available width to prevent overflow or scrollbars.
 - **Bar tops must be straight.** Never use rounded corners on bar/column tops — they obscure exact endpoint values.
 
 ### Forms
