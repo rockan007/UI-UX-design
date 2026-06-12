@@ -102,6 +102,12 @@ Check at these widths:
 - [ ] Tap targets are large enough.
 - [ ] Filters, menus, dialogs are usable.
 - [ ] Tables have a mobile solution (card list or horizontal scroll).
+- [ ] **Mobile card list:** Admin list pages switch from `el-table` to card list below 768px. Each card shows 4 layers: primary ID + status, person + amount, tags, meta + actions.
+- [ ] **Filter drawer:** Search input visible on mobile; other filters in bottom drawer (`el-drawer` direction btt) with Apply/Reset buttons.
+- [ ] **Mobile pagination:** Simplified prev/next with page indicator (`1 / N`), no page-size selector or total count on mobile.
+- [ ] **Summary cards responsive:** `grid-cols-2 md:grid-cols-3`, `p-2.5 md:p-4`, compact type (`text-base md:text-2xl`) on mobile.
+- [ ] **Action menu:** Card actions in `el-dropdown` with `MoreFilled` icon, `@click.stop` on trigger.
+- [ ] **CSS breakpoints only:** Use `hidden md:block`/`md:hidden` for visibility — no `v-if` with window width.
 - [ ] Primary action is visible on mobile.
 - [ ] Collapsed sidebar has `overflow-x: hidden` to prevent horizontal scrollbar from overflow content.
 
