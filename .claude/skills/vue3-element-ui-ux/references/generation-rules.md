@@ -324,6 +324,84 @@ Key points:
 - `label-position="top"` on `el-form` for all fields
 - Mobile: `grid-cols-1` naturally stacks everything
 
+**O2M Sub-Form (One-to-Many child list):**
+
+When a parent entity has a one-to-many child table (e.g., order → order items), render the child list as a multi-column grid within the parent form section:
+
+```typescript
+interface ChildItem {
+  name: string
+  spec: string
+  quantity: number
+  unitPrice: number
+}
+
+function itemSubtotal(item: ChildItem): number {
+  return (item.quantity || 0) * (item.unitPrice || 0)
+}
+```
+
+**Edit mode (column headers + grid rows):**
+```html
+<div class="mt-4">
+  <div class="text-sm text-neutral-600 mb-2">Items</div>
+  <!-- Column headers (desktop only) -->
+  <div class="hidden md:grid gap-2 px-1 py-2 border-b border-neutral-100 mb-2"
+       style="grid-template-columns: 2fr 1fr 80px 1fr 100px 40px">
+    <span class="text-xs text-neutral-400">Name *</span>
+    <span class="text-xs text-neutral-400">Spec</span>
+    <span class="text-xs text-neutral-400 text-center">Qty</span>
+    <span class="text-xs text-neutral-400 text-right">Price</span>
+    <span class="text-xs text-neutral-400 text-right">Subtotal</span>
+    <span></span>
+  </div>
+  <!-- Data rows -->
+  <div v-for="(item, i) in items" :key="i"
+       class="grid gap-2 items-center mb-2"
+       style="grid-template-columns: 2fr 1fr 80px 1fr 100px 40px">
+    <el-input v-model="item.name" size="default" />
+    <el-input v-model="item.spec" size="default" />
+    <el-input-number v-model="item.quantity" :min="1" controls-position="right" class="w-full" />
+    <el-input-number v-model="item.unitPrice" :min="0" :precision="2" controls-position="right" class="w-full" />
+    <div class="text-sm font-semibold text-right">{{ $n(itemSubtotal(item), 'currency') }}</div>
+    <el-button v-if="items.length > 1" link type="danger" :icon="Delete" @click="removeItem(i)" class="justify-self-center" />
+  </div>
+  <el-button link type="primary" :icon="Plus" @click="addItem">Add item</el-button>
+</div>
+```
+
+**View mode (same layout, read-only):**
+```html
+<div class="mt-4">
+  <div class="text-sm text-neutral-600 mb-2">Items</div>
+  <div class="hidden md:grid gap-2 px-1 py-2 border-b border-neutral-100 mb-2"
+       style="grid-template-columns: 2fr 1fr 80px 1fr 100px">
+    <span class="text-xs text-neutral-400">Name</span>
+    <span class="text-xs text-neutral-400">Spec</span>
+    <span class="text-xs text-neutral-400 text-center">Qty</span>
+    <span class="text-xs text-neutral-400 text-right">Price</span>
+    <span class="text-xs text-neutral-400 text-right">Subtotal</span>
+  </div>
+  <div v-for="(item, i) in items" :key="i"
+       class="grid gap-2 items-center py-2 border-b border-neutral-50 last:border-0"
+       style="grid-template-columns: 2fr 1fr 80px 1fr 100px">
+    <div class="text-sm text-neutral-950">{{ item.name }}</div>
+    <div class="text-sm text-neutral-500">{{ item.spec || '-' }}</div>
+    <div class="text-sm text-neutral-950 text-center">{{ item.quantity }}</div>
+    <div class="text-sm text-neutral-950 text-right">{{ $n(item.unitPrice, 'currency') }}</div>
+    <div class="text-sm font-semibold text-neutral-950 text-right">{{ $n(itemSubtotal(item), 'currency') }}</div>
+  </div>
+</div>
+```
+
+Key points:
+- `grid-template-columns` uses inline style for precise column widths
+- Subtotal is computed reactively via helper function
+- Column headers shown in both edit AND view mode
+- `addItem` initializes all fields with defaults: `{ name: '', spec: '', quantity: 1, unitPrice: 0 }`
+- `handleSubmit`: filter empty names, extract structured items, total = sum of subtotals
+- Legacy data migration: `typeof item === 'string' ? item : item.name`
+
 **Three-Mode Form (create / view / edit):**
 
 Admin forms that manage entities support three modes in a single component:

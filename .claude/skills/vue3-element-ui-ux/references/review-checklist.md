@@ -75,6 +75,7 @@ Then fix the issues. Do not change business logic.
 - [ ] **Form width:** No `max-w-2xl` constraint. Form uses available content width.
 - [ ] Mobile input is smooth.
 - [ ] **Three-mode form:** Form handles create/view/edit via route name. View mode: read-only display (`v-if="isView"`), status tag in breadcrumb, Edit+Delete toolbar. No validation rules in view mode.
+- [ ] **O2M sub-form:** Child list uses multi-column grid with column headers (edit + view). Each row has inputs/read-only text + auto-calculated subtotal + delete. `addItem` with field defaults. Total = sum of subtotals.
 
 ## 5. Table Experience
 
