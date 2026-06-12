@@ -24,12 +24,15 @@ const submitting = ref(false)
 
 interface OrderItem {
   name: string
+  spec: string
+  quantity: number
+  unitPrice: number
 }
 
 const form = reactive({
   customer: '',
   phone: '',
-  items: [{ name: '' }] as OrderItem[],
+  items: [{ name: '', spec: '', quantity: 1, unitPrice: 0 }] as OrderItem[],
   amount: 0,
   channel: 'APP' as 'APP' | '网页' | '小程序',
   address: '',
@@ -46,6 +49,10 @@ const rules: FormRules = {
   amount: [{ required: true, message: '请输入金额', trigger: 'blur' }],
 }
 
+function itemSubtotal(item: OrderItem): number {
+  return (item.quantity || 0) * (item.unitPrice || 0)
+}
+
 const viewStatus = ref<{ labelKey: string; type: string }>({ labelKey: '', type: '' })
 const statusMap: Record<string, { labelKey: string; type: string }> = {
   pending:    { labelKey: 'orders.status.pending', type: 'warning' },
@@ -57,7 +64,7 @@ const statusMap: Record<string, { labelKey: string; type: string }> = {
 }
 
 function addItem() {
-  form.items.push({ name: '' })
+  form.items.push({ name: '', spec: '', quantity: 1, unitPrice: 0 })
 }
 
 function removeItem(index: number) {
@@ -81,7 +88,12 @@ onMounted(() => {
     if (order) {
       form.customer = order.customer
       form.phone = order.phone
-      form.items = order.items.map((name: string) => ({ name }))
+      form.items = order.items.map((item: any) => ({
+        name: typeof item === 'string' ? item : item.name,
+        spec: item.spec || '',
+        quantity: item.quantity || 1,
+        unitPrice: item.unitPrice || 0,
+      }))
       form.amount = order.total
       form.channel = order.channel
       form.address = order.address || ''
@@ -101,7 +113,14 @@ async function handleSubmit() {
 
   submitting.value = true
   const orders = getMockOrders()
-  const itemNames = form.items.map(i => i.name).filter(n => n.trim())
+  const orderItems = form.items
+    .filter(i => i.name.trim())
+    .map(i => ({
+      name: i.name.trim(),
+      spec: i.spec.trim(),
+      quantity: i.quantity || 1,
+      unitPrice: i.unitPrice || 0,
+    }))
 
   if (isEdit.value && orderId.value) {
     const idx = orders.findIndex((o: any) => o.id === orderId.value)
@@ -110,8 +129,8 @@ async function handleSubmit() {
         ...orders[idx],
         customer: form.customer,
         phone: form.phone,
-        items: itemNames,
-        total: form.amount,
+        items: orderItems,
+        total: orderItems.reduce((sum, i) => sum + (i.quantity * i.unitPrice), 0),
         channel: form.channel,
         address: form.address,
         deliveryMethod: form.deliveryMethod,
@@ -124,8 +143,8 @@ async function handleSubmit() {
       id: `ORD-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(orders.length + 1).padStart(3, '0')}`,
       customer: form.customer,
       phone: form.phone,
-      items: itemNames,
-      total: form.amount,
+      items: orderItems,
+      total: orderItems.reduce((sum, i) => sum + (i.quantity * i.unitPrice), 0),
       status: 'pending',
       channel: form.channel,
       address: form.address,
@@ -244,27 +263,61 @@ function handleDelete() {
           </el-form-item>
         </div>
 
-        <!-- Full-width at section end: dynamic item list -->
-        <el-form-item :label="t('orders.fields.items')" class="mt-4 mb-0">
-          <template v-if="isView">
-            <div class="flex flex-wrap gap-1 pt-1">
-              <el-tag v-for="(item, i) in form.items" :key="i" size="small" effect="plain" type="info">
-                {{ item.name }}
-              </el-tag>
+        <!-- Full-width at section end: O2M item list -->
+        <div class="mt-4" v-if="!isView">
+          <div class="text-sm text-neutral-600 mb-2">{{ t('orders.fields.items') }}</div>
+          <!-- Column headers -->
+          <div class="hidden md:grid gap-2 px-1 py-2 border-b border-neutral-100 mb-2"
+               style="grid-template-columns: 2fr 1fr 80px 1fr 100px 40px">
+            <span class="text-xs text-neutral-400">商品名称 *</span>
+            <span class="text-xs text-neutral-400">规格/型号</span>
+            <span class="text-xs text-neutral-400 text-center">数量</span>
+            <span class="text-xs text-neutral-400 text-right">单价</span>
+            <span class="text-xs text-neutral-400 text-right">小计</span>
+            <span></span>
+          </div>
+          <!-- Data rows -->
+          <div v-for="(item, i) in form.items" :key="i"
+               class="grid gap-2 items-center mb-2"
+               style="grid-template-columns: 2fr 1fr 80px 1fr 100px 40px">
+            <el-input v-model="item.name" placeholder="商品名称" size="default" />
+            <el-input v-model="item.spec" placeholder="规格" size="default" />
+            <el-input-number v-model="item.quantity" :min="1" size="default" controls-position="right" class="w-full" />
+            <el-input-number v-model="item.unitPrice" :min="0" :precision="2" size="default" controls-position="right" class="w-full" />
+            <div class="text-sm font-semibold text-neutral-950 text-right">
+              {{ $n(itemSubtotal(item), 'currency') }}
             </div>
-          </template>
-          <template v-else>
-            <div class="flex flex-col gap-2 w-full">
-              <div v-for="(item, i) in form.items" :key="i" class="flex items-center gap-2">
-                <el-input v-model="item.name" :placeholder="t('orders.fields.itemName')" class="flex-1" />
-                <el-button v-if="form.items.length > 1" link type="danger" :icon="Delete" @click="removeItem(i)" />
-              </div>
-              <el-button link type="primary" :icon="Plus" @click="addItem">
-                {{ t('orders.fields.itemsAdd') }}
-              </el-button>
-            </div>
-          </template>
-        </el-form-item>
+            <el-button v-if="form.items.length > 1" link type="danger" :icon="Delete" @click="removeItem(i)"
+                       class="justify-self-center" />
+          </div>
+          <el-button link type="primary" :icon="Plus" class="mt-2" @click="addItem">
+            {{ t('orders.fields.itemsAdd') }}
+          </el-button>
+        </div>
+
+        <!-- View mode: O2M item list -->
+        <div class="mt-4" v-if="isView">
+          <div class="text-sm text-neutral-600 mb-2">{{ t('orders.fields.items') }}</div>
+          <!-- Column headers (same as edit mode) -->
+          <div class="hidden md:grid gap-2 px-1 py-2 border-b border-neutral-100 mb-2"
+               style="grid-template-columns: 2fr 1fr 80px 1fr 100px">
+            <span class="text-xs text-neutral-400">商品名称</span>
+            <span class="text-xs text-neutral-400">规格/型号</span>
+            <span class="text-xs text-neutral-400 text-center">数量</span>
+            <span class="text-xs text-neutral-400 text-right">单价</span>
+            <span class="text-xs text-neutral-400 text-right">小计</span>
+          </div>
+          <!-- Data rows -->
+          <div v-for="(item, i) in form.items" :key="i"
+               class="grid gap-2 items-center py-2 border-b border-neutral-50 last:border-0"
+               style="grid-template-columns: 2fr 1fr 80px 1fr 100px">
+            <div class="text-sm text-neutral-950">{{ item.name }}</div>
+            <div class="text-sm text-neutral-500">{{ item.spec || '-' }}</div>
+            <div class="text-sm text-neutral-950 text-center">{{ item.quantity }}</div>
+            <div class="text-sm text-neutral-950 text-right">{{ $n(item.unitPrice, 'currency') }}</div>
+            <div class="text-sm font-semibold text-neutral-950 text-right">{{ $n(itemSubtotal(item), 'currency') }}</div>
+          </div>
+        </div>
       </div>
 
       <!-- Section: 其他信息 -->
