@@ -33,18 +33,18 @@ const timeline = computed(() => {
 <template>
   <div>
     <!-- Page Header -->
-    <div class="mb-6">
+    <div class="mb-4 md:mb-6">
       <h1 class="text-2xl font-semibold text-neutral-950">{{ t('dashboard.title') }}</h1>
       <p class="text-sm text-neutral-500 mt-1">{{ t('dashboard.description') }}</p>
     </div>
 
     <!-- Metric Cards Zone -->
-    <div class="bg-surface-blue rounded-btn p-5 mb-6">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-surface-blue rounded-btn p-4 md:p-5 mb-4 md:mb-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
         <div
           v-for="m in metrics"
           :key="m.labelKey"
-          class="bg-white border border-neutral-200 rounded-btn p-4 hover:shadow-md transition-shadow duration-150 cursor-pointer"
+          class="bg-white border border-neutral-200 rounded-btn p-3 md:p-4 hover:shadow-md transition-shadow duration-150 cursor-pointer"
           :style="{ borderLeft: `3px solid ${m.color}` }"
         >
           <div class="flex items-center justify-between mb-3">
@@ -53,7 +53,7 @@ const timeline = computed(() => {
               <component :is="m.icon" />
             </el-icon>
           </div>
-          <div class="text-2xl font-bold text-neutral-950 mb-1">{{ m.value }}</div>
+          <div class="text-xl md:text-2xl font-bold text-neutral-950 mb-1">{{ m.value }}</div>
           <div class="flex items-center gap-1 text-sm" :class="{
             'text-green-600': m.trend === 'up',
             'text-red-600': m.trend === 'down',
@@ -69,12 +69,12 @@ const timeline = computed(() => {
     </div>
 
     <!-- Charts Zone -->
-    <div class="bg-surface-neutral rounded-btn p-5 mb-6">
+    <div class="bg-surface-neutral rounded-btn p-4 md:p-5 mb-4 md:mb-6">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <!-- Bar Chart (Raised Panel) -->
-        <div class="md:col-span-2 bg-white rounded-btn shadow-sm p-5">
+        <div class="md:col-span-2 bg-white rounded-btn shadow-sm p-4 md:p-5 overflow-x-auto">
           <h3 class="text-base font-semibold text-neutral-950 mb-5">{{ t('dashboard.chartOrderTrend') }}</h3>
-          <div class="flex items-end justify-center gap-5 h-[200px] px-2">
+          <div class="flex items-end justify-center gap-3 md:gap-5 h-[200px] px-1 md:px-2 min-w-max">
             <div
               v-for="(val, i) in chartValues"
               :key="i"
@@ -82,7 +82,7 @@ const timeline = computed(() => {
             >
               <span class="text-xs text-neutral-500">{{ val }}</span>
               <div
-                class="w-10 transition-all duration-150 cursor-pointer hover:brightness-90"
+                class="w-8 md:w-10 transition-all duration-150 cursor-pointer hover:brightness-90"
                 :title="`${chartDays[i]}: ${val} 单`"
                 :style="{
                   height: `${(val / maxValue) * 160}px`,
@@ -95,7 +95,7 @@ const timeline = computed(() => {
         </div>
 
         <!-- Category Chart (Raised Panel) -->
-        <div class="bg-white rounded-btn shadow-sm p-5">
+        <div class="bg-white rounded-btn shadow-sm p-4 md:p-5">
           <h3 class="text-base font-semibold text-neutral-950 mb-5">{{ t('dashboard.chartCategory') }}</h3>
           <div class="flex flex-col gap-4 justify-center h-[200px]">
             <div
@@ -119,9 +119,9 @@ const timeline = computed(() => {
     </div>
 
     <!-- Activity Zone -->
-    <div class="bg-surface-warm rounded-btn p-5">
+    <div class="bg-surface-warm rounded-btn p-4 md:p-5">
       <h3 class="text-base font-semibold text-neutral-950 mb-5">{{ t('dashboard.activity') }}</h3>
-      <div class="bg-white rounded-btn border border-neutral-200 p-5">
+      <div class="bg-white rounded-btn border border-neutral-200 p-4 md:p-5">
         <div class="flex flex-col">
           <div
             v-for="(item, i) in timeline"
