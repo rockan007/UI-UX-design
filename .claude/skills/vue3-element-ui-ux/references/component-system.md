@@ -70,7 +70,7 @@ Chart rules:
 | `FilterDrawer` | `FilterDrawer` | Mobile filter drawer (`el-drawer` direction btt), search + filter button trigger, Apply/Reset |
 | `DataTable` | `DataTable` | Table, pagination, row actions |
 | `CardList` | `CardList` | Mobile card list replacing `el-table` at < 768px, 4-layer card per row, three-dot action menu |
-| `EntityForm` | `EntityForm` | Shared create/edit form, detects mode via route, required fields + secondary fields with divider |
+| `EntityForm` | `EntityForm` | Shared create/view/edit form, detects mode via route name. Read-only display in view mode via `v-if="isView"` blocks. Delete logic in component. |
 | `FormSection` | `FormSection` | Grouped form fields |
 | `ActionBar` | `ActionBar` | Save, cancel, batch actions |
 | `EmptyState` | `EmptyState` | Empty data explanation |

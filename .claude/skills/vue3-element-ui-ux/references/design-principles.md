@@ -90,7 +90,7 @@ At viewports below 768px, admin list pages switch from table to card list layout
 - List → Create: "创建" button on list page, navigates to `/admin/{entity}/create`.
 - List → Detail: clicking a row/card navigates to `/admin/{entity}/:id`.
 - Detail → Edit: "编辑" button on detail page, navigates to `/admin/{entity}/:id/edit`.
-- Create/Edit share a single form component, detecting mode via route name.
+- Create/Edit/View share a single form component, detecting mode via route name. View mode: read-only fields, status tag in breadcrumb row, Edit + Delete toolbar buttons. Create mode: empty editable fields, Submit + Cancel buttons. Edit mode: pre-filled editable fields, Save + Cancel buttons.
 - All navigation reflected in breadcrumb, tracking the operation path.
 - Form fields: required fields grouped under "基本信息", secondary fields under "其他信息" with divider.
 

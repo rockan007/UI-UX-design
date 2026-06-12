@@ -324,6 +324,74 @@ Key points:
 - `label-position="top"` on `el-form` for all fields
 - Mobile: `grid-cols-1` naturally stacks everything
 
+**Three-Mode Form (create / view / edit):**
+
+Admin forms that manage entities support three modes in a single component:
+
+```typescript
+const isEdit = computed(() => route.name === '{entity}-edit')
+const isView = computed(() => route.name === '{entity}-detail')
+```
+
+**Mode detection:** Route name determines mode: `{entity}-create` = create, `{entity}-detail` = view, `{entity}-edit` = edit.
+
+**Toolbar per mode:**
+
+| Mode | Left | Right |
+|---|---|---|
+| create | breadcrumb: `{entity} / 创建{entity}` | Submit + Cancel |
+| view | breadcrumb: `{entity} / {id}` + **status tag** | Edit + Delete |
+| edit | breadcrumb: `{entity} / {id} / 编辑` | Save + Cancel |
+
+View mode toolbar:
+```html
+<div class="flex items-center justify-between mb-4 md:mb-6">
+  <div class="flex items-center gap-3">
+    <el-breadcrumb separator="/">
+      <el-breadcrumb-item :to="{ path: '/admin/{entity}' }">{entity name}</el-breadcrumb-item>
+      <el-breadcrumb-item>{{ recordId }}</el-breadcrumb-item>
+    </el-breadcrumb>
+    <el-tag v-if="isView" :type="statusType" effect="light">{{ statusLabel }}</el-tag>
+  </div>
+  <div class="flex items-center gap-3">
+    <template v-if="isView">
+      <el-button type="primary" @click="router.push(`/admin/{entity}/${id}/edit`)">编辑</el-button>
+      <el-button type="danger" plain @click="handleDelete">删除</el-button>
+    </template>
+    <template v-else>
+      <el-button type="primary" :loading="submitting" :disabled="submitting" @click="handleSubmit">
+        {{ isEdit ? '保存' : '提交' }}
+      </el-button>
+      <el-button plain @click="router.back()">取消</el-button>
+    </template>
+  </div>
+</div>
+```
+
+**Field display per mode:**
+
+Each field uses `v-if="isView"` / `v-else` for read-only vs editable:
+
+```html
+<el-form-item label="Field Label" prop="field">
+  <template v-if="isView">
+    <div class="text-sm text-neutral-950 pt-1">{{ form.field }}</div>
+  </template>
+  <el-input v-else v-model="form.field" />
+</el-form-item>
+```
+
+Key points:
+- `<el-form :rules="isView ? {} : rules">` — no validation on read-only
+- `<el-form @submit.prevent="isView ? undefined : handleSubmit()">` — prevent submit in view mode
+- Text fields: plain `<div>` with `pt-1` for baseline alignment
+- Amount/number: formatted with `$n()`
+- Select: display raw value text
+- Textarea: `<div class="whitespace-pre-wrap">` for line breaks
+- Items list: `<el-tag>` list instead of dynamic input rows
+- Section cards, grid layout, accent stripes identical across all three modes
+- Delete logic: `ElMessageBox.confirm` → splice from data → navigate back to list
+
 ### Admin Dashboard & Stat Pages
 
 Extra focus: container variety, section shading, visual rhythm. Admin pages with multiple data zones must not use uniform white-card styling throughout.

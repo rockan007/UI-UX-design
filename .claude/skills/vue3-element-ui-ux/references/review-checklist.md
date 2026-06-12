@@ -58,7 +58,7 @@ Then fix the issues. Do not change business logic.
 - [ ] **CRUD breadcrumb:** Create/edit/detail pages have multi-level breadcrumbs reflecting operation path (e.g., `订单管理 / ORD-001 / 编辑`).
 - [ ] **Form grouping:** Sections as independent cards with left accent stripe (`border-l-[3px]`), separated by `gap-4`. Not dividers inside a single card.
 - [ ] **Detail page:** Record ID + status in header, info in 2-column cards, action bar at bottom with edit/delete.
-- [ ] **CRUD navigation:** List has "创建" button; row/card click navigates to detail; detail has edit/delete actions. Create and edit share one form component.
+- [ ] **CRUD navigation:** List has "创建" button; row/card click navigates to form view mode; view mode has edit/delete actions. Create, view, and edit share one form component.
 
 ## 4. Form Experience
 
@@ -74,6 +74,7 @@ Then fix the issues. Do not change business logic.
 - [ ] **Field grid:** Desktop uses `grid-cols-3`. Textarea and dynamic lists are full-width at section end, after grid rows. Multiple grid rows stacked with `mt-4`.
 - [ ] **Form width:** No `max-w-2xl` constraint. Form uses available content width.
 - [ ] Mobile input is smooth.
+- [ ] **Three-mode form:** Form handles create/view/edit via route name. View mode: read-only display (`v-if="isView"`), status tag in breadcrumb, Edit+Delete toolbar. No validation rules in view mode.
 
 ## 5. Table Experience
 
