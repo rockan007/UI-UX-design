@@ -548,6 +548,8 @@ Every admin page starts with an `el-breadcrumb` replacing the traditional `<h1>`
 </el-breadcrumb>
 ```
 
+**Form page note:** On admin form pages, breadcrumbs are embedded in the toolbar row alongside action buttons (see Admin Form Page supplement below). The toolbar `<div class="flex items-center justify-between">` replaces `mb-4 md:mb-6` on the breadcrumb itself — spacing moves to the toolbar wrapper.
+
 ### Admin CRUD Pattern
 
 Admin entity management follows a standard CRUD flow: list → create → detail → edit.
