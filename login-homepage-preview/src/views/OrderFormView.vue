@@ -203,7 +203,7 @@ function handleDelete() {
       :rules="isView ? {} : rules"
       label-position="top"
       class="flex flex-col gap-4"
-      @submit.prevent="handleSubmit"
+      @submit.prevent="isView ? undefined : handleSubmit()"
     >
       <!-- Section: 基本信息 -->
       <div class="bg-white rounded-r-btn rounded-l-none border border-neutral-200 border-l-[3px] border-l-blue-600 p-5 md:p-6">
