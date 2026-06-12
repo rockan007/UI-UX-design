@@ -84,7 +84,7 @@ Each row renders as read-only text, maintaining the same grid layout but replaci
 
 | name (text) | spec (text) | quantity (text) | unitPrice ($n) | subtotal ($n, bold) | — |
 
-Column headers hidden in view mode (redundant — field labels are self-explanatory from context).
+Column headers remain visible in view mode — same grid layout, same headers, read-only text below.
 
 ### Mobile (<768px)
 
