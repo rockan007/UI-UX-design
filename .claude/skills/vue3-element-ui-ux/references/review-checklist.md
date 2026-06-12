@@ -69,6 +69,10 @@ Then fix the issues. Do not change business logic.
 - [ ] Error messages are near the corresponding field.
 - [ ] Submit feedback is explicit.
 - [ ] Double-submit is prevented (button loading + disabled).
+- [ ] **Form toolbar:** Action buttons in toolbar row with breadcrumb (`justify-between`). Primary `type="primary"`, secondary `plain`. Not at form bottom.
+- [ ] **Section cards:** Each section is independent card with left accent stripe (`border-l-[3px]`). Cards separated by `gap-4`. No single-card-with-dividers pattern.
+- [ ] **Field grid:** Desktop uses `grid-cols-3`. Textarea and dynamic lists are full-width at section end, after grid rows. Multiple grid rows stacked with `mt-4`.
+- [ ] **Form width:** No `max-w-2xl` constraint. Form uses available content width.
 - [ ] Mobile input is smooth.
 
 ## 5. Table Experience

@@ -243,9 +243,86 @@ Example for 3 max buttons (width = 130px):
 </el-table-column>
 ```
 
-### Form Page
+### Admin Form Page
 
-Extra focus: reasonable field grouping, clear required marks, errors near fields, explicit submit feedback, clear cancel/back/save actions, smooth mobile input.
+Extra focus: toolbar button placement, section card separation, wide layout with multi-column grid, full-width fields at section end.
+
+**Toolbar:**
+
+Action buttons (Save/Submit, Cancel) sit in a toolbar row with the breadcrumb — NOT at the bottom of the form:
+
+```html
+<div class="flex items-center justify-between mb-4 md:mb-6">
+  <el-breadcrumb separator="/">...</el-breadcrumb>
+  <div class="flex items-center gap-3">
+    <el-button type="primary" :loading="submitting" :disabled="submitting" @click="handleSubmit">
+      {{ isEdit ? '保存' : '提交' }}
+    </el-button>
+    <el-button plain @click="router.back()">取消</el-button>
+  </div>
+</div>
+```
+
+Key points:
+- Primary button: `type="primary"` (solid blue)
+- Secondary button: `plain` (white bg, gray border — lower visual weight)
+- Both buttons right-aligned via `justify-between` on the flex row
+- Submit button uses `:loading` + `:disabled` to prevent double-submit
+
+**Section Cards:**
+
+Each form section is an independent card with left accent stripe, replacing the single-card-with-dividers pattern:
+
+```html
+<el-form label-position="top" class="flex flex-col gap-4">
+  <!-- Section 1 -->
+  <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-blue-600 p-5 md:p-6">
+    <div class="text-sm font-semibold text-blue-700 mb-4 uppercase tracking-wide">基本信息</div>
+    <!-- fields... -->
+  </div>
+  <!-- Section 2 -->
+  <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-cyan-600 p-5 md:p-6">
+    <div class="text-sm font-semibold text-cyan-700 mb-4 uppercase tracking-wide">其他信息</div>
+    <!-- fields... -->
+  </div>
+</el-form>
+```
+
+Key points:
+- `el-form` uses `class="flex flex-col gap-4"` to space the cards
+- Accent stripe color matches data category: blue for primary/required sections, cyan for secondary sections per `design-tokens.md`
+- Section title color matches stripe color
+- No `max-w-2xl` constraint — form uses available width
+
+**Field Grid:**
+
+Desktop fields use 3-column grid with short inputs in grid rows and full-width fields at section end:
+
+```html
+<!-- Grid row: 3 columns for standard fields -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <el-form-item label="Field 1" prop="field1"><el-input ... /></el-form-item>
+  <el-form-item label="Field 2" prop="field2"><el-input ... /></el-form-item>
+  <el-form-item label="Field 3" prop="field3"><el-input ... /></el-form-item>
+</div>
+
+<!-- Grid row: single field taking 1 of 3 columns -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+  <el-form-item label="Single Field"><el-select ... class="w-full" /></el-form-item>
+</div>
+
+<!-- Full-width at section end: textarea -->
+<el-form-item label="Address" class="mt-4">
+  <el-input type="textarea" :rows="2" ... />
+</el-form-item>
+```
+
+Key points:
+- Standard fields: `grid grid-cols-1 md:grid-cols-3 gap-4`
+- Each grid row is a separate `<div>` — rows are stacked with `mt-4` spacing
+- Full-width fields (textarea, dynamic item list): placed at the END of the section, after all grid rows, each wrapped in a standalone `<el-form-item>`
+- `label-position="top"` on `el-form` for all fields
+- Mobile: `grid-cols-1` naturally stacks everything
 
 ### Admin Dashboard & Stat Pages
 
