@@ -127,87 +127,94 @@ async function handleSubmit() {
 
 <template>
   <div>
-    <!-- Breadcrumb -->
-    <el-breadcrumb separator="/" class="mb-4 md:mb-6">
-      <el-breadcrumb-item :to="{ path: '/admin/orders' }">{{ t('orders.title') }}</el-breadcrumb-item>
-      <el-breadcrumb-item v-if="isEdit" :to="{ path: `/admin/orders/${orderId}` }">{{ orderId }}</el-breadcrumb-item>
-      <el-breadcrumb-item>{{ pageTitle }}</el-breadcrumb-item>
-    </el-breadcrumb>
-
-    <div class="bg-white rounded-btn border border-neutral-200 p-6 md:p-8 max-w-2xl">
-      <el-form
-        ref="formRef"
-        :model="form"
-        :rules="rules"
-        label-position="top"
-        @submit.prevent="handleSubmit"
-      >
-        <!-- Required Fields -->
-        <div class="mb-6">
-          <div class="text-sm font-semibold text-neutral-500 mb-4 uppercase tracking-wide">{{ $t('基本信息') }}</div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <el-form-item :label="t('orders.fields.customer')" prop="customer">
-              <el-input v-model="form.customer" placeholder="张三" />
-            </el-form-item>
-            <el-form-item :label="t('orders.fields.phone')" prop="phone">
-              <el-input v-model="form.phone" placeholder="138****1234" />
-            </el-form-item>
-          </div>
-
-          <el-form-item :label="t('orders.fields.items')" class="mb-2">
-            <div class="flex flex-col gap-2 w-full">
-              <div v-for="(item, i) in form.items" :key="i" class="flex items-center gap-2">
-                <el-input v-model="item.name" :placeholder="t('orders.fields.itemName')" class="flex-1" />
-                <el-button v-if="form.items.length > 1" link type="danger" :icon="Delete" @click="removeItem(i)" />
-              </div>
-              <el-button link type="primary" :icon="Plus" @click="addItem">
-                {{ t('orders.fields.itemsAdd') }}
-              </el-button>
-            </div>
-          </el-form-item>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <el-form-item :label="t('orders.fields.amount')" prop="amount">
-              <el-input-number v-model="form.amount" :min="0" :precision="2" class="w-full" />
-            </el-form-item>
-            <el-form-item :label="t('orders.fields.channel')">
-              <el-select v-model="form.channel" class="w-full">
-                <el-option label="APP" value="APP" />
-                <el-option :label="t('orders.channel.web')" value="网页" />
-                <el-option :label="t('orders.channel.miniprogram')" value="小程序" />
-              </el-select>
-            </el-form-item>
-          </div>
-        </div>
-
-        <!-- Secondary Fields -->
-        <div class="mb-6 pt-4 border-t border-neutral-100">
-          <div class="text-sm font-semibold text-neutral-500 mb-4 uppercase tracking-wide">{{ $t('其他信息') }}</div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <el-form-item :label="t('orders.fields.address')">
-              <el-input v-model="form.address" type="textarea" :rows="2" :placeholder="t('orders.fields.addressPlaceholder')" />
-            </el-form-item>
-            <el-form-item :label="t('orders.fields.deliveryMethod')">
-              <el-select v-model="form.deliveryMethod" class="w-full">
-                <el-option :label="t('orders.fields.deliveryExpress')" value="快递" />
-                <el-option :label="t('orders.fields.deliveryPickup')" value="自提" />
-                <el-option :label="t('orders.fields.deliveryLocal')" value="同城配送" />
-              </el-select>
-            </el-form-item>
-          </div>
-          <el-form-item :label="t('orders.fields.remark')">
-            <el-input v-model="form.remark" type="textarea" :rows="2" :placeholder="t('orders.fields.remarkPlaceholder')" />
-          </el-form-item>
-        </div>
-
-        <!-- Actions -->
-        <div class="flex items-center gap-3 pt-4 border-t border-neutral-100">
-          <el-button type="primary" size="large" :loading="submitting" :disabled="submitting" @click="handleSubmit">
-            {{ isEdit ? t('common.save') : t('common.submit') }}
-          </el-button>
-          <el-button size="large" @click="router.back()">{{ t('common.cancel') }}</el-button>
-        </div>
-      </el-form>
+    <!-- Toolbar: breadcrumb + actions -->
+    <div class="flex items-center justify-between mb-4 md:mb-6">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/admin/orders' }">{{ t('orders.title') }}</el-breadcrumb-item>
+        <el-breadcrumb-item v-if="isEdit" :to="{ path: `/admin/orders/${orderId}` }">{{ orderId }}</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ pageTitle }}</el-breadcrumb-item>
+      </el-breadcrumb>
+      <div class="flex items-center gap-3">
+        <el-button type="primary" :loading="submitting" :disabled="submitting" @click="handleSubmit">
+          {{ isEdit ? t('common.save') : t('common.submit') }}
+        </el-button>
+        <el-button plain @click="router.back()">{{ t('common.cancel') }}</el-button>
+      </div>
     </div>
+
+    <el-form
+      ref="formRef"
+      :model="form"
+      :rules="rules"
+      label-position="top"
+      class="flex flex-col gap-4"
+      @submit.prevent="handleSubmit"
+    >
+      <!-- Section: 基本信息 -->
+      <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-blue-600 p-5 md:p-6">
+        <div class="text-sm font-semibold text-blue-700 mb-4 uppercase tracking-wide">{{ $t('基本信息') }}</div>
+
+        <!-- Grid row: customer, phone, amount -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <el-form-item :label="t('orders.fields.customer')" prop="customer">
+            <el-input v-model="form.customer" placeholder="张三" />
+          </el-form-item>
+          <el-form-item :label="t('orders.fields.phone')" prop="phone">
+            <el-input v-model="form.phone" placeholder="138****1234" />
+          </el-form-item>
+          <el-form-item :label="t('orders.fields.amount')" prop="amount">
+            <el-input-number v-model="form.amount" :min="0" :precision="2" class="w-full" />
+          </el-form-item>
+        </div>
+
+        <!-- Grid row: channel -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <el-form-item :label="t('orders.fields.channel')">
+            <el-select v-model="form.channel" class="w-full">
+              <el-option label="APP" value="APP" />
+              <el-option :label="t('orders.channel.web')" value="网页" />
+              <el-option :label="t('orders.channel.miniprogram')" value="小程序" />
+            </el-select>
+          </el-form-item>
+        </div>
+
+        <!-- Full-width at section end: dynamic item list -->
+        <el-form-item :label="t('orders.fields.items')" class="mt-4 mb-0">
+          <div class="flex flex-col gap-2 w-full">
+            <div v-for="(item, i) in form.items" :key="i" class="flex items-center gap-2">
+              <el-input v-model="item.name" :placeholder="t('orders.fields.itemName')" class="flex-1" />
+              <el-button v-if="form.items.length > 1" link type="danger" :icon="Delete" @click="removeItem(i)" />
+            </div>
+            <el-button link type="primary" :icon="Plus" @click="addItem">
+              {{ t('orders.fields.itemsAdd') }}
+            </el-button>
+          </div>
+        </el-form-item>
+      </div>
+
+      <!-- Section: 其他信息 -->
+      <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-cyan-600 p-5 md:p-6">
+        <div class="text-sm font-semibold text-cyan-700 mb-4 uppercase tracking-wide">{{ $t('其他信息') }}</div>
+
+        <!-- Grid row: deliveryMethod -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <el-form-item :label="t('orders.fields.deliveryMethod')">
+            <el-select v-model="form.deliveryMethod" class="w-full">
+              <el-option :label="t('orders.fields.deliveryExpress')" value="快递" />
+              <el-option :label="t('orders.fields.deliveryPickup')" value="自提" />
+              <el-option :label="t('orders.fields.deliveryLocal')" value="同城配送" />
+            </el-select>
+          </el-form-item>
+        </div>
+
+        <!-- Full-width at section end: address textarea, remark textarea -->
+        <el-form-item :label="t('orders.fields.address')" class="mt-4">
+          <el-input v-model="form.address" type="textarea" :rows="2" :placeholder="t('orders.fields.addressPlaceholder')" />
+        </el-form-item>
+        <el-form-item :label="t('orders.fields.remark')" class="mb-0">
+          <el-input v-model="form.remark" type="textarea" :rows="2" :placeholder="t('orders.fields.remarkPlaceholder')" />
+        </el-form-item>
+      </div>
+    </el-form>
   </div>
 </template>
