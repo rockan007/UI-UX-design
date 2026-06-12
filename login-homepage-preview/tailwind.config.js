@@ -20,6 +20,20 @@ export default {
           500: '#737373',
           800: '#262626',
           950: '#0a0a0a',
+        },
+        surface: {
+          blue: '#eff6ff',
+          cyan: '#ecfeff',
+          amber: '#fffbeb',
+          green: '#f0fdf4',
+          warm: '#fafaf9',
+          neutral: '#f5f5f5',
+        },
+        border: {
+          blue: '#bfdbfe',
+          cyan: '#a5f3fc',
+          amber: '#fde68a',
+          green: '#bbf7d0',
         }
       },
       borderRadius: {
