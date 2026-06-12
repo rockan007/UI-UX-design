@@ -100,7 +100,7 @@ const handleSearch = () => { currentPage.value = 1 }
 const handleFilterChange = () => { currentPage.value = 1 }
 
 const handleView = (row: Order) => {
-  ElMessage.info(t('orders.viewDetail', { id: row.id }))
+  router.push(`/admin/orders/${row.id}`)
 }
 const handleEdit = (row: Order) => {
   ElMessage.info(t('orders.processOrder', { id: row.id }))
