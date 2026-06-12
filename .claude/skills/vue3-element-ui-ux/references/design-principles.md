@@ -11,11 +11,31 @@
 
 ## Visual Style
 
-- Use neutral colors for backgrounds and text (see `design-tokens.md`).
-- Brand color only for primary actions, selected states, key feedback.
-- Avoid broad gradients, neon colors, excessive shadows.
+- Page background uses neutral colors. Section zones may use light tinted background tokens (`surface-*`) from `design-tokens.md` for visual distinction between content regions.
+- Brand color for primary actions, selected states, and key feedback. Semantic colors (blue, cyan, amber, green) may be used for data visualization, stat card accent stripes, and tonal card backgrounds.
+- Prohibited: gradient backgrounds, neon colors, saturated backgrounds. Allowed: subtle tinted backgrounds (`*-50` level tokens), `shadow-sm` on chart containers only.
 - Admin border radius: 6px. Frontend: 8px.
-- Shadows only for overlays, dropdowns, dialogs — never for content cards.
+- Shadows: `shadow-sm` for overlay components and chart/data-viz containers only. `shadow-md`/`shadow-lg` for dialogs, drawers, dropdowns. No shadows on tables, forms, list containers, or stat cards (stat cards use accent stripes, not elevation).
+
+## Admin Container System
+
+Admin pages use three container tiers to create visual rhythm. Do not use a single flat card style for every content block.
+
+### Container Tiers
+
+| Tier | Style | When to Use |
+| --- | --- | --- |
+| **Accent Card** | White background + `border` + left 3px colored stripe | Stat/metric cards — color distinguishes data category per `design-tokens.md` accent stripe table |
+| **Raised Panel** | White background + no border + `shadow-sm` | Chart containers, key data visualizations — floats above page surface |
+| **Standard Block** | White background + `border` (current default) | Tables, forms, activity lists — keeps functional areas clean and scanable |
+
+### Section Shading
+
+When a page has 3+ distinct content zones (each with its own heading — e.g., stats row, chart panel, data table, activity feed), group related cards inside a lightly tinted background wrapper (`surface-*` tokens) to form visual "regions." Each zone wrapper gets `rounded-md` padding and the appropriate `surface-*` background.
+
+- A "zone" is a distinct content block with its own heading — stats row, chart panel, data table, activity feed, filter bar + results.
+- Pages with only 1-2 zones stay flat — no section shading needed.
+- Zone backgrounds always use `*-50` level tint tokens. Never saturated or dark backgrounds.
 
 ## Frontend Goals
 
@@ -52,6 +72,7 @@ For high-frequency operational users. Optimize for efficiency, stability, and sc
 - Over-rounded controls, heavy shadows, decorative gradients.
 - Card-heavy layouts when tables or lists are more efficient.
 - Confused primary/secondary button hierarchy.
+- Flat uniform card styling across the entire page — vary container treatments per the container tier system.
 
 ## Admin Shell Layout (Mandatory)
 
