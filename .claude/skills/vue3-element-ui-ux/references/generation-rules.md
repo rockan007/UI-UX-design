@@ -469,6 +469,187 @@ Key points:
 - Section cards, grid layout, accent stripes identical across all three modes
 - Delete logic: `ElMessageBox.confirm` → splice from data → navigate back to list
 
+### Tabbed Form (Multi-Tab Admin Forms)
+
+When a form has 3+ logical field groups OR 2+ O2M/M2M relationships, organize sections
+into tabs instead of stacking them all vertically. Simple forms (fewer groups, ≤1 O2M)
+continue using section cards only.
+
+**Decision Matrix:**
+
+| Condition | Layout |
+|---|---|
+| < 3 logical field groups AND ≤ 1 O2M/M2M | Section cards only (current pattern) |
+| 3+ logical field groups OR 2+ O2M/M2M | Tabs + section cards |
+
+**Tab Bar:**
+
+```html
+<el-tabs
+  v-if="tabs.length >= 2"
+  v-model="activeTab"
+  class="hidden md:block"
+  @tab-change="handleTabChange"
+>
+  <el-tab-pane
+    v-for="tab in tabs"
+    :key="tab.key"
+    :name="tab.key"
+  >
+    <template #label>
+      {{ tab.label }}
+      <el-badge
+        v-if="tab.count !== undefined"
+        :value="tab.count"
+        :hidden="tab.count === 0"
+        :type="tab.hasError ? 'danger' : 'primary'"
+      />
+      <el-icon v-if="tab.hasError" class="ml-1" style="color: var(--el-color-danger)">
+        <WarningFilled />
+      </el-icon>
+    </template>
+  </el-tab-pane>
+</el-tabs>
+```
+
+Key points:
+- Tab bar uses `hidden md:block` — visible on desktop only
+- `v-if="tabs.length >= 2"` — no tab bar when there's only one tab
+- Badge via `<el-badge>` in the `#label` slot; hidden when count is 0
+- Error tab: badge `type="danger"` + `WarningFilled` icon in red
+- Active tab styling: `border-bottom: 2px solid var(--brand-600)` + `color: var(--brand-600)` + `font-weight: 500`
+- Inactive tab: `color: var(--neutral-500)`, hover shifts to `brand-600`
+
+**Tab Definition:**
+
+```typescript
+interface TabDefinition {
+  key: string           // unique tab key, e.g., 'basic', 'items', 'attachments'
+  label: string         // display label, e.g., '基本信息', '商品清单'
+  count?: number        // O2M/M2M item count for badge (undefined = no badge)
+  hasError?: boolean    // set to true when hidden tab has validation errors
+}
+
+const tabs = computed<TabDefinition[]>(() => [
+  { key: 'basic', label: '基本信息' },
+  { key: 'delivery', label: '配送 & 备注' },
+  { key: 'items', label: '商品清单', count: form.items.length },
+  { key: 'attachments', label: '附件', count: form.attachments.length },
+])
+
+const activeTab = ref<string>(tabs.value[0]?.key ?? 'basic')
+const hasMultipleTabs = computed(() => tabs.length >= 2)
+```
+
+**Tab Pane Content (Desktop):**
+
+On desktop, only the active tab's content renders. Use `v-show` (not `v-if`) so Element Plus validation can reach fields on hidden tabs:
+
+```html
+<el-form ref="formRef" :model="form" :rules="isView ? {} : rules" label-position="top"
+         @submit.prevent="isView ? undefined : handleSubmit()">
+  <!-- Desktop: active tab pane only -->
+  <div v-if="tabs.length >= 2" class="hidden md:flex flex-col gap-4">
+    <template v-for="tab in tabs" :key="tab.key">
+      <div v-show="activeTab === tab.key">
+        <!-- Tab-specific section cards render here. Each tab pane contains
+             1+ section cards with accent stripes, same as the non-tab layout.
+             O2M/M2M tabs get purple accent stripe. -->
+      </div>
+    </template>
+  </div>
+
+  <!-- Mobile + Simple forms: flat section cards -->
+  <div :class="tabs.length >= 2 ? 'md:hidden flex flex-col gap-4' : 'flex flex-col gap-4'">
+    <!-- All section cards rendered flat, same as current non-tab layout -->
+  </div>
+</el-form>
+```
+
+Key points:
+- Desktop: `v-show` on each pane keeps fields in DOM for validation
+- Mobile: all sections rendered flat, no tab chrome — uses `md:hidden` when tabs exist
+- Section cards inside tabs use the same accent stripe pattern — blue/cyan/purple per content type
+- O2M/M2M tab content uses the same O2M sub-form pattern wrapped in a section card with purple accent stripe
+
+**Validation Across Tabs:**
+
+```typescript
+async function handleSubmit() {
+  if (!formRef.value) return
+  try {
+    await formRef.value.validate()
+  } catch {
+    // Find first tab with errors and switch to it
+    for (const tab of tabs.value) {
+      if (tabHasErrors(tab.key)) {
+        activeTab.value = tab.key
+        tab.hasError = true
+        break
+      }
+    }
+    return
+  }
+  // ... proceed with submission
+}
+
+function handleTabChange(key: string) {
+  // Clear error state when user switches to a previously-errored tab
+  const tab = tabs.value.find(t => t.key === key)
+  if (tab) tab.hasError = false
+}
+
+function tabHasErrors(tabKey: string): boolean {
+  // Map tab keys to their field prop names
+  const tabFieldMap: Record<string, string[]> = {
+    basic: ['customer', 'phone', 'amount', 'channel'],
+    delivery: ['deliveryMethod', 'address', 'remark'],
+    items: ['items'],
+    attachments: ['attachments'],
+  }
+  const formFields = Object.keys(formRef.value?.fields || {})
+  const tabFields = tabFieldMap[tabKey] || []
+  return tabFields.some(f => formFields.includes(f))
+}
+```
+
+Key points:
+- `formRef.value.validate()` validates all fields regardless of which tab is visible
+- On failure, find first tab containing an error field and auto-switch to it
+- Set `tab.hasError = true` to show red label + warning icon
+- Clear error state when user navigates to the errored tab
+- `v-show` (not `v-if`) keeps hidden tab fields in the DOM so Element Plus validation can reach them
+
+**O2M/M2M Tab Content:**
+
+Each relationship tab contains a single section card with purple accent stripe, reusing the existing O2M sub-form pattern:
+
+```html
+<!-- Desktop: inside the active tab pane -->
+<div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-purple-600 p-5 md:p-6">
+  <div class="text-sm font-semibold text-purple-700 mb-4 uppercase tracking-wide">商品清单</div>
+  <!-- Existing O2M sub-form pattern (column headers + data rows + add button) -->
+  ...
+</div>
+```
+
+Key points:
+- Reuses the exact O2M sub-form pattern — no structural change
+- Purple accent (`border-l-purple-600`) and title color (`text-purple-700`) signal "this is a relationship, not a field group"
+- Multiple O2M/M2M: each relationship gets its own tab — never combined into one
+
+**Three-Mode Integration:**
+
+Tabs are identical across create/view/edit. Only content inside panes changes per mode:
+
+| Mode | Tab Bar | Tab Content | O2M Tab |
+|---|---|---|---|
+| create | Visible | Editable fields + rules | Editable grid, add/delete enabled |
+| view | Visible | Read-only text | Read-only grid, no add/delete, no delete column |
+| edit | Visible | Editable fields + rules | Editable grid, add/delete enabled |
+
+View mode: tab bar still renders — users can browse all sections of the record. Mode detection, field display, validation, and submit behavior follow the same `isView`/`isEdit`/`isCreate` pattern from Three-Mode Form above.
+
 ### Admin Dashboard & Stat Pages
 
 Extra focus: container variety, section shading, visual rhythm. Admin pages with multiple data zones must not use uniform white-card styling throughout.
