@@ -76,6 +76,16 @@ Then fix the issues. Do not change business logic.
 - [ ] Mobile input is smooth.
 - [ ] **Three-mode form:** Form handles create/view/edit via route name. View mode: read-only display (`v-if="isView"`), status tag in breadcrumb, Edit+Delete toolbar. No validation rules in view mode.
 - [ ] **O2M sub-form:** Child list uses multi-column grid with column headers (edit + view). Each row has inputs/read-only text + auto-calculated subtotal + delete. `addItem` with field defaults. Total = sum of subtotals.
+- [ ] **Tabbed form (when applicable):**
+  - [ ] Decision matrix applied correctly: tabs only when 3+ logical groups OR 2+ O2M/M2M relationships
+  - [ ] Tab bar sits between toolbar and form content, not inside a card wrapper
+  - [ ] Each O2M/M2M relationship has its own dedicated tab with count badge
+  - [ ] O2M/M2M tab uses purple accent stripe (`border-l-purple-600`) + `text-purple-700` title
+  - [ ] Tab switching is instant, no validation triggered on switch
+  - [ ] Single submit validates all tabs; errors on hidden tabs auto-switch + mark tab red
+  - [ ] Desktop: tab bar visible, one pane at a time
+  - [ ] Mobile (<768px): tabs collapse to flat vertical section cards, no tab bar, no dropdown
+  - [ ] No horizontal scroll on tab bar; all tabs fit at once
 
 ## 5. Table Experience
 
