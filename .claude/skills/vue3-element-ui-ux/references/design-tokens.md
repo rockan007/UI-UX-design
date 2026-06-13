@@ -141,8 +141,13 @@ Stat/metric cards in admin pages use a 3px left border stripe to differentiate d
 | Cyan | `#0891b2` | Flow/in-progress | Orders, transactions, processing |
 | Amber | `#d97706` | Attention needed | Revenue, finance, pending items, warnings |
 | Green | `#16a34a` | Positive/complete | Completion rate, success rate, growth |
+| Purple | `#7c3aed` | Relationship (O2M/M2M) | Child records, related entities |
 
 Usage: `border-left: 3px solid {color}` + standard card border on remaining sides.
+
+Section title color matches the stripe color: `text-blue-700` for blue, `text-cyan-700` for cyan, 
+`text-purple-700` for purple (relationship) sections. In admin forms, O2M/M2M sub-form section 
+cards use purple accent stripes to visually distinguish relationship fields from entity fields.
 
 ## Shadows
 
