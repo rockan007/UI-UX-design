@@ -47,13 +47,13 @@ Then fix the issues. Do not change business logic.
 - [ ] Section spacing is stable.
 - [ ] Border radius and shadows are restrained.
 - [ ] **Connector lines vs. border-radius:** Containers with a border connector line on one side have that side's border-radius set to `0`. Use directional radius (`rounded-r-*`, `rounded-l-none`) instead of uniform `rounded-*`.
-- [ ] **Bar chart spacing:** Gap between bars is 50%–100% of bar width. Bar tops are straight (no `rounded-t-*`). Bar width is fixed (not `flex-1`).
+- [ ] **Bar chart spacing:** Gap between bars is ~50% of bar width on desktop. Bar tops are straight (no `rounded-t-*`). Bar width uses stepped fixed widths (`md:w-10 lg:w-12 2xl:w-14`), not `flex-1`.
 - [ ] **Container variety:** Admin pages with multiple content zones use varied container treatments (accent cards, raised panels, standard blocks) — not uniform white cards throughout.
 - [ ] **Accent stripes:** Stat/metric cards have a 3px left border stripe, color matches data category per `design-tokens.md` accent stripe table.
 - [ ] **Raised panels:** Chart containers and data visualization panels use `shadow-sm` + no border, distinct from data tables.
-- [ ] **Section shading:** Pages with 3+ zones use tinted `surface-*` wrappers for visual grouping. Pages with 1-2 zones stay flat.
+- [ ] **Section shading:** Zone wrappers use no tinted background by default — transparent, showing page background. `surface-*` tints are optional and should be used sparingly.
 - [ ] **Shadows restricted:** Only chart/data-viz containers use `shadow-sm`. Tables, forms, stat cards, and list containers do not use shadows.
-- [ ] **Tonal backgrounds restrained:** Zone tint backgrounds use only `*-50` level tokens. No saturated or dark backgrounds.
+- [ ] **Tonal backgrounds restrained:** If using zone tints (optional), use only `*-50` level tokens. No saturated or dark backgrounds. Default is no tint.
 - [ ] **Breadcrumb:** Admin pages use `el-breadcrumb` separator `/` instead of `<h1>` header. Last item is current page (not clickable). Earlier items have `:to` links. Reflects operation path, not sidebar hierarchy.
 - [ ] **CRUD breadcrumb:** Create/edit/detail pages have multi-level breadcrumbs reflecting operation path (e.g., `订单管理 / ORD-001 / 编辑`).
 - [ ] **Form grouping:** Sections as independent cards with left accent stripe (`border-l-[3px]`), separated by `gap-4`. Not dividers inside a single card.
