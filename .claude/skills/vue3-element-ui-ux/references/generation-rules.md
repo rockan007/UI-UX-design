@@ -488,6 +488,7 @@ continue using section cards only.
 <el-tabs
   v-if="tabs.length >= 2"
   v-model="activeTab"
+  tab-position="top"
   class="hidden md:block"
   @tab-change="handleTabChange"
 >
@@ -538,7 +539,6 @@ const tabs = computed<TabDefinition[]>(() => [
 ])
 
 const activeTab = ref<string>(tabs.value[0]?.key ?? 'basic')
-const hasMultipleTabs = computed(() => tabs.length >= 2)
 ```
 
 **Tab Pane Content (Desktop):**

@@ -160,14 +160,14 @@ Icon-only action buttons in table operation columns:
 - If validation errors exist on a hidden tab:
   - Submit fails
   - Auto-switch to the first tab with errors
-  - Error tab label turns red (`var(--danger-600)`) with a `WarningFilled` icon
+  - Error tab label turns red (`var(--el-color-danger)`) with a `WarningFilled` icon
   - `<el-badge>` on error tab switches to `type="danger"`
 - After user fixes errors and re-submits, error indicators clear
 
 **Mobile Tabs:**
 
 - On viewport < 768px, tabs collapse entirely — no tab bar, no dropdown
-- Tab bar: `hidden md:flex`
+- Tab bar: `hidden md:block`
 - All section cards render as a flat vertical stack with `gap-4`
 - This matches the current non-tab mobile layout behavior
 
