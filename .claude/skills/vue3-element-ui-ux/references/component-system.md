@@ -72,6 +72,8 @@ Chart rules:
 | `CardList` | `CardList` | Mobile card list replacing `el-table` at < 768px, 4-layer card per row, three-dot action menu |
 | `EntityForm` | `EntityForm` | Shared create/view/edit form, detects mode via route name. Read-only display in view mode via `v-if="isView"` blocks. Delete logic in component. |
 | `FormSection` | `FormSection` | Grouped form fields |
+| `TabbedForm` | `TabbedForm` | Form with tab bar for 3+ sections or 2+ O2M/M2M. Uses `<el-tabs>` inside `<el-form>`. Desktop: tabs switch panes. Mobile: flat section cards. |
+| `FormTab` | `FormTab` | Single tab pane within a TabbedForm. Can contain 1+ FormSection cards. O2M/M2M tabs get purple accent stripe + `<el-badge>` count. |
 | `ActionBar` | `ActionBar` | Save, cancel, batch actions |
 | `EmptyState` | `EmptyState` | Empty data explanation |
 | `LoadingState` | `LoadingState` or `Skeleton` | Loading indicator |
@@ -92,7 +94,8 @@ All admin layouts use the shared `AdminLayout` shell. Individual pages only prov
 | UI DSL Layout | Composition |
 | --- | --- |
 | `admin-list` | `AdminLayout + PageHeader + FilterBar + DataTable` (desktop ≥ 768px) / `AdminLayout + PageHeader + FilterDrawer + CardList` (mobile < 768px) |
-| `admin-form` | `AdminLayout + PageHeader + FormSection + ActionBar` |
+| `admin-form` (simple) | `AdminLayout + PageHeader + FormSection + ActionBar` |
+| `admin-form` (tabbed) | `AdminLayout + PageHeader + TabbedForm + FormTab[] + FormSection[] + ActionBar` |
 | `admin-detail` | `AdminLayout + PageHeader + DetailPanel` |
 | `admin-dashboard` | `AdminLayout + PageHeader + MetricGrid + SimpleBarChart + SimpleLineChart` |
 | `frontend-list` | `PageShell + SearchPanel + ResultList` |
