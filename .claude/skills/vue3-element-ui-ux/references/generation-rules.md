@@ -480,23 +480,49 @@ continue using section cards only.
 | Condition | Layout |
 |---|---|
 | < 3 logical field groups AND ≤ 1 O2M/M2M | Section cards only (current pattern) |
-| 3+ logical field groups OR 2+ O2M/M2M | Tabs + section cards |
+| 3+ logical field groups OR 2+ O2M/M2M, but no O2M/M2M | Single tab bar |
+| 3+ logical field groups OR 2+ O2M/M2M, AND ≥ 1 O2M/M2M | Dual tab bar (this section) |
 
-**Tab Bar:**
+**Tab Bar (Dual):**
+
+When O2M/M2M relationships are present, split into two independent tab bars: upper for
+field groups, lower for relationships. A divider labeled "关联数据" separates the two.
 
 ```html
+<!-- Upper Tab Bar: field groups -->
 <el-tabs
-  v-if="tabs.length >= 2"
-  v-model="activeTab"
+  v-if="showFieldTabBar"
+  v-model="activeFieldTab"
   tab-position="top"
   class="hidden md:block"
-  @tab-change="handleTabChange"
+  @tab-change="handleFieldTabChange"
 >
-  <el-tab-pane
-    v-for="tab in tabs"
-    :key="tab.key"
-    :name="tab.key"
-  >
+  <el-tab-pane v-for="tab in fieldTabs" :key="tab.key" :name="tab.key">
+    <template #label>
+      {{ tab.label }}
+      <el-icon v-if="tab.hasError" class="ml-1" style="color: var(--el-color-danger)">
+        <WarningFilled />
+      </el-icon>
+    </template>
+  </el-tab-pane>
+</el-tabs>
+
+<!-- Divider: shown when both groups have content -->
+<div v-if="showDivider" class="flex items-center gap-3 my-6 hidden md:flex">
+  <div class="flex-1 h-px bg-neutral-200"></div>
+  <span class="text-xs text-neutral-400 uppercase tracking-wide font-medium">关联数据</span>
+  <div class="flex-1 h-px bg-neutral-200"></div>
+</div>
+
+<!-- Lower Tab Bar: O2M/M2M relationships -->
+<el-tabs
+  v-if="showRelTabBar"
+  v-model="activeRelTab"
+  tab-position="top"
+  class="hidden md:block"
+  @tab-change="handleRelTabChange"
+>
+  <el-tab-pane v-for="tab in relationshipTabs" :key="tab.key" :name="tab.key">
     <template #label>
       {{ tab.label }}
       <el-badge
@@ -514,14 +540,16 @@ continue using section cards only.
 ```
 
 Key points:
-- Tab bar uses `hidden md:block` — visible on desktop only
-- `v-if="tabs.length >= 2"` — no tab bar when there's only one tab
-- Badge via `<el-badge>` in the `#label` slot; hidden when count is 0
-- Error tab: badge `type="danger"` + `WarningFilled` icon in red
-- Active tab styling: `border-bottom: 2px solid var(--brand-600)` + `color: var(--brand-600)` + `font-weight: 500`
+- Both tab bars use `hidden md:block` — visible on desktop only
+- `v-if="showFieldTabBar"` / `v-if="showRelTabBar"` — no bar when only 1 tab in that group
+- Badge only on relationship tabs (lower bar), not on field tabs
+- Divider: `flex items-center gap-3 my-6 hidden md:flex` — horizontal rule + label pattern
+- Divider only shown when both field tabs and relationship tabs exist (`showDivider`)
+- Error tab: badge `type="danger"` + `WarningFilled` icon in red — works in both bars
+- Active tab styling (both bars): `border-bottom: 2px solid var(--brand-600)` + `color: var(--brand-600)` + `font-weight: 500`
 - Inactive tab: `color: var(--neutral-500)`, hover shifts to `brand-600`
 
-**Tab Definition:**
+**Tab Definitions:**
 
 ```typescript
 interface TabDefinition {
@@ -531,76 +559,125 @@ interface TabDefinition {
   hasError?: boolean    // set to true when hidden tab has validation errors
 }
 
-const tabs = computed<TabDefinition[]>(() => [
+// Field-group tabs (upper) — entity fields, non-relationship sections
+const fieldTabs = computed<TabDefinition[]>(() => [
   { key: 'basic', label: '基本信息' },
   { key: 'delivery', label: '配送 & 备注' },
+])
+
+// O2M/M2M relationship tabs (lower) — always at page bottom
+const relationshipTabs = computed<TabDefinition[]>(() => [
   { key: 'items', label: '商品清单', count: form.items.length },
   { key: 'attachments', label: '附件', count: form.attachments.length },
 ])
 
-const activeTab = ref<string>(tabs.value[0]?.key ?? 'basic')
+const activeFieldTab = ref<string>(fieldTabs.value[0]?.key ?? 'basic')
+const activeRelTab = ref<string>(relationshipTabs.value[0]?.key ?? 'items')
+
+// Render tab bar only when group has ≥2 tabs (collapse single tab)
+const showFieldTabBar = computed(() => fieldTabs.value.length >= 2)
+const showRelTabBar = computed(() => relationshipTabs.value.length >= 2)
+const showDivider = computed(() =>
+  fieldTabs.value.length >= 1 && relationshipTabs.value.length >= 1
+)
 ```
 
 **Tab Pane Content (Desktop):**
 
-On desktop, only the active tab's content renders. Use `v-show` (not `v-if`) so Element Plus validation can reach fields on hidden tabs:
+On desktop, use `v-show` per group so Element Plus validation can reach all fields.
+Each group manages its own active tab independently.
 
 ```html
 <el-form ref="formRef" :model="form" :rules="isView ? {} : rules" label-position="top"
          @submit.prevent="isView ? undefined : handleSubmit()">
-  <!-- Desktop: active tab pane only -->
-  <div v-if="tabs.length >= 2" class="hidden md:flex flex-col gap-4">
-    <template v-for="tab in tabs" :key="tab.key">
-      <div v-show="activeTab === tab.key">
-        <!-- Tab-specific section cards render here. Each tab pane contains
-             1+ section cards with accent stripes, same as the non-tab layout.
-             O2M/M2M tabs get purple accent stripe. -->
-      </div>
-    </template>
+  <!-- Upper group content: field tab panes -->
+  <div :class="showFieldTabBar ? 'hidden md:flex flex-col gap-4' : ''">
+    <div v-show="!showFieldTabBar || activeFieldTab === 'basic'">
+      <!-- 基本信息 section card (blue stripe) -->
+    </div>
+    <div v-show="!showFieldTabBar || activeFieldTab === 'delivery'">
+      <!-- 配送 & 备注 section card (cyan stripe) -->
+    </div>
   </div>
 
-  <!-- Mobile + Simple forms: flat section cards -->
-  <div :class="tabs.length >= 2 ? 'md:hidden flex flex-col gap-4' : 'flex flex-col gap-4'">
-    <!-- All section cards rendered flat, same as current non-tab layout -->
+  <!-- Divider between groups (desktop) -->
+  <div v-if="showDivider" class="flex items-center gap-3 my-6 hidden md:flex">
+    <div class="flex-1 h-px bg-neutral-200"></div>
+    <span class="text-xs text-neutral-400 uppercase tracking-wide font-medium">关联数据</span>
+    <div class="flex-1 h-px bg-neutral-200"></div>
+  </div>
+
+  <!-- Lower group content: O2M/M2M tab panes -->
+  <div :class="showRelTabBar ? 'hidden md:flex flex-col gap-4' : ''">
+    <div v-show="!showRelTabBar || activeRelTab === 'items'">
+      <!-- 商品清单 section card (purple stripe) — existing O2M pattern -->
+    </div>
+    <div v-show="!showRelTabBar || activeRelTab === 'attachments'">
+      <!-- 附件 section card (purple stripe) -->
+    </div>
+  </div>
+
+  <!-- Mobile: flat sections with divider -->
+  <div class="md:hidden flex flex-col gap-4">
+    <!-- 基本信息 (blue) -->
+    <!-- 配送 & 备注 (cyan) -->
+    <!-- Divider: 关联数据 -->
+    <!-- 商品清单 (purple) -->
+    <!-- 附件 (purple) -->
   </div>
 </el-form>
 ```
 
 Key points:
-- Desktop: `v-show` on each pane keeps fields in DOM for validation
-- Mobile: all sections rendered flat, no tab chrome — uses `md:hidden` when tabs exist
+- `!showFieldTabBar` / `!showRelTabBar`: when a group has only 1 tab, content renders directly without tab switching
+- `v-show` (not `v-if`) on each pane keeps hidden fields in DOM for validation
+- Desktop: both tab groups visible simultaneously with independent active states
+- Mobile: `md:hidden` flat stack with divider between field and relationship sections
 - Section cards inside tabs use the same accent stripe pattern — blue/cyan/purple per content type
-- O2M/M2M tab content uses the same O2M sub-form pattern wrapped in a section card with purple accent stripe
 
-**Validation Across Tabs:**
+**Validation Across Both Tab Groups:**
 
 ```typescript
 async function handleSubmit() {
   if (!formRef.value) return
+  submitting.value = true
   try {
     await formRef.value.validate()
   } catch {
-    // Find first tab with errors and switch to it
-    for (const tab of tabs.value) {
+    // Check field group tabs first, then relationship tabs
+    for (const tab of fieldTabs.value) {
       if (tabHasErrors(tab.key)) {
-        activeTab.value = tab.key
+        activeFieldTab.value = tab.key
         tab.hasError = true
-        break
+        submitting.value = false
+        return
       }
     }
+    for (const tab of relationshipTabs.value) {
+      if (tabHasErrors(tab.key)) {
+        activeRelTab.value = tab.key
+        tab.hasError = true
+        submitting.value = false
+        return
+      }
+    }
+    submitting.value = false
     return
   }
   // ... proceed with submission
 }
 
-function handleTabChange(key: string) {
-  // Clear error state when user switches to a previously-errored tab
-  const tab = tabs.value.find(t => t.key === key)
+function handleFieldTabChange(key: string) {
+  const tab = fieldTabs.value.find(t => t.key === key)
+  if (tab) tab.hasError = false
+}
+
+function handleRelTabChange(key: string) {
+  const tab = relationshipTabs.value.find(t => t.key === key)
   if (tab) tab.hasError = false
 }
 
 function tabHasErrors(tabKey: string): boolean {
-  // Map tab keys to their field prop names
   const tabFieldMap: Record<string, string[]> = {
     basic: ['customer', 'phone', 'amount', 'channel'],
     delivery: ['deliveryMethod', 'address', 'remark'],
@@ -614,11 +691,10 @@ function tabHasErrors(tabKey: string): boolean {
 ```
 
 Key points:
-- `formRef.value.validate()` validates all fields regardless of which tab is visible
-- On failure, find first tab containing an error field and auto-switch to it
-- Set `tab.hasError = true` to show red label + warning icon
-- Clear error state when user navigates to the errored tab
-- `v-show` (not `v-if`) keeps hidden tab fields in the DOM so Element Plus validation can reach them
+- Field tabs checked first — entity-level errors take priority over relationship errors
+- Each group has its own active tab ref and change handler
+- If error is in a collapsed group (1 tab, no bar), inline field errors still show — no tab switch needed
+- `v-show` (not `v-if`) keeps hidden tab fields in the DOM for validation
 
 **O2M/M2M Tab Content:**
 
@@ -642,13 +718,14 @@ Key points:
 
 Tabs are identical across create/view/edit. Only content inside panes changes per mode:
 
-| Mode | Tab Bar | Tab Content | O2M Tab |
-|---|---|---|---|
-| create | Visible | Editable fields + rules | Editable grid, add/delete enabled |
-| view | Visible | Read-only text | Read-only grid, no add/delete, no delete column |
-| edit | Visible | Editable fields + rules | Editable grid, add/delete enabled |
+| Mode | Upper Bar | Upper Content | Lower Bar | Lower Content |
+|---|---|---|---|---|
+| create | Visible (if >=2 tabs) | Editable fields + rules | Visible (if >=2 tabs) | Editable grids, add/delete enabled |
+| view | Visible | Read-only text | Visible | Read-only grids, no add/delete |
+| edit | Visible (if >=2 tabs) | Editable fields + rules | Visible (if >=2 tabs) | Editable grids, add/delete enabled |
 
-View mode: tab bar still renders — users can browse all sections of the record. Mode detection, field display, validation, and submit behavior follow the same `isView`/`isEdit`/`isCreate` pattern from Three-Mode Form above.
+Single tab collapse applies in all modes — a view-mode form with only 1 field tab
+shows the content directly, no tab bar.
 
 ### Admin Dashboard & Stat Pages
 
