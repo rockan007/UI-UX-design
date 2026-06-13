@@ -13,8 +13,13 @@ Structured interface plan before code. Output UI DSL first for every page — ne
   "layout": "layout-name",
   "navigation": {},
   "header": {},
+  "userFlow": [],
   "sections": [],
   "actions": [],
+  "interactions": [],
+  "feedback": {},
+  "validation": {},
+  "edgeCases": [],
   "states": [],
   "responsive": {},
   "locale": {
@@ -25,8 +30,48 @@ Structured interface plan before code. Output UI DSL first for every page — ne
 }
 ```
 
-Required fields: `page`, `type`, `route`, `goal`, `layout`, `header`, `sections`, `actions`, `states`, `responsive`.
+Required fields: `page`, `type`, `route`, `goal`, `layout`, `header`, `userFlow`, `sections`, `actions`, `interactions`, `states`, `responsive`.
 Optional fields when i18n is enabled: locale (enabled, default-locale, supported).
+
+### Interaction Fields
+
+```json
+{
+  "userFlow": [
+    "Where the user enters from",
+    "What the user should do first",
+    "How the user completes the task",
+    "What the user does next"
+  ],
+  "interactions": [
+    {
+      "name": "actionName",
+      "trigger": "User action",
+      "precondition": "Required condition",
+      "feedback": "Immediate UI response",
+      "success": "Successful result",
+      "failure": "Failure behavior",
+      "recovery": "How the user recovers"
+    }
+  ],
+  "feedback": {
+    "loading": "How loading appears",
+    "success": "How success appears",
+    "error": "How failure appears"
+  },
+  "validation": {
+    "timing": "onBlur | onSubmit | onChange",
+    "display": "field-level | section-level | page-level"
+  },
+  "edgeCases": [
+    "No data",
+    "No permission",
+    "Network failure",
+    "Long text",
+    "Small screen"
+  ]
+}
+```
 
 ## Page Templates
 
@@ -44,6 +89,13 @@ Optional fields when i18n is enabled: locale (enabled, default-locale, supported
     "description": "View user status, roles, and recent activity",
     "primaryAction": { "label": "Add User", "component": "Button", "variant": "primary" }
   },
+  "userFlow": [
+    "Admin enters user list from sidebar",
+    "Admin scans user status and recent activity",
+    "Admin filters by keyword or status",
+    "Admin opens row actions or creates a new user",
+    "System confirms destructive actions and updates the table"
+  ],
   "filters": [
     { "name": "keyword", "component": "Input", "placeholder": "Search name, email, or phone" },
     { "name": "status", "component": "Select", "placeholder": "Status", "options": ["All", "Active", "Disabled"] }
@@ -58,6 +110,32 @@ Optional fields when i18n is enabled: locale (enabled, default-locale, supported
       { "key": "actions", "label": "Actions", "align": "right" }
     ]
   },
+  "interactions": [
+    {
+      "name": "filterUsers",
+      "trigger": "Change filter or submit keyword",
+      "precondition": "Filter value changed",
+      "feedback": "Table shows loading state",
+      "success": "Table updates and applied filters remain visible",
+      "failure": "Show section-level error with retry",
+      "recovery": "User can retry or clear filters"
+    },
+    {
+      "name": "deleteUser",
+      "trigger": "Click row destructive action",
+      "precondition": "User has permission",
+      "feedback": "Show confirmation dialog with affected user",
+      "success": "Close dialog, show toast, update row status",
+      "failure": "Keep dialog or row visible and show retryable error",
+      "recovery": "User can cancel or retry"
+    }
+  ],
+  "feedback": {
+    "loading": "Skeleton rows preserve table layout",
+    "success": "Toast confirms the completed operation",
+    "error": "Inline table error provides retry"
+  },
+  "edgeCases": ["empty result", "permission denied", "network failure", "long user name"],
   "states": ["loading", "empty", "error", "permissionDenied"],
   "responsive": { "desktop": "table", "mobile": "card-list" }
 }
@@ -73,6 +151,13 @@ Optional fields when i18n is enabled: locale (enabled, default-locale, supported
   "goal": "Admin creates a new user",
   "layout": "admin-form",
   "header": { "title": "Add User", "description": "Create account and assign initial role" },
+  "userFlow": [
+    "Admin enters create user page from list",
+    "Fills in basic info",
+    "Selects role and account status",
+    "Submits the form",
+    "System saves and navigates back to list or shows success feedback"
+  ],
   "form": {
     "sections": [
       {
@@ -95,6 +180,27 @@ Optional fields when i18n is enabled: locale (enabled, default-locale, supported
       { "label": "Save", "variant": "primary" }
     ]
   },
+  "interactions": [
+    {
+      "name": "submitCreateUser",
+      "trigger": "Click Save",
+      "precondition": "Required fields are valid",
+      "feedback": "Save button becomes loading and disabled",
+      "success": "Show success toast and navigate back to list",
+      "failure": "Show field-level validation or page-level retryable error",
+      "recovery": "Keep entered values so user can correct and resubmit"
+    }
+  ],
+  "validation": {
+    "timing": "onBlur and onSubmit",
+    "display": "field-level"
+  },
+  "feedback": {
+    "submitting": "Primary button loading prevents double submit",
+    "success": "Toast confirms creation",
+    "error": "Errors appear near fields or in form alert"
+  },
+  "edgeCases": ["duplicate email", "missing required field", "permission denied"],
   "states": ["validationError", "submitting", "success", "error"]
 }
 ```
@@ -109,6 +215,13 @@ Optional fields when i18n is enabled: locale (enabled, default-locale, supported
   "goal": "Admin views key metrics and trends",
   "layout": "admin-dashboard",
   "header": { "title": "Dashboard", "description": "Core metrics for the past 30 days" },
+  "userFlow": [
+    "Admin lands on dashboard after login",
+    "Scans key metrics at a glance",
+    "Checks trend charts for anomalies",
+    "Reviews recent activity timeline",
+    "Navigates to a specific section for deeper investigation"
+  ],
   "sections": [
     {
       "component": "MetricGrid",
@@ -123,6 +236,23 @@ Optional fields when i18n is enabled: locale (enabled, default-locale, supported
     { "title": "By Category", "component": "SimpleBarChart" },
     { "title": "Recent Activity", "component": "StatusTimeline" }
   ],
+  "interactions": [
+    {
+      "name": "clickMetricCard",
+      "trigger": "Click a metric card",
+      "precondition": "Card is clickable",
+      "feedback": "Navigate to filtered detail view",
+      "success": "Detailed data loads",
+      "failure": "Show error in detail area with retry",
+      "recovery": "User navigates back to dashboard"
+    }
+  ],
+  "feedback": {
+    "loading": "Skeleton cards for metrics, skeleton for charts",
+    "empty": "Empty state per section with guidance",
+    "error": "Section-level error with retry button"
+  },
+  "edgeCases": ["no data for period", "chart rendering failure", "slow metric query", "mobile chart readability"],
   "states": ["loading", "empty", "error"],
   "responsive": { "desktop": "sidebar + 4-metrics + 2-charts + timeline", "mobile": "no-sidebar, 2-metrics, stacked-charts" }
 }
@@ -142,6 +272,13 @@ Optional fields when i18n is enabled: locale (enabled, default-locale, supported
     "breadcrumbs": ["Orders", "ORD-20240606-001"],
     "primaryAction": { "label": "Process Order", "component": "Button", "variant": "primary" }
   },
+  "userFlow": [
+    "Admin clicks an order from the list",
+    "Reviews order info and customer details",
+    "Checks line items and activity log",
+    "Takes action (process, edit, or contact customer)",
+    "Returns to order list"
+  ],
   "sections": [
     {
       "component": "DetailPanel",
@@ -153,6 +290,23 @@ Optional fields when i18n is enabled: locale (enabled, default-locale, supported
     { "component": "DataTable", "title": "Line Items", "columns": [{ "key": "productName", "label": "Product" }, { "key": "quantity", "label": "Qty" }, { "key": "unitPrice", "label": "Unit Price" }, { "key": "subtotal", "label": "Subtotal" }] },
     { "component": "AuditTimeline", "title": "Activity Log" }
   ],
+  "interactions": [
+    {
+      "name": "processOrder",
+      "trigger": "Click Process Order button",
+      "precondition": "Order is in a processable status",
+      "feedback": "Button shows loading, form or confirmation dialog opens",
+      "success": "Order status updates, success toast",
+      "failure": "Show error with reason and retry option",
+      "recovery": "User can retry or cancel and return to detail"
+    }
+  ],
+  "feedback": {
+    "loading": "Skeleton for detail sections",
+    "error": "Page-level error with back-to-list option",
+    "success": "Toast confirms status change"
+  },
+  "edgeCases": ["order not found", "permission denied", "concurrent status change", "missing line items"],
   "states": ["loading", "error", "permissionDenied"],
   "responsive": { "desktop": "detail + table + timeline", "mobile": "stacked-sections" }
 }
@@ -168,6 +322,13 @@ Optional fields when i18n is enabled: locale (enabled, default-locale, supported
   "goal": "Admin configures system parameters",
   "layout": "admin-form",
   "header": { "title": "Settings", "description": "Manage site configuration and security" },
+  "userFlow": [
+    "Admin navigates to settings from sidebar",
+    "Reviews current configuration",
+    "Modifies general or security settings",
+    "Saves changes",
+    "System confirms and applies new settings"
+  ],
   "form": {
     "sections": [
       {
@@ -190,6 +351,27 @@ Optional fields when i18n is enabled: locale (enabled, default-locale, supported
       { "label": "Save", "variant": "primary" }
     ]
   },
+  "interactions": [
+    {
+      "name": "saveSettings",
+      "trigger": "Click Save",
+      "precondition": "Required fields are valid",
+      "feedback": "Save button becomes loading and disabled",
+      "success": "Show success toast, settings take effect immediately",
+      "failure": "Show field-level or form-level error with retry",
+      "recovery": "Keep entered values, user can correct and resubmit"
+    }
+  ],
+  "validation": {
+    "timing": "onBlur and onSubmit",
+    "display": "field-level"
+  },
+  "feedback": {
+    "submitting": "Primary button loading prevents double submit",
+    "success": "Toast confirms settings saved",
+    "error": "Errors appear near fields or in form alert"
+  },
+  "edgeCases": ["permission denied", "concurrent edit conflict", "invalid input values"],
   "states": ["validationError", "submitting", "success", "error"]
 }
 ```
@@ -204,10 +386,34 @@ Optional fields when i18n is enabled: locale (enabled, default-locale, supported
   "goal": "User browses and finds courses",
   "layout": "frontend-list",
   "header": { "title": "Courses", "description": "Filter by topic, difficulty, and schedule" },
+  "userFlow": [
+    "User enters course list",
+    "Browses featured courses or enters search criteria",
+    "Adjusts filters",
+    "Opens course detail",
+    "Returns to list with filter context preserved"
+  ],
   "sections": [
     { "component": "SearchPanel", "fields": ["keyword", "category", "level"] },
     { "component": "ResultList", "itemComponent": "CourseCard" }
   ],
+  "interactions": [
+    {
+      "name": "searchCourses",
+      "trigger": "Submit keyword or change filters",
+      "precondition": "Search input or filter changed",
+      "feedback": "Result list enters loading state",
+      "success": "Results update and filter state remains visible",
+      "failure": "Show retryable result-area error",
+      "recovery": "User can retry, clear filters, or adjust search"
+    }
+  ],
+  "feedback": {
+    "loading": "Result area uses skeleton cards",
+    "empty": "Empty state suggests clearing filters",
+    "error": "Error state offers retry"
+  },
+  "edgeCases": ["no results", "slow search", "long course title", "mobile filters"],
   "states": ["loading", "empty", "error"],
   "responsive": { "desktop": "filters-left-results-right", "mobile": "filters-collapsed-results-list" }
 }
@@ -219,6 +425,10 @@ Before generating code, verify:
 - Page goal is specific.
 - Layout matches frontend/admin context.
 - Primary action is explicit.
+- User flow describes entry, task completion, and next action.
+- Interactions define trigger, feedback, success, failure, and recovery.
 - Component names map to real project components.
+- Feedback and validation behavior are explicit for important actions.
+- Edge cases include empty data, permission, network failure, long content, and mobile.
 - Loading, empty, error, disabled, focus, and mobile states are covered.
 - Mobile behavior is specified.

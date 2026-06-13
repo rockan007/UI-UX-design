@@ -1,8 +1,0 @@
-interface:
-  display_name: "UI/UX Agent Designer"
-  short_description: "UI DSL, mapping, and review rules"
-  default_prompt: "Use $ui-ux-agent-designer to design a UI/UX-first page: start with UI DSL, map to components, then review responsive states."
-
-policy:
-  allow_implicit_invocation: true
-

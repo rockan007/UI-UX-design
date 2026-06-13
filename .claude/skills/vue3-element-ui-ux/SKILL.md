@@ -1,6 +1,6 @@
 ---
 name: vue3-element-ui-ux
-description: Vue 3 + Element Plus UI/UX design constraints for this project. Use when generating, reviewing, or improving any page in this codebase.
+description: Use when generating, reviewing, or improving pages in a Vue 3 + Element Plus + Tailwind CSS project that needs consistent admin/frontend UI with design tokens, component mapping tables, and state coverage rules.
 ---
 
 # Vue 3 Element Plus UI/UX Design Constraints
@@ -11,6 +11,8 @@ Use this skill to make Claude Code produce UI aligned with this project's design
 
 ```text
 Page type identification
+→ user task flow
+→ interaction model
 → design tokens
 → UI DSL
 → component mapping
@@ -18,7 +20,7 @@ Page type identification
 → review checklist
 ```
 
-Do not start writing page code before outputting UI DSL.
+Do not start writing page code before defining the user task flow and outputting UI DSL.
 
 ## First Move
 
@@ -26,12 +28,14 @@ When asked to create or improve a page:
 
 0. Check `package.json` for `"vue3ElementUiUx": { "i18n": true }`. If enabled, load `references/i18n-rules.md` before proceeding.
 1. Identify page type (frontend vs admin) using `references/design-principles.md`.
-2. Load design tokens from `references/design-tokens.md`.
-3. Generate UI DSL following `references/ui-dsl.md`.
-4. Map DSL to Element Plus components using `references/component-system.md`.
-5. Implement code following `references/generation-rules.md`.
-6. Apply interaction behaviors from `references/interaction-rules.md`.
-7. Review with `references/review-checklist.md`.
+2. Define the user task flow: entry context → first action → task completion → next action.
+3. Define the interaction model: trigger, feedback, success, failure, and recovery for each key action.
+4. Load design tokens from `references/design-tokens.md`.
+5. Generate UI DSL following `references/ui-dsl.md`.
+6. Map DSL to Element Plus components using `references/component-system.md`.
+7. Implement code following `references/generation-rules.md`.
+8. Apply interaction behaviors from `references/interaction-rules.md`.
+9. Review with `references/review-checklist.md`.
 
 ## Non-Negotiable Rules
 

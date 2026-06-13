@@ -6,31 +6,20 @@ Rules, workflow, and prompt templates for page generation. Follow these exactly.
 
 ### Must Follow
 
-1. Read `docs/ui-ux` specs before generating any page.
-2. Output UI DSL before writing code.
-3. After DSL is confirmed, map components before coding.
-4. Prefer existing components and design system.
-5. Do not randomly create new components.
-6. Do not write one-off styles.
-7. Do not change business logic, API contracts, or database structure.
-8. Do not introduce new UI libraries.
-9. Every page must cover all required states.
-10. After implementation, run UI/UX review.
-11. **All admin pages must use the shared `AdminLayout` shell.** Never create an admin page with its own sidebar, header, or layout wrapper. Add the route as a child under `{admin-prefix}` and add the menu item to `AdminSidebar.vue`.
-12. AdminSidebar supports multi-level menus via `el-sub-menu`. When adding a parent category, nest child items under `el-sub-menu`. Keep nesting to 1-2 levels.
-13. **Configure Element Plus locale in `main.ts`.** If project i18n is NOT enabled (no `"vue3ElementUiUx": { "i18n": true }` in package.json): import `zhCn` from `element-plus/dist/locale/zh-cn.mjs` and pass `{ locale: zhCn }` to `app.use(ElementPlus, ...)`. If i18n IS enabled: the i18n infrastructure (`i18n-rules.md`) handles this via `elLocaleMap` and `el-config-provider` — do not hardcode `zhCn` separately.
+1. Output UI DSL before writing code.
+2. After DSL is confirmed, map components before coding.
+3. Prefer existing components and design system.
+4. Do not randomly create new components.
+5. Do not write one-off styles.
+6. Do not change business logic, API contracts, or database structure.
+7. Do not introduce new UI libraries.
+8. Every page must cover all required states.
+9. After implementation, run UI/UX review.
+10. **All admin pages must use the shared `AdminLayout` shell.** Never create an admin page with its own sidebar, header, or layout wrapper. Add the route as a child under `{admin-prefix}` and add the menu item to `AdminSidebar.vue`.
+11. AdminSidebar supports multi-level menus via `el-sub-menu`. When adding a parent category, nest child items under `el-sub-menu`. Keep nesting to 1-2 levels.
+12. **Configure Element Plus locale in `main.ts`.** If project i18n is NOT enabled (no `"vue3ElementUiUx": { "i18n": true }` in package.json): import `zhCn` from `element-plus/dist/locale/zh-cn.mjs` and pass `{ locale: zhCn }` to `app.use(ElementPlus, ...)`. If i18n IS enabled: the i18n infrastructure (`i18n-rules.md`) handles this via `elLocaleMap` and `el-config-provider` — do not hardcode `zhCn` separately.
 
-14. **If project i18n is enabled** (package.json contains `"vue3ElementUiUx": { "i18n": true }`), read `i18n-rules.md` before generating any page. All user-facing text must use `$t()` keys, formatting must use `$n()` / `$d()`, and `LocaleSwitcher` must be included in the header.
-
-### Code Constraints
-
-- Don't change business logic.
-- Don't refactor system architecture.
-- Don't modify API contracts or database structure.
-- Don't create single-use components.
-- Don't write random colors, radii, shadows.
-- Mobile must not be just a compressed desktop layout.
-- **Don't create standalone admin pages with their own layout.** All admin pages are children of AdminLayout.
+13. **If project i18n is enabled** (package.json contains `"vue3ElementUiUx": { "i18n": true }`), read `i18n-rules.md` before generating any page. All user-facing text must use `$t()` keys, formatting must use `$n()` / `$d()`, and `LocaleSwitcher` must be included in the header.
 
 ### Required States
 
@@ -41,6 +30,8 @@ Every page: `loading`, `empty`, `error`, `success feedback`, `disabled`, `hover`
 ```
 Requirements input
 → Identify page type
+→ Define user task flow
+→ Define interaction model
 → Generate UI DSL
 → Review DSL
 → Map components
@@ -58,34 +49,42 @@ User provides: page path, page type (frontend/admin), page goal, main content, m
 
 Classify: frontend list, frontend detail, admin list, admin form, admin detail, dashboard, settings.
 
-### 3. UI DSL
+### 3. User Task Flow
 
-Output structured DSL first. Include: `page`, `type`, `route`, `goal`, `layout`, `header`, `sections`, `actions`, `states`, `responsive`.
+Define the user's path through the page: entry context → first meaningful action → required input → system feedback → confirmation/result → next likely action.
 
-### 4. DSL Review
+### 4. Interaction Model
+
+For each important action, define: trigger, precondition, feedback, success, failure, recovery.
+
+### 5. UI DSL
+
+Output structured DSL first. Include: `page`, `type`, `route`, `goal`, `layout`, `header`, `userFlow`, `sections`, `actions`, `interactions`, `feedback`, `validation`, `edgeCases`, `states`, `responsive`.
+
+### 6. DSL Review
 
 Check: clear goal, reasonable primary action, clear hierarchy, component selection matches mapping, complete states, explicit mobile plan.
 
-### 5. Component Mapping
+### 7. Component Mapping
 
 Use `component-system.md` mapping table. If no match exists, explain: why existing components are insufficient, what category the new component belongs to, whether it's reusable, whether it affects other pages.
 
-### 6. Code Generation
+### 8. Code Generation
 
 - Keep scope minimal.
 - Prefer existing components.
 - Follow `design-tokens.md` for styles.
 - Don't modify unrelated files.
 
-### 7. Project Check
+### 9. Project Check
 
 If local dev is available, start dev server and inspect pages at: 1440px, 1024px, 768px, 390px.
 
-### 8. Fix UI Issues
+### 10. Fix UI Issues
 
 Must fix: text overflow, element overlap, unclear primary actions, spacing inconsistency, mobile unusability, missing states, unclear form errors.
 
-### 9. Change Summary
+### 11. Change Summary
 
 Output: files changed, UX problems solved, checks performed, remaining risks.
 
@@ -97,7 +96,7 @@ Output: files changed, UX problems solved, checks performed, remaining risks.
 Read the UI/UX specs first.
 Generate UI DSL for this page. Do not write code yet.
 
-UI DSL must include: page, type, route, goal, layout, header, sections (or form/table), actions, states, responsive.
+UI DSL must include: page, type, route, goal, layout, header, userFlow, sections (or form/table), actions, interactions, feedback, validation, edgeCases, states, responsive.
 
 After generation, explain the design rationale.
 ```

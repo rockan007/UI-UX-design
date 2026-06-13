@@ -91,5 +91,5 @@ Create a new component only when:
 
 Do not create a component just to hold a one-off spacing or color variation.
 
-Use `lucide-react` for icons when the project has it or a similar established icon library. Do not hand-write SVG icons unless the project already uses custom SVG assets.
+Use the project's established icon library. Do not hand-write SVG icons unless the project already uses custom SVG assets.
 

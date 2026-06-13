@@ -1,6 +1,6 @@
 ---
 name: ui-ux-agent-designer
-description: Design, generate, or improve frontend/admin UI with a UI/UX-first workflow. Use when the user wants Claude Code to create polished interfaces, define UI DSL, map DSL to components, set Agent generation rules, improve page UX, audit UI quality, or organize frontend/backend pages around consistent design systems rather than business architecture.
+description: Use when the user asks to create or improve frontend/admin pages with a design-system-first approach, define UI DSL before code, map UI patterns to components, audit UI/UX quality, or organize pages around UX goals instead of free-form code generation.
 ---
 
 # UI/UX Agent Designer
