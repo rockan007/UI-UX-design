@@ -28,11 +28,16 @@ interface Order {
   status: OrderStatus
   channel: string
   createdAt: string
+  attachments?: { fileName: string; fileSize: string; uploadedAt: string }[]
 }
 
 // ── Mock Data ───────────────────────────────────────
 const mockOrders: Order[] = [
-  { id: 'ORD-20260601-001', customer: '张三', phone: '138****1234', items: [{ name: 'iPhone 16 Pro Max', spec: '256GB 黑色', quantity: 1, unitPrice: 8999 }, { name: 'AirPods Pro', spec: 'USB-C', quantity: 1, unitPrice: 1999 }], total: 10998, status: 'completed', channel: 'APP', createdAt: '2026-06-01 09:23' },
+  { id: 'ORD-20260601-001', customer: '张三', phone: '138****1234', items: [{ name: 'iPhone 16 Pro Max', spec: '256GB 黑色', quantity: 1, unitPrice: 8999 }, { name: 'AirPods Pro', spec: 'USB-C', quantity: 1, unitPrice: 1999 }], total: 10998, status: 'completed', channel: 'APP', createdAt: '2026-06-01 09:23',
+    attachments: [
+      { fileName: '合同.pdf', fileSize: '1.2MB', uploadedAt: '2026-06-10' },
+      { fileName: '发票.png', fileSize: '450KB', uploadedAt: '2026-06-11' },
+    ] },
   { id: 'ORD-20260601-002', customer: '李四', phone: '139****5678', items: [{ name: 'MacBook Air 15"', spec: 'M4 24GB 512GB', quantity: 1, unitPrice: 9499 }], total: 9499, status: 'shipped', channel: '网页', createdAt: '2026-06-01 10:15' },
   { id: 'ORD-20260602-003', customer: '王五', phone: '150****9012', items: [{ name: 'iPad Pro', spec: '13" 512GB', quantity: 1, unitPrice: 9999 }, { name: 'Apple Pencil Pro', spec: 'USB-C', quantity: 1, unitPrice: 999 }, { name: '妙控键盘', spec: '13" 黑色', quantity: 1, unitPrice: 2899 }], total: 13897, status: 'paid', channel: '小程序', createdAt: '2026-06-02 14:30' },
   { id: 'ORD-20260603-004', customer: '赵六', phone: '186****3456', items: [{ name: 'Apple Watch Ultra 2', spec: '49mm 钛金属', quantity: 1, unitPrice: 6499 }], total: 6499, status: 'pending', channel: '网页', createdAt: '2026-06-03 08:45' },
