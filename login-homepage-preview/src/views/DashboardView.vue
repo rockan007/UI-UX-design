@@ -66,7 +66,7 @@ const timeline = computed(() => {
     </div>
 
     <!-- Charts Zone -->
-    <div class="bg-surface-neutral rounded-btn p-4 md:p-5 mb-4 md:mb-6">
+    <div class="mb-4 md:mb-6">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <!-- Bar Chart (Raised Panel) -->
         <div class="md:col-span-2 bg-white rounded-btn shadow-sm p-4 md:p-5">
@@ -79,7 +79,7 @@ const timeline = computed(() => {
             >
               <span class="text-xs text-neutral-500">{{ val }}</span>
               <div
-                class="w-full md:w-10 transition-all duration-150 cursor-pointer hover:brightness-90"
+                class="w-full md:w-10 lg:w-12 2xl:w-14 transition-all duration-150 cursor-pointer hover:brightness-90"
                 :title="`${chartDays[i]}: ${val} 单`"
                 :style="{
                   height: `${(val / maxValue) * 160}px`,
@@ -116,7 +116,7 @@ const timeline = computed(() => {
     </div>
 
     <!-- Activity Zone -->
-    <div class="bg-surface-warm rounded-btn p-4 md:p-5">
+    <div>
       <h3 class="text-base font-semibold text-neutral-950 mb-5">{{ t('dashboard.activity') }}</h3>
       <div class="bg-white rounded-btn border border-neutral-200 p-4 md:p-5">
         <div class="flex flex-col">

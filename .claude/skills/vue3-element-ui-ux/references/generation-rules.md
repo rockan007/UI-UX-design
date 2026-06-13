@@ -795,14 +795,14 @@ Key points:
 
 **Bar Chart — Responsive Width:**
 
-On desktop, bars use fixed width (`md:w-10`) for consistent rhythm. On mobile, bars adapt to fill available space (`flex-1 w-full`) to prevent overflow without scrollbars.
+On desktop, bars use stepped fixed widths (`md:w-10 lg:w-12 2xl:w-14`) — wider at larger breakpoints while maintaining reasonable gap ratio. On mobile, bars adapt to fill available space (`flex-1 w-full`) to prevent overflow without scrollbars.
 
 ```html
 <div class="flex items-end justify-center gap-3 md:gap-5 h-[200px] px-1 md:px-2">
   <div v-for="(val, i) in chartValues" :key="i"
        class="flex-1 md:flex-initial flex flex-col items-center gap-1">
     <span class="text-xs text-neutral-500">{{ val }}</span>
-    <div class="w-full md:w-10 transition-all duration-150 cursor-pointer hover:brightness-90"
+    <div class="w-full md:w-10 lg:w-12 2xl:w-14 transition-all duration-150 cursor-pointer hover:brightness-90"
          :style="{ height: `${(val / max) * 160}px`, background: '...' }"></div>
     <span class="text-xs text-neutral-400 mt-2">{{ label }}</span>
   </div>
@@ -811,7 +811,7 @@ On desktop, bars use fixed width (`md:w-10`) for consistent rhythm. On mobile, b
 
 Key points:
 - Bar column: `flex-1 md:flex-initial` — fills space on mobile, natural width on desktop.
-- Bar shape: `w-full md:w-10` — adaptive on mobile, fixed 40px on desktop.
+- Bar shape: `w-full md:w-10 lg:w-12 2xl:w-14` — adaptive on mobile, stepped fixed widths on desktop (40px → 48px → 56px). Gap stays `gap-5` (20px); ratio varies from 50% (md) to ~36% (2xl).
 - Gap: `gap-3 md:gap-5` — tighter on mobile, ratio ~50% on desktop.
 - No horizontal scrollbar — bars shrink to fit instead.
 
