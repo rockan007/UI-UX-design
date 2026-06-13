@@ -26,17 +26,32 @@ interface TabDefinition {
   hasError?: boolean
 }
 
-const tabs = computed<TabDefinition[]>(() => [
+const fieldTabs = computed<TabDefinition[]>(() => [
   { key: 'basic', label: '基本信息' },
   { key: 'delivery', label: '配送 & 备注' },
+])
+
+const relationshipTabs = computed<TabDefinition[]>(() => [
   { key: 'items', label: '商品清单', count: form.items.length },
   { key: 'attachments', label: '附件', count: form.attachments.length },
 ])
 
-const activeTab = ref<string>('basic')
+const activeFieldTab = ref<string>('basic')
+const activeRelTab = ref<string>('items')
 
-function handleTabChange(key: string) {
-  const tab = tabs.value.find(t => t.key === key)
+const showFieldTabBar = computed(() => fieldTabs.value.length >= 2)
+const showRelTabBar = computed(() => relationshipTabs.value.length >= 2)
+const showDivider = computed(() =>
+  fieldTabs.value.length >= 1 && relationshipTabs.value.length >= 1
+)
+
+function handleFieldTabChange(key: string) {
+  const tab = fieldTabs.value.find(t => t.key === key)
+  if (tab) tab.hasError = false
+}
+
+function handleRelTabChange(key: string) {
+  const tab = relationshipTabs.value.find(t => t.key === key)
   if (tab) tab.hasError = false
 }
 
@@ -160,12 +175,21 @@ async function handleSubmit() {
   try {
     await formRef.value.validate()
   } catch {
-    // Find first tab with errors and switch to it
-    for (const tab of tabs.value) {
+    // Check field group tabs first, then relationship tabs
+    for (const tab of fieldTabs.value) {
       if (tabHasErrors(tab.key)) {
-        activeTab.value = tab.key
+        activeFieldTab.value = tab.key
         tab.hasError = true
-        break
+        submitting.value = false
+        return
+      }
+    }
+    for (const tab of relationshipTabs.value) {
+      if (tabHasErrors(tab.key)) {
+        activeRelTab.value = tab.key
+        tab.hasError = true
+        submitting.value = false
+        return
       }
     }
     submitting.value = false
@@ -287,26 +311,28 @@ function handleDelete() {
       </div>
     </div>
 
-    <!-- Tab bar (desktop only, hidden on mobile) -->
-    <div v-if="tabs.length >= 2" class="hidden md:flex items-center gap-2 mb-4 border-b border-neutral-200 pb-0">
-      <button
-        v-for="tab in tabs"
-        :key="tab.key"
-        type="button"
-        class="relative flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium transition-colors"
-        :class="activeTab === tab.key
-          ? 'text-blue-600 border-b-2 border-blue-600 -mb-px'
-          : 'text-neutral-500 hover:text-neutral-700'"
-        @click="handleTabChange(tab.key)"
+    <!-- Upper Tab Bar: field groups (desktop only, shown when >=2 tabs) -->
+    <template v-if="showFieldTabBar">
+      <el-tabs
+        v-model="activeFieldTab"
+        tab-position="top"
+        class="hidden md:block"
+        @tab-change="handleFieldTabChange"
       >
-        <span>{{ tab.label }}</span>
-        <span v-if="tab.count !== undefined" class="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full text-xs font-semibold"
-          :class="activeTab === tab.key ? 'bg-blue-100 text-blue-700' : 'bg-neutral-100 text-neutral-500'">
-          {{ tab.count }}
-        </span>
-        <el-icon v-if="tab.hasError" class="text-amber-500 ml-0.5"><WarningFilled /></el-icon>
-      </button>
-    </div>
+        <el-tab-pane
+          v-for="tab in fieldTabs"
+          :key="tab.key"
+          :name="tab.key"
+        >
+          <template #label>
+            <span :class="tab.hasError ? 'text-red-600' : ''">{{ tab.label }}</span>
+            <el-icon v-if="tab.hasError" class="ml-1" style="color: var(--el-color-danger)">
+              <WarningFilled />
+            </el-icon>
+          </template>
+        </el-tab-pane>
+      </el-tabs>
+    </template>
 
     <el-form
       ref="formRef"
@@ -319,7 +345,7 @@ function handleDelete() {
       <!-- ══════════════════════════════════════════════════════════ -->
       <!-- DESKTOP TAB PANE: basic (blue) -->
       <!-- ══════════════════════════════════════════════════════════ -->
-      <div v-show="activeTab === 'basic'" class="hidden md:flex flex-col gap-4">
+      <div v-show="!showFieldTabBar || activeFieldTab === 'basic'" :class="showFieldTabBar ? 'hidden md:flex flex-col gap-4' : ''">
         <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-blue-600 p-5 md:p-6">
           <div class="text-sm font-semibold text-blue-700 mb-4 uppercase tracking-wide">{{ $t('基本信息') }}</div>
 
@@ -364,7 +390,7 @@ function handleDelete() {
       <!-- ══════════════════════════════════════════════════════════ -->
       <!-- DESKTOP TAB PANE: delivery (cyan) -->
       <!-- ══════════════════════════════════════════════════════════ -->
-      <div v-show="activeTab === 'delivery'" class="hidden md:flex flex-col gap-4">
+      <div v-show="!showFieldTabBar || activeFieldTab === 'delivery'" :class="showFieldTabBar ? 'hidden md:flex flex-col gap-4' : ''">
         <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-cyan-600 p-5 md:p-6">
           <div class="text-sm font-semibold text-cyan-700 mb-4 uppercase tracking-wide">{{ $t('配送 & 备注') }}</div>
 
@@ -398,10 +424,47 @@ function handleDelete() {
         </div>
       </div>
 
+      <!-- Divider between field tabs and relationship tabs (desktop) -->
+      <div v-if="showDivider" class="flex items-center gap-3 my-6 hidden md:flex">
+        <div class="flex-1 h-px bg-neutral-200"></div>
+        <span class="text-xs text-neutral-400 uppercase tracking-wide font-medium">关联数据</span>
+        <div class="flex-1 h-px bg-neutral-200"></div>
+      </div>
+
+      <!-- Lower Tab Bar: O2M/M2M relationships (desktop only, shown when >=2 tabs) -->
+      <template v-if="showRelTabBar">
+        <el-tabs
+          v-model="activeRelTab"
+          tab-position="top"
+          class="hidden md:block"
+          @tab-change="handleRelTabChange"
+        >
+          <el-tab-pane
+            v-for="tab in relationshipTabs"
+            :key="tab.key"
+            :name="tab.key"
+          >
+            <template #label>
+              <span :class="tab.hasError ? 'text-red-600' : ''">{{ tab.label }}</span>
+              <el-badge
+                v-if="tab.count !== undefined"
+                :value="tab.count"
+                :hidden="tab.count === 0"
+                :type="tab.hasError ? 'danger' : 'primary'"
+                class="ml-1"
+              />
+              <el-icon v-if="tab.hasError" class="ml-1" style="color: var(--el-color-danger)">
+                <WarningFilled />
+              </el-icon>
+            </template>
+          </el-tab-pane>
+        </el-tabs>
+      </template>
+
       <!-- ══════════════════════════════════════════════════════════ -->
       <!-- DESKTOP TAB PANE: items (purple, O2M) -->
       <!-- ══════════════════════════════════════════════════════════ -->
-      <div v-show="activeTab === 'items'" class="hidden md:flex flex-col gap-4">
+      <div v-show="!showRelTabBar || activeRelTab === 'items'" :class="showRelTabBar ? 'hidden md:flex flex-col gap-4' : ''">
         <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-purple-600 p-5 md:p-6">
           <div class="text-sm font-semibold text-purple-700 mb-4 uppercase tracking-wide">{{ $t('商品清单') }}</div>
 
@@ -466,7 +529,7 @@ function handleDelete() {
       <!-- ══════════════════════════════════════════════════════════ -->
       <!-- DESKTOP TAB PANE: attachments (purple, M2M) -->
       <!-- ══════════════════════════════════════════════════════════ -->
-      <div v-show="activeTab === 'attachments'" class="hidden md:flex flex-col gap-4">
+      <div v-show="!showRelTabBar || activeRelTab === 'attachments'" :class="showRelTabBar ? 'hidden md:flex flex-col gap-4' : ''">
         <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-purple-600 p-5 md:p-6">
           <div class="text-sm font-semibold text-purple-700 mb-4 uppercase tracking-wide">{{ $t('附件') }}</div>
 
@@ -556,6 +619,13 @@ function handleDelete() {
               </el-select>
             </el-form-item>
           </div>
+        </div>
+
+        <!-- Divider (mobile) -->
+        <div class="flex items-center gap-3 my-2">
+          <div class="flex-1 h-px bg-neutral-200"></div>
+          <span class="text-xs text-neutral-400 uppercase tracking-wide font-medium">关联数据</span>
+          <div class="flex-1 h-px bg-neutral-200"></div>
         </div>
 
         <!-- Mobile section: 商品清单 (purple, O2M) -->
