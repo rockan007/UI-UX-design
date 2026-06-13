@@ -132,9 +132,44 @@ Icon-only action buttons in table operation columns:
 - Collapsed state: `overflow-x: hidden` to clip overflow content and prevent horizontal scrollbar.
 
 ### Tabs
-- Selected: bottom `2px` border + brand-600 text.
-- Hover: text shifts to brand-600.
-- No content jump on tab switch.
+
+- Selected: bottom `2px` border + `brand-600` text + `font-weight: 500`
+- Hover: text shifts to `brand-600`
+- No content jump on tab switch — panes render instantly
+- No validation on tab switch — free navigation between tabs
+- Active tab state is local component state (`ref<string>`), not in URL/route
+- Scroll position resets to top of tab pane on switch
+
+**Tab Bar in Forms:**
+
+- Tab bar sits between toolbar and form content, using `<el-tabs v-model="activeTab" tab-position="top">`
+- All tabs always visible — no horizontal scroll or "more" dropdown. If too many tabs,
+  restructure the form rather than adding scrolling.
+- Minimum 2 tabs to render the tab bar; fewer = no tabs (section cards only)
+
+**O2M/M2M Tab Badge:**
+
+- Use `<el-badge :value="items.length" :hidden="items.length === 0">` in tab label slot
+- Inactive tab badge: `var(--neutral-400)` background
+- Active tab badge: `var(--brand-600)` background
+- No badge when count is 0
+
+**Validation Error on Hidden Tab:**
+
+- Single submit validates ALL tabs, not just the visible one
+- If validation errors exist on a hidden tab:
+  - Submit fails
+  - Auto-switch to the first tab with errors
+  - Error tab label turns red (`var(--danger-600)`) with a `WarningFilled` icon
+  - `<el-badge>` on error tab switches to `type="danger"`
+- After user fixes errors and re-submits, error indicators clear
+
+**Mobile Tabs:**
+
+- On viewport < 768px, tabs collapse entirely — no tab bar, no dropdown
+- Tab bar: `hidden md:flex`
+- All section cards render as a flat vertical stack with `gap-4`
+- This matches the current non-tab mobile layout behavior
 
 ### Breadcrumbs
 - Last item (current page): not clickable, `color: neutral-950`.
@@ -153,4 +188,4 @@ Icon-only action buttons in table operation columns:
 | Charts | Uncommon | Dashboards |
 | Form validation | Simplified | Full |
 | Sidebar | Optional | Standard |
-| Tabs | Content categories | Feature switching |
+| Tabs | Content categories, form sections | Feature switching, admin form tabs |
