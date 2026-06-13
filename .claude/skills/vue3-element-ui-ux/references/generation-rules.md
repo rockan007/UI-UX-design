@@ -748,19 +748,23 @@ Extra focus: container variety, section shading, visual rhythm. Admin pages with
 
 **Section Shading:**
 
-When a dashboard has 3+ zones (each with a heading), wrap each zone in a tinted container:
+Dashboard sections wrap content in plain containers without tinted backgrounds.
+The tinted `surface-*` tokens are available for optional accent use but not required —
+the default is a clean white/unified page background.
 
 ```html
-<!-- Example: charts zone with blue tint -->
-<div class="bg-surface-blue rounded-btn p-5 mb-6">
-  <h3 class="text-base font-semibold text-neutral-950 mb-4">Charts</h3>
+<!-- Example: charts section -->
+<div class="mb-4 md:mb-6">
+  <h3 class="text-base font-semibold text-neutral-950 mb-5">Charts</h3>
   <!-- chart panels inside -->
 </div>
 ```
 
-- Use `surface-blue` for user/system zones, `surface-cyan` for order/transaction zones, `surface-amber` for revenue/finance zones, `surface-green` for completion zones, `surface-neutral` for secondary/chart housing zones, `surface-warm` for activity/log zones.
-- Pages with 1-2 zones: no section shading needed — individual containers provide enough variety.
-- Zone backgrounds always use the lightest tint tokens (`*-50` level). Never saturated or dark backgrounds.
+- Zone wrappers use no background — transparent, showing the page background (`neutral-50 #fafafa`).
+- Section spacing uses `mb-4 md:mb-6` between sections. The last section has no bottom margin.
+- `surface-*` tinted backgrounds are optional and may be used sparingly when a visual accent is needed,
+  but the default and recommended pattern is no tint.
+- Never saturated or dark backgrounds. If using tints, always use the lightest tokens (`*-50` level).
 
 **Stat Card Template:**
 
@@ -815,13 +819,23 @@ Key points:
 - Gap: `gap-3 md:gap-5` — tighter on mobile, ratio ~50% on desktop.
 - No horizontal scrollbar — bars shrink to fit instead.
 
-**Zone Wrapper — Responsive Padding:**
+**Zone Wrapper — Responsive Spacing:**
+
+Dashboard sections use plain containers without tinted backgrounds. Spacing is handled by margin.
 
 ```html
-<div class="bg-surface-neutral rounded-btn p-4 md:p-5 mb-4 md:mb-6">
+<!-- Section container — no background, margin between sections -->
+<div class="mb-4 md:mb-6">
+  <h3 class="text-base font-semibold text-neutral-950 mb-5">Section Title</h3>
   <!-- grouped content -->
 </div>
 ```
+
+Key points:
+- No `bg-surface-*` class — container is transparent.
+- `mb-4 md:mb-6` for spacing between sections; last section omits the margin.
+- Inner panels (charts, tables, timelines) handle their own backgrounds (`bg-white`) and padding.
+- `surface-*` tints remain available in `design-tokens.md` but are not the default pattern.
 
 Mobile: 16px padding / 16px bottom margin. Desktop: 20px padding / 24px bottom margin.
 
