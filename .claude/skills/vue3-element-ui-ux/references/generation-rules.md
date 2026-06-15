@@ -187,13 +187,14 @@ Key points:
 
 **Mobile (<768px):**
 
-The create button becomes a compact `circle` icon button in the breadcrumb row's top-right corner:
+The create button becomes a compact `circle` icon button in the page header row's top-right corner:
 
 ```html
-<div class="flex items-center justify-between mb-4 md:mb-6">
-  <el-breadcrumb separator="/">
-    <el-breadcrumb-item>{entity name}</el-breadcrumb-item>
-  </el-breadcrumb>
+<div class="flex items-start justify-between mb-4 md:mb-6">
+  <div>
+    <h1 class="text-2xl font-semibold text-neutral-950">{entity name}</h1>
+    <p class="text-sm text-neutral-500 mt-1">{entity description}</p>
+  </div>
   <el-button
     type="primary"
     circle
@@ -209,7 +210,8 @@ Key points:
 - `circle` + `:icon="Plus"` — icon-only, no text to save horizontal space
 - `size="small"` — compact but still meets 44px tap target
 - `class="md:hidden"` — hidden on desktop (desktop button is in filter bar)
-- Breadcrumb `mb-4 md:mb-6` moves to the parent flex div — breadcrumb itself loses its margin
+- `items-start` on flex container for natural alignment of two-line header with button
+- Header `mb-4 md:mb-6` moves to the parent flex div — header itself loses its margin
 
 ### Action Column Rule
 
@@ -248,7 +250,7 @@ Extra focus: toolbar button placement, section card separation, wide layout with
 
 **Toolbar:**
 
-Action buttons (Save/Submit, Cancel) sit in a toolbar row with the breadcrumb — NOT at the bottom of the form:
+Action buttons (Save/Submit, Cancel) sit in a toolbar row with the page header — NOT at the bottom of the form. Form pages are always multi-level (e.g., "角色管理 / 创建角色"), so they use breadcrumbs:
 
 ```html
 <div class="flex items-center justify-between mb-4 md:mb-6">
@@ -936,26 +938,24 @@ Desktop pagination inside the table container uses `hidden md:flex` wrapper and 
 
 Extra focus: key info above the fold, visible status and primary action, clear detail groupings, secondary info (history, logs, notes) not competing with primary, easy return to list.
 
-### Breadcrumb Navigation
+### Page Header
 
-Every admin page starts with an `el-breadcrumb` replacing the traditional `<h1>` header. The separator is `/`. Spacing: `mb-4 md:mb-6`.
+Every admin page starts with a page header. The format depends on navigation depth:
 
-**Rule:** Breadcrumbs reflect the functional operation path, NOT the sidebar menu hierarchy.
+**Rule:** Use `<h1>` title + `<p>` subtitle for single-level (menu entry) pages. Use `<el-breadcrumb>` for multi-level (deeper navigation) pages. Breadcrumbs reflect the functional operation path, NOT the sidebar menu hierarchy.
 
-- Level 1 = current menu entry page (e.g. "用户列表", "订单管理")
-- Level 2+ = operation depth (create form, detail record, sub-operation)
-- Last level = current page, plain text, not clickable
-- Previous levels = clickable `:to` links navigating to their respective pages
-
-**Single-level (menu entry page):**
+**Single-level (menu entry page) — use title + subtitle:**
 
 ```html
-<el-breadcrumb separator="/" class="mb-4 md:mb-6">
-  <el-breadcrumb-item>{{ pageTitle }}</el-breadcrumb-item>
-</el-breadcrumb>
+<div class="mb-4 md:mb-6">
+  <h1 class="text-2xl font-semibold text-neutral-950">{{ pageTitle }}</h1>
+  <p class="text-sm text-neutral-500 mt-1">{{ pageDescription }}</p>
+</div>
 ```
 
-**Multi-level (deeper pages):**
+A single-item breadcrumb is semantically incorrect for a page heading — an `<h1>` with a descriptive subtitle provides proper heading hierarchy and page context.
+
+**Multi-level (deeper pages) — use breadcrumb:**
 
 ```html
 <el-breadcrumb separator="/" class="mb-4 md:mb-6">
@@ -965,7 +965,10 @@ Every admin page starts with an `el-breadcrumb` replacing the traditional `<h1>`
 </el-breadcrumb>
 ```
 
-**Form page note:** On admin form pages, breadcrumbs are embedded in the toolbar row alongside action buttons (see Admin Form Page supplement below). The toolbar `<div class="flex items-center justify-between">` replaces `mb-4 md:mb-6` on the breadcrumb itself — spacing moves to the toolbar wrapper.
+- Last level = current page, plain text, not clickable
+- Previous levels = clickable `:to` links navigating to their respective pages
+
+**Form page note:** On admin form pages, headers are embedded in the toolbar row alongside action buttons (see Admin Form Page supplement below). The toolbar `<div class="flex items-center justify-between">` (or `items-start` for title+subtitle headers) replaces `mb-4 md:mb-6` on the header itself — spacing moves to the toolbar wrapper.
 
 ### Admin CRUD Pattern
 
@@ -1003,7 +1006,7 @@ On mount, if editing, load existing data and pre-fill the form. On submit, call 
 - **Required fields** first, grouped under a "基本信息" section card with blue left accent stripe (`border-l-blue-600`)
 - **Secondary fields** in a separate "其他信息" section card with cyan left accent stripe (`border-l-cyan-600`)
 - **Section cards** separated by `gap-4`, not dividers (see Admin Form Page supplement above)
-- **Submit/Cancel buttons** in the toolbar row with the breadcrumb at the top of the page (see Admin Form Page supplement above)
+- **Submit/Cancel buttons** in the toolbar row with the page header at the top of the page (see Admin Form Page supplement above)
 
 **Detail page structure:**
 
