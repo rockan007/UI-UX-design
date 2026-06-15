@@ -33,7 +33,7 @@ Adapt names to the existing project. If exact components do not exist, find the 
 | `Checkbox` | `Checkbox` |
 | `RadioGroup` | `RadioGroup` |
 | `Switch` | `Switch` |
-| `Badge` | `Tag` (pill/badge via `<el-tag>`) |
+| `Badge` | `Tag` |
 | `Dialog` | `Dialog` |
 | `Dropdown` | `DropdownMenu` |
 | `Tooltip` | `Tooltip` |

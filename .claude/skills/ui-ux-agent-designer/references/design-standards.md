@@ -84,26 +84,17 @@ Avoid:
 
 ### Shape and Shadow
 
-- Admin border radius: 6px. Frontend border radius: 8px. If the project already defines different values, inherit those.
+- Keep admin border radius around 6px to 8px unless the project already differs. Frontend pages may use slightly larger radii.
 - Use shadows for overlays, dropdowns, dialogs, and floating menus.
 - Data visualization panels may use subtle elevation to distinguish from data tables.
-
-### Container Hierarchy (Admin)
-
-Admin pages use a three-tier container system for visual rhythm:
-
-1. **Accent Card** — stat/metric cards with a left 3px colored stripe (`border-l-[3px] border-l-{color}`). Stand alone — no zone wrapper.
-2. **Raised Panel** — charts and data visualizations (`shadow-sm`, no border).
-3. **Standard Block** — tables, forms, lists (`border border-neutral-200`, no shadow).
-
-Zone wrappers use responsive padding (`p-4 md:p-5 mb-4 md:mb-6`). Stat/metric cards stand directly on the page background without a zone wrapper.
+- Do not make every section a floating card — vary container treatments for visual rhythm. Stat/metric cards can use accent borders or stripes to stand out from tables and forms.
 
 ### Page Header
 
 Every page starts with a page header. The format depends on navigation depth:
 
-- **Single-level page** (menu entry, no parent): use `<h1>` title + `<p>` subtitle. A single-item breadcrumb is semantically incorrect for a page heading.
-- **Multi-level page** (has parent navigation): use breadcrumb with clickable parent items and plain-text current page.
+- **Single-level page** (menu entry, no parent): use a visible title with an optional descriptive subtitle. A single-item breadcrumb is semantically incorrect as a page heading — it suggests navigation where none exists.
+- **Multi-level page** (has parent navigation): use breadcrumb with clickable parent items and plain-text current page, showing the user's location in the navigation hierarchy.
 
 ### Buttons
 
@@ -128,25 +119,11 @@ Every page starts with a page header. The format depends on navigation depth:
 - Put row actions right.
 - Align headers and cells consistently.
 - Support loading, empty, and error states.
-- Use card lists or horizontal scroll on mobile when needed.
+- Use card lists or horizontal scroll on mobile when needed. On small screens, collapse filters into a drawer or sheet, use simplified pagination, and preserve row actions behind a compact menu.
 
-### Admin CRUD Navigation
+### Admin CRUD Flow
 
-Admin entity management follows a standard flow:
-
-- **List → Create**: primary button navigates to `/admin/{entity}/create`.
-- **List → Detail**: click row navigates to `/admin/{entity}/:id`.
-- **Detail → Edit**: edit button navigates to `/admin/{entity}/:id/edit`.
-- **Form toolbar**: Save/Cancel buttons in the header toolbar row, NOT at the page bottom.
-- **Multi-mode forms**: create, view (read-only), and edit modes share one form component; mode detected from route name.
-
-### Mobile Admin Lists (< 768px)
-
-- Replace DataTable with a stacked card list (4 layers: title+status, detail info, metadata, actions).
-- Collapse filters into a bottom-sheet drawer triggered by a filter button.
-- Use simple prev/next pagination instead of full pagination controls.
-- Summary cards use `grid-cols-2` to preserve scanability.
-- Row actions use a three-dot dropdown menu to save horizontal space.
+Admin entity management follows a standard pattern: list → create, list → detail → edit. Form pages place submit/cancel actions in a toolbar at the top — not at the page bottom. Create, view (read-only), and edit modes may share one form component with mode detected from the route.
 
 ## Required States
 

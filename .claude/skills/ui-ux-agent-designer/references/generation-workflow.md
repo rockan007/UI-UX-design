@@ -42,7 +42,7 @@ Before designing, confirm the user has provided (or infer from context):
 
 ### Admin Layout Guard
 
-All admin pages must use the shared `AdminLayout` shell (header + sidebar + content slot). Never create an admin page with its own sidebar, header, or layout wrapper. The layout is configured once and shared across all admin routes via nested routing.
+All admin pages must use the shared admin layout shell. Never create an admin page with its own sidebar, header, or layout wrapper. The layout is configured once and shared across all admin routes.
 
 ## Page Type Selection
 

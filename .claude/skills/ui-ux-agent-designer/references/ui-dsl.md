@@ -25,8 +25,8 @@ Use UI DSL as the structured interface plan before writing code. It reduces Agen
   "layout": "layout-name",
   "locale": {
     "enabled": false,
-    "default-locale": "zh",
-    "supported": ["zh", "en"]
+    "default": "project-default",
+    "supported": ["project-default"]
   },
   "navigation": { "type": "breadcrumb | none", "items": [] },
   "header": { "title": "", "description": "" },
