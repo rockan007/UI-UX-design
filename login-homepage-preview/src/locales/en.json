@@ -193,7 +193,36 @@
     "roles": {
       "title": "Role Management",
       "description": "Manage roles and permission assignments",
-      "placeholder": "Role management content (to be implemented)"
+      "totalRoles": "Total Roles",
+      "assignedUsers": "Assigned Users",
+      "unusedRoles": "Unused Roles",
+      "searchPlaceholder": "Search role name",
+      "createRole": "New Role",
+      "columns": {
+        "name": "Role Name",
+        "description": "Description",
+        "userCount": "Users",
+        "permissions": "Permissions",
+        "actions": "Actions"
+      },
+      "empty": "No role data",
+      "deleteConfirm": "Delete role \"{name}\"?",
+      "deleteTitle": "Confirm Delete",
+      "deleteConfirmBtn": "Delete",
+      "deletedMessage": "Role {name} deleted",
+      "createTitle": "Create Role",
+      "editTitle": "Edit Role",
+      "saveSuccess": "Role saved",
+      "form": {
+        "basicHeader": "Basic Information",
+        "name": "Role Name",
+        "namePlaceholder": "Enter role name",
+        "nameRequired": "Please enter role name",
+        "description": "Description",
+        "descriptionPlaceholder": "Enter role description",
+        "permissionHeader": "Permission Assignment",
+        "permissionHint": "Check permissions for this role"
+      }
     },
     "permissions": {
       "title": "Permission Management",

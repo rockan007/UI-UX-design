@@ -5,6 +5,7 @@ import AdminLayout from '../layouts/AdminLayout.vue'
 import DashboardView from '../views/DashboardView.vue'
 import UserListView from '../views/UserListView.vue'
 import RoleManageView from '../views/RoleManageView.vue'
+import RoleFormView from '../views/RoleFormView.vue'
 import PermissionView from '../views/PermissionView.vue'
 import OrderManageView from '../views/OrderManageView.vue'
 import OrderFormView from '../views/OrderFormView.vue'
@@ -43,6 +44,16 @@ const router = createRouter({
           path: 'users/roles',
           name: 'role-manage',
           component: RoleManageView,
+        },
+        {
+          path: 'users/roles/create',
+          name: 'role-create',
+          component: RoleFormView,
+        },
+        {
+          path: 'users/roles/:id/edit',
+          name: 'role-edit',
+          component: RoleFormView,
         },
         {
           path: 'users/permissions',
