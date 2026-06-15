@@ -110,11 +110,12 @@ const handleCardAction = (cmd: string, row: User) => {
 
 <template>
   <div>
-    <!-- Breadcrumb + Mobile Create -->
-    <div class="flex items-center justify-between mb-4 md:mb-6">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item>{{ t('users.list.title') }}</el-breadcrumb-item>
-      </el-breadcrumb>
+    <!-- Page Header + Mobile Create -->
+    <div class="flex items-start justify-between mb-4 md:mb-6">
+      <div>
+        <h1 class="text-2xl font-semibold text-neutral-950">{{ t('users.list.title') }}</h1>
+        <p class="text-sm text-neutral-500 mt-1">{{ t('users.list.description') }}</p>
+      </div>
       <el-button
         type="primary"
         circle
