@@ -49,12 +49,13 @@ async function handleSave() {
 
 <template>
   <div>
-    <!-- Toolbar: breadcrumb + actions -->
-    <div class="flex items-center justify-between mb-4 md:mb-6">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item>{{ t('settings.title') }}</el-breadcrumb-item>
-      </el-breadcrumb>
-      <div class="flex items-center gap-3">
+    <!-- Toolbar: page header + actions -->
+    <div class="flex items-start justify-between mb-4 md:mb-6">
+      <div>
+        <h1 class="text-2xl font-semibold text-neutral-950">{{ t('settings.title') }}</h1>
+        <p class="text-sm text-neutral-500 mt-1">{{ t('settings.description') }}</p>
+      </div>
+      <div class="flex items-center gap-3 pt-1">
         <el-button type="primary" :loading="saving" :disabled="saving" @click="handleSave">
           {{ t('common.save') }}
         </el-button>
