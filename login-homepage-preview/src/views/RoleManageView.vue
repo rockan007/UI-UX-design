@@ -98,11 +98,12 @@ const handleCardAction = (cmd: string, row: Role) => {
 
 <template>
   <div>
-    <!-- Breadcrumb + Mobile Create -->
-    <div class="flex items-center justify-between mb-4 md:mb-6">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item>{{ t('users.roles.title') }}</el-breadcrumb-item>
-      </el-breadcrumb>
+    <!-- Page Header + Mobile Create -->
+    <div class="flex items-start justify-between mb-4 md:mb-6">
+      <div>
+        <h1 class="text-2xl font-semibold text-neutral-950">{{ t('users.roles.title') }}</h1>
+        <p class="text-sm text-neutral-500 mt-1">{{ t('users.roles.description') }}</p>
+      </div>
       <el-button
         type="primary"
         circle
