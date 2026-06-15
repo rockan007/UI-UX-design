@@ -23,8 +23,13 @@ Use UI DSL as the structured interface plan before writing code. It reduces Agen
   "route": "/path",
   "goal": "Core user task on this page",
   "layout": "layout-name",
-  "navigation": {},
-  "header": {},
+  "locale": {
+    "enabled": false,
+    "default-locale": "zh",
+    "supported": ["zh", "en"]
+  },
+  "navigation": { "type": "breadcrumb | none", "items": [] },
+  "header": { "title": "", "description": "" },
   "userFlow": [],
   "sections": [],
   "actions": [],
@@ -36,6 +41,8 @@ Use UI DSL as the structured interface plan before writing code. It reduces Agen
   "responsive": {}
 }
 ```
+
+The schema is extensible — concrete implementations may add fields. Required fields: `page`, `type`, `route`, `goal`, `layout`, `header`, `userFlow`, `sections`, `actions`, `interactions`, `states`, `responsive`.
 
 ## Interaction Fields
 
@@ -295,5 +302,7 @@ Before code generation, verify:
 - Component names can map to real project components.
 - Feedback and validation behavior are explicit for important actions.
 - Edge cases include empty data, permission, network failure, long content, and mobile.
-- Loading, empty, error, disabled, focus, and mobile states are represented.
+- Loading, empty, error, and permission-denied states are represented at page level.
+- Disabled, focus, hover, and validation-error states are represented per component (per field, per button, per row action).
+- Mobile behavior is not omitted.
 - Mobile behavior is not omitted.

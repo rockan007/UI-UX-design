@@ -32,6 +32,7 @@ Do not start by writing page code unless the user explicitly asks to skip the de
 
 When the user asks to create or improve a page:
 
+0. Check `package.json` for an i18n configuration flag (e.g., `"vue3ElementUiUx": { "i18n": true }`). If enabled, load i18n rules before proceeding.
 1. Inspect the project frontend stack, routes, component library, and styling system.
 2. Identify whether the page is frontend, admin, or mixed.
 3. Read the relevant references:

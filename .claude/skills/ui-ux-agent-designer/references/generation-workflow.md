@@ -15,19 +15,34 @@
 
 ```text
 User request
-→ inspect project
+→ gather requirements (page path, type, goal, content, actions)
+→ inspect project (stack, routes, components, i18n flag)
 → identify page type
 → define user task flow
 → define interaction model
 → generate UI DSL
 → review DSL
-→ map components
+→ map components (explain why if no match exists)
 → implement code
 → run project/checks
 → inspect responsive states
 → fix UI defects
 → summarize changes
 ```
+
+### Requirements Input
+
+Before designing, confirm the user has provided (or infer from context):
+
+- Page path (route).
+- Page type (frontend / admin / mixed).
+- Page goal (what task the user completes).
+- Main content (what belongs on the page).
+- Main actions (create, edit, delete, search, filter, save).
+
+### Admin Layout Guard
+
+All admin pages must use the shared `AdminLayout` shell (header + sidebar + content slot). Never create an admin page with its own sidebar, header, or layout wrapper. The layout is configured once and shared across all admin routes via nested routing.
 
 ## Page Type Selection
 
@@ -82,6 +97,7 @@ Use this pattern after DSL is accepted:
 - 不改业务逻辑
 - 不改接口
 - 不新增不必要依赖
+- 单层页面使用 `<h1>` 标题 + `<p>` 副标题；多层页面使用面包屑导航
 - 补齐 loading、empty、error、disabled、hover、focus、mobile 状态
 - 完成后运行项目检查
 ```

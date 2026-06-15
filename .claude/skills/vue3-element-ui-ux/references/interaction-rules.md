@@ -13,6 +13,16 @@ Component interaction behavior rules. Every component must have proper interacti
 
 > Applies to: both
 
+### Confirmation Model
+
+Use confirmation for destructive, irreversible, or broad-impact actions.
+
+- Confirmation must include: action name, affected item or count, consequence, destructive confirmation button, safe cancel option.
+- Avoid confirmation for harmless reversible actions.
+- Destructive action buttons use `type="danger"`.
+
+> Applies to: admin primarily
+
 ### Connector Lines vs. Border Radius
 
 **Rule:** When a container has a visible connector line on one side (timeline vertical line,

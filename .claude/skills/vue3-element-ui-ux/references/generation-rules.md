@@ -47,7 +47,7 @@ User provides: page path, page type (frontend/admin), page goal, main content, m
 
 ### 2. Page Type
 
-Classify: frontend list, frontend detail, admin list, admin form, admin detail, dashboard, settings.
+Classify: frontend list, frontend detail, admin list, admin form, admin detail, dashboard, settings, mixed workflow.
 
 ### 3. User Task Flow
 
@@ -56,6 +56,8 @@ Define the user's path through the page: entry context → first meaningful acti
 ### 4. Interaction Model
 
 For each important action, define: trigger, precondition, feedback, success, failure, recovery.
+
+Also define the overall task flow: entry context (where the user arrives from), first useful action (what the user should do first), primary task path (how the user completes the task), and next action (what the user likely does after completion).
 
 ### 5. UI DSL
 

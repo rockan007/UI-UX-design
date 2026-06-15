@@ -84,10 +84,26 @@ Avoid:
 
 ### Shape and Shadow
 
-- Keep admin border radius around 6px to 8px unless the project already differs.
+- Admin border radius: 6px. Frontend border radius: 8px. If the project already defines different values, inherit those.
 - Use shadows for overlays, dropdowns, dialogs, and floating menus.
 - Data visualization panels may use subtle elevation to distinguish from data tables.
-- Do not make every section a floating card — vary container treatments for visual rhythm.
+
+### Container Hierarchy (Admin)
+
+Admin pages use a three-tier container system for visual rhythm:
+
+1. **Accent Card** — stat/metric cards with a left 3px colored stripe (`border-l-[3px] border-l-{color}`). Stand alone — no zone wrapper.
+2. **Raised Panel** — charts and data visualizations (`shadow-sm`, no border).
+3. **Standard Block** — tables, forms, lists (`border border-neutral-200`, no shadow).
+
+Zone wrappers use responsive padding (`p-4 md:p-5 mb-4 md:mb-6`). Stat/metric cards stand directly on the page background without a zone wrapper.
+
+### Page Header
+
+Every page starts with a page header. The format depends on navigation depth:
+
+- **Single-level page** (menu entry, no parent): use `<h1>` title + `<p>` subtitle. A single-item breadcrumb is semantically incorrect for a page heading.
+- **Multi-level page** (has parent navigation): use breadcrumb with clickable parent items and plain-text current page.
 
 ### Buttons
 
@@ -113,6 +129,24 @@ Avoid:
 - Align headers and cells consistently.
 - Support loading, empty, and error states.
 - Use card lists or horizontal scroll on mobile when needed.
+
+### Admin CRUD Navigation
+
+Admin entity management follows a standard flow:
+
+- **List → Create**: primary button navigates to `/admin/{entity}/create`.
+- **List → Detail**: click row navigates to `/admin/{entity}/:id`.
+- **Detail → Edit**: edit button navigates to `/admin/{entity}/:id/edit`.
+- **Form toolbar**: Save/Cancel buttons in the header toolbar row, NOT at the page bottom.
+- **Multi-mode forms**: create, view (read-only), and edit modes share one form component; mode detected from route name.
+
+### Mobile Admin Lists (< 768px)
+
+- Replace DataTable with a stacked card list (4 layers: title+status, detail info, metadata, actions).
+- Collapse filters into a bottom-sheet drawer triggered by a filter button.
+- Use simple prev/next pagination instead of full pagination controls.
+- Summary cards use `grid-cols-2` to preserve scanability.
+- Row actions use a three-dot dropdown menu to save horizontal space.
 
 ## Required States
 
@@ -191,7 +225,7 @@ step progress connector, tree branch line), that edge's corner must remain sharp
 - Sidebar: active item must be visually distinct (background highlight + color shift + weight change); inactive items show subtle hover feedback.
 - Collapsed sidebar: `overflow-x: hidden` to clip overflow content and prevent horizontal scrollbar.
 - Tabs: selected gets bottom border + brand color; hover shifts text color.
-- Breadcrumbs: last item not clickable, uses primary text color; earlier items clickable with accent hover.
+- Breadcrumbs (multi-level pages only): last item not clickable, uses primary text color; earlier items clickable with accent hover. Single-level pages use `<h1>` title + `<p>` subtitle instead (see Page Header section above).
 
 
 
