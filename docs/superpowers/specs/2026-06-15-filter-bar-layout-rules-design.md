@@ -13,7 +13,11 @@ The current filter bar rule in `generation-rules.md` uses a fixed `w-64` (256px)
 
 Search inputs (`el-input` with `:prefix-icon="Search"`) in filter bars use `min-w-[200px]` instead of a fixed width. This sets a lower bound while allowing the input to grow when space is available.
 
-### Rule 2: Button placement in filter bar
+### Rule 2: Select dropdown minimum width
+
+Filter select dropdowns (`el-select`) in filter bars use `min-w-[150px]` instead of fixed widths. This ensures readable option text while allowing the dropdown to flex.
+
+### Rule 3: Button placement in filter bar
 
 When a filter bar contains both filter-related buttons (Search trigger, Reset, Apply) and primary action buttons (Create, Add):
 
@@ -27,8 +31,8 @@ Layout order: `[filter controls] [filter buttons] [spacer] [action buttons]`
 ```html
 <div class="hidden md:flex flex-wrap items-center gap-3 bg-white rounded-btn border border-neutral-200 p-4 mb-4">
   <el-input v-model="keyword" :placeholder="searchPlaceholder" :prefix-icon="Search" clearable class="min-w-[200px]" />
-  <el-select v-model="statusFilter" class="w-28">...</el-select>
-  <el-select v-model="channelFilter" class="w-28">...</el-select>
+  <el-select v-model="statusFilter" class="min-w-[150px]">...</el-select>
+  <el-select v-model="channelFilter" class="min-w-[150px]">...</el-select>
   <el-button @click="handleReset">重置</el-button>
   <div class="flex-1"></div>
   <el-button type="primary" :icon="Plus">创建{entity}</el-button>
@@ -37,7 +41,7 @@ Layout order: `[filter controls] [filter buttons] [spacer] [action buttons]`
 
 Key points:
 - Search input: `min-w-[200px]` (not fixed `w-64`)
-- Select dropdowns: keep `w-28` (112px) or similar compact fixed widths
+- Select dropdowns: `min-w-[150px]` (not fixed `w-28`)
 - Filter buttons: adjacent to filter controls, before spacer
 - `<div class="flex-1">` pushes everything after it to the right
 - Action button: after spacer, with text label on desktop
