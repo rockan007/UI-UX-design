@@ -172,9 +172,10 @@ The create button lives inside the filter bar row, right-aligned via a spacer el
 ```html
 <!-- Filter Bar: Desktop — includes action button -->
 <div class="hidden md:flex flex-wrap items-center gap-3 bg-white rounded-btn border border-neutral-200 p-4 mb-4">
-  <el-input v-model="keyword" :placeholder="searchPlaceholder" :prefix-icon="Search" clearable class="w-64" />
-  <el-select v-model="statusFilter" class="w-28">...</el-select>
-  <el-select v-model="channelFilter" class="w-28">...</el-select>
+  <el-input v-model="keyword" :placeholder="searchPlaceholder" :prefix-icon="Search" clearable class="min-w-[200px]" />
+  <el-select v-model="statusFilter" class="min-w-[150px]">...</el-select>
+  <el-select v-model="channelFilter" class="min-w-[150px]">...</el-select>
+  <el-button @click="handleReset">重置</el-button>
   <div class="flex-1"></div>
   <el-button type="primary" :icon="Plus" @click="router.push('/admin/{entity}/create')">
     创建{entity}
@@ -183,8 +184,11 @@ The create button lives inside the filter bar row, right-aligned via a spacer el
 ```
 
 Key points:
-- `<div class="flex-1"></div>` pushes the button to the right edge
-- Button keeps text label on desktop — space is available
+- Search input: `min-w-[200px]` minimum width, can grow with available space
+- Select dropdowns: `min-w-[150px]` minimum width, can grow with available space
+- Filter-related buttons (Reset, Apply, Search trigger) are placed after filter controls, BEFORE the `<div class="flex-1">` spacer
+- `<div class="flex-1"></div>` pushes everything after it to the right edge
+- Primary action button (Create, Add): after spacer, with text label on desktop
 - No standalone button row above or below the filter bar
 
 **Mobile (<768px):**
