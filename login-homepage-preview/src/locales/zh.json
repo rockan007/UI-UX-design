@@ -22,7 +22,7 @@
     "title": "欢迎回来",
     "subtitle": "登录您的账号以继续",
     "email": "邮箱",
-    "emailPlaceholder": "name@example.com",
+    "emailPlaceholder": "example.com",
     "password": "密码",
     "passwordPlaceholder": "请输入密码",
     "rememberMe": "记住我",
@@ -159,7 +159,36 @@
     "list": {
       "title": "用户列表",
       "description": "管理系统中的用户账号",
-      "placeholder": "用户列表内容（待实现）"
+      "totalUsers": "用户总数",
+      "activeUsers": "活跃用户",
+      "disabledUsers": "已禁用",
+      "searchPlaceholder": "搜索用户名 / 邮箱",
+      "filterByRole": "角色",
+      "filterByStatus": "状态",
+      "createUser": "新建用户",
+      "columns": {
+        "username": "用户名",
+        "email": "邮箱",
+        "role": "角色",
+        "status": "状态",
+        "createdAt": "注册时间",
+        "actions": "操作"
+      },
+      "status": {
+        "enabled": "启用",
+        "disabled": "禁用"
+      },
+      "roles": {
+        "admin": "管理员",
+        "editor": "编辑",
+        "viewer": "查看者"
+      },
+      "empty": "暂无用户数据",
+      "deleteConfirm": "确定要删除用户「{name}」吗？",
+      "deleteTitle": "删除确认",
+      "deleteConfirmBtn": "确定删除",
+      "deletedMessage": "已删除用户 {name}",
+      "editUser": "编辑用户：{name}"
     },
     "roles": {
       "title": "角色管理",
@@ -175,7 +204,36 @@
   "settings": {
     "title": "系统设置",
     "description": "配置系统参数和偏好",
-    "placeholder": "系统设置内容（待实现）"
+    "saveSuccess": "设置已保存",
+    "tabs": {
+      "basic": "基础设置",
+      "security": "安全设置",
+      "notification": "通知设置"
+    },
+    "basic": {
+      "header": "基础信息",
+      "siteName": "站点名称",
+      "siteNamePlaceholder": "请输入站点名称",
+      "logoUrl": "Logo URL",
+      "logoUrlPlaceholder": "请输入 Logo 图片地址",
+      "adminEmail": "管理员邮箱",
+      "adminEmailPlaceholder": "请输入管理员邮箱",
+      "description": "站点描述",
+      "descriptionPlaceholder": "请输入站点描述..."
+    },
+    "security": {
+      "header": "安全策略",
+      "passwordMinLength": "密码最小长度",
+      "lockoutThreshold": "登录失败锁定次数",
+      "sessionTimeout": "会话超时（分钟）"
+    },
+    "notification": {
+      "header": "通知配置",
+      "emailNotification": "邮件通知",
+      "smsNotification": "短信通知",
+      "notificationEmail": "通知邮箱",
+      "notificationEmailPlaceholder": "请输入通知接收邮箱"
+    }
   },
   "sidebar": {
     "dashboard": "仪表盘",

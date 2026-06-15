@@ -22,7 +22,7 @@
     "title": "Welcome Back",
     "subtitle": "Sign in to your account to continue",
     "email": "Email",
-    "emailPlaceholder": "name@example.com",
+    "emailPlaceholder": "example.com",
     "password": "Password",
     "passwordPlaceholder": "Enter your password",
     "rememberMe": "Remember me",
@@ -159,7 +159,36 @@
     "list": {
       "title": "User List",
       "description": "Manage user accounts in the system",
-      "placeholder": "User list content (to be implemented)"
+      "totalUsers": "Total Users",
+      "activeUsers": "Active Users",
+      "disabledUsers": "Disabled",
+      "searchPlaceholder": "Search username / email",
+      "filterByRole": "Role",
+      "filterByStatus": "Status",
+      "createUser": "New User",
+      "columns": {
+        "username": "Username",
+        "email": "Email",
+        "role": "Role",
+        "status": "Status",
+        "createdAt": "Registered",
+        "actions": "Actions"
+      },
+      "status": {
+        "enabled": "Enabled",
+        "disabled": "Disabled"
+      },
+      "roles": {
+        "admin": "Admin",
+        "editor": "Editor",
+        "viewer": "Viewer"
+      },
+      "empty": "No user data",
+      "deleteConfirm": "Delete user \"{name}\"?",
+      "deleteTitle": "Confirm Delete",
+      "deleteConfirmBtn": "Delete",
+      "deletedMessage": "User {name} deleted",
+      "editUser": "Edit user: {name}"
     },
     "roles": {
       "title": "Role Management",
@@ -175,7 +204,36 @@
   "settings": {
     "title": "System Settings",
     "description": "Configure system parameters and preferences",
-    "placeholder": "System settings content (to be implemented)"
+    "saveSuccess": "Settings saved",
+    "tabs": {
+      "basic": "General",
+      "security": "Security",
+      "notification": "Notifications"
+    },
+    "basic": {
+      "header": "General Information",
+      "siteName": "Site Name",
+      "siteNamePlaceholder": "Enter site name",
+      "logoUrl": "Logo URL",
+      "logoUrlPlaceholder": "Enter logo image URL",
+      "adminEmail": "Admin Email",
+      "adminEmailPlaceholder": "Enter admin email",
+      "description": "Site Description",
+      "descriptionPlaceholder": "Enter site description..."
+    },
+    "security": {
+      "header": "Security Policy",
+      "passwordMinLength": "Min Password Length",
+      "lockoutThreshold": "Login Lockout Threshold",
+      "sessionTimeout": "Session Timeout (min)"
+    },
+    "notification": {
+      "header": "Notification Config",
+      "emailNotification": "Email Notification",
+      "smsNotification": "SMS Notification",
+      "notificationEmail": "Notification Email",
+      "notificationEmailPlaceholder": "Enter notification email"
+    }
   },
   "sidebar": {
     "dashboard": "Dashboard",
