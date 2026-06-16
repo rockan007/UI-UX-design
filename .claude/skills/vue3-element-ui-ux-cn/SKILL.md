@@ -5,7 +5,7 @@ description: 在 Vue 3 + Element Plus + Tailwind CSS 项目中生成、审查或
 
 # Vue 3 Element Plus UI/UX 设计约束
 
-使用此 skill 让 Claude Code 产出符合项目设计系统的界面，而非自由发挥的代码。
+使用此 skill 产出符合项目设计系统的界面，而非自由发挥的代码。
 
 ## 核心工作流
 

@@ -5,7 +5,7 @@ description: Use when the user asks to create or improve frontend/admin pages wi
 
 # UI/UX Agent Designer
 
-Use this skill to make Claude Code produce UI with stable UX quality instead of free-form page code. Start from UI/UX goals, express the page as UI DSL, map the DSL to existing components, generate code only after the structure is clear, then inspect responsive and interaction states.
+Use this skill to produce UI with stable UX quality instead of free-form page code. Start from UI/UX goals, express the page as UI DSL, map the DSL to existing components, generate code only after the structure is clear, then inspect responsive and interaction states.
 
 ## Core Workflow
 

@@ -5,7 +5,7 @@ description: Use when generating, reviewing, or improving pages in a Vue 3 + Ele
 
 # Vue 3 Element Plus UI/UX Design Constraints
 
-Use this skill to make Claude Code produce UI aligned with this project's design system, not free-form code.
+Use this skill to produce UI aligned with this project's design system, not free-form code.
 
 ## Core Workflow
 

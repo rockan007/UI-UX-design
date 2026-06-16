@@ -1,6 +1,6 @@
 # UI/UX Agent Designer
 
-Claude Code skill for generating UI with stable UX quality. See `SKILL.md` for usage.
+Skill for generating UI with stable UX quality. See `SKILL.md` for usage.
 
 ## Push to GitHub
 
