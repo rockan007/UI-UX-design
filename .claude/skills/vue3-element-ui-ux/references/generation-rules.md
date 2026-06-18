@@ -283,12 +283,12 @@ Each form section is an independent card with left accent stripe, replacing the 
 ```html
 <el-form label-position="top" class="flex flex-col gap-4">
   <!-- Section 1 -->
-  <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-blue-600 p-5 md:p-6">
+  <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-blue-600 p-5 md:p-6 max-w-6xl">
     <div class="text-sm font-semibold text-blue-700 mb-4 uppercase tracking-wide">基本信息</div>
     <!-- fields... -->
   </div>
   <!-- Section 2 -->
-  <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-cyan-600 p-5 md:p-6">
+  <div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-cyan-600 p-5 md:p-6 max-w-6xl">
     <div class="text-sm font-semibold text-cyan-700 mb-4 uppercase tracking-wide">其他信息</div>
     <!-- fields... -->
   </div>
@@ -299,33 +299,53 @@ Key points:
 - `el-form` uses `class="flex flex-col gap-4"` to space the cards
 - Accent stripe color matches data category: blue for primary/required sections, cyan for secondary sections per `design-tokens.md`
 - Section title color matches stripe color
-- No `max-w-2xl` constraint — form uses available width
+- Section cards use `max-w-6xl` — prevents infinite stretching on large screens. Cards are left-aligned, no `mx-auto`.
+
+**Form Width Constraints:**
+
+Admin forms use a two-tier width system to keep inputs at comfortable reading width (280–370px) while giving complex content room to breathe.
+
+| Tier | Rule | Rationale |
+|---|---|---|
+| **Section Card** | `max-w-6xl` (1152px), left-aligned | Defines the form's comfortable reading zone. On screens ≥ 1280px, cards lock at 1152px; right side shows page background. |
+| **Field Grid Rows** | `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` | Same grid for ALL field rows — 1 field occupies 1 column; 2 fields = 2 columns; 3 fields fills the row. Each field stays at 280–370px. |
+| **Full-Width Content** | No constraint, fills card width | textarea, O2M sub-forms, permission trees — placed at section end, after all grid rows. |
+
+Behavior by breakpoint:
+
+| Viewport | Columns | Column Width | Card Behavior |
+|---|---|---|---|
+| < 768px | 1 | 100% | Full width, `max-w-6xl` has no effect |
+| 768–1023px | 2 | ~340–480px | Card grows with content |
+| 1024–1279px | 3 | ~300–380px | Card grows with content |
+| ≥ 1280px | 3 | ~370px | Card locks at 1152px |
 
 **Field Grid:**
 
-Desktop fields use 3-column grid with short inputs in grid rows and full-width fields at section end:
+Desktop fields use responsive grid with short inputs in grid rows and full-width fields at section end:
 
 ```html
-<!-- Grid row: 3 columns for standard fields -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Grid row: same grid for 1/2/3 fields — unified -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
   <el-form-item label="Field 1" prop="field1"><el-input ... /></el-form-item>
   <el-form-item label="Field 2" prop="field2"><el-input ... /></el-form-item>
   <el-form-item label="Field 3" prop="field3"><el-input ... /></el-form-item>
 </div>
 
-<!-- Grid row: single field taking 1 of 3 columns -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+<!-- Grid row: single field — same grid class, just 1 child -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
   <el-form-item label="Single Field"><el-select ... class="w-full" /></el-form-item>
 </div>
 
-<!-- Full-width at section end: textarea -->
+<!-- Full-width at section end: textarea — no constraint -->
 <el-form-item label="Address" class="mt-4">
   <el-input type="textarea" :rows="2" ... />
 </el-form-item>
 ```
 
 Key points:
-- Standard fields: `grid grid-cols-1 md:grid-cols-3 gap-4`
+- All field rows: `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4` — same class regardless of field count
+- A row with 1 field occupies 1 column. 2 fields = 2 columns. 3 fields fills the row.
 - Each grid row is a separate `<div>` — rows are stacked with `mt-4` spacing
 - Full-width fields (textarea, dynamic item list): placed at the END of the section, after all grid rows, each wrapped in a standalone `<el-form-item>`
 - `label-position="top"` on `el-form` for all fields
@@ -710,7 +730,7 @@ Each relationship tab contains a single section card with purple accent stripe, 
 
 ```html
 <!-- Desktop: inside the active tab pane -->
-<div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-purple-600 p-5 md:p-6">
+<div class="bg-white rounded-btn border border-neutral-200 border-l-[3px] border-l-purple-600 p-5 md:p-6 max-w-6xl">
   <div class="text-sm font-semibold text-purple-700 mb-4 uppercase tracking-wide">商品清单</div>
   <!-- Existing O2M sub-form pattern (column headers + data rows + add button) -->
   ...
