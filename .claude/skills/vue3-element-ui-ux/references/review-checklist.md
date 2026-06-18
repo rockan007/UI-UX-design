@@ -71,7 +71,7 @@ Then fix the issues. Do not change business logic.
 - [ ] Double-submit is prevented (button loading + disabled).
 - [ ] **Form toolbar:** Action buttons in toolbar row with breadcrumb (`justify-between`). Primary `type="primary"`, secondary `plain`. Not at form bottom.
 - [ ] **Section cards:** Each section is independent card with left accent stripe (`border-l-[3px]`). Cards separated by `gap-4`. No single-card-with-dividers pattern.
-- [ ] **Field grid:** Desktop uses `grid-cols-3`. Textarea and dynamic lists are full-width at section end, after grid rows. Multiple grid rows stacked with `mt-4`.
+- [ ] **Field grid:** Desktop uses `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` for all field rows. Textarea and dynamic lists are full-width at section end, after grid rows. Multiple grid rows stacked with `mt-4`.
 - [ ] **Form width:** Section cards have `max-w-6xl` (1152px), left-aligned. Field grid rows use unified `grid-cols-1 md:grid-cols-2 lg:grid-cols-3`. Full-width content (textarea, O2M, trees) fills card width at section end.
 - [ ] Mobile input is smooth.
 - [ ] **Three-mode form:** Form handles create/view/edit via route name. View mode: read-only display (`v-if="isView"`), status tag in breadcrumb, Edit+Delete toolbar. No validation rules in view mode.
