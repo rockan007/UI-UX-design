@@ -110,6 +110,7 @@ Every page starts with a page header. The format depends on navigation depth:
 - Use clear labels and concise help text.
 - Place validation errors near fields.
 - Group long forms.
+- Keep form fields at a comfortable reading width (280–400px). Use responsive grids that adapt column count to viewport width, and cap section containers to prevent infinite stretching on large screens.
 - Disable and show loading state during submit.
 - Give explicit success or failure feedback.
 
