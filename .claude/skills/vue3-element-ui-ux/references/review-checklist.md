@@ -72,7 +72,7 @@ Then fix the issues. Do not change business logic.
 - [ ] **Form toolbar:** Action buttons in toolbar row with breadcrumb (`justify-between`). Primary `type="primary"`, secondary `plain`. Not at form bottom.
 - [ ] **Section cards:** Each section is independent card with left accent stripe (`border-l-[3px]`). Cards separated by `gap-4`. No single-card-with-dividers pattern.
 - [ ] **Field grid:** Desktop uses `grid-cols-3`. Textarea and dynamic lists are full-width at section end, after grid rows. Multiple grid rows stacked with `mt-4`.
-- [ ] **Form width:** No `max-w-2xl` constraint. Form uses available content width.
+- [ ] **Form width:** Section cards have `max-w-6xl` (1152px), left-aligned. Field grid rows use unified `grid-cols-1 md:grid-cols-2 lg:grid-cols-3`. Full-width content (textarea, O2M, trees) fills card width at section end.
 - [ ] Mobile input is smooth.
 - [ ] **Three-mode form:** Form handles create/view/edit via route name. View mode: read-only display (`v-if="isView"`), status tag in breadcrumb, Edit+Delete toolbar. No validation rules in view mode.
 - [ ] **O2M sub-form:** Child list uses multi-column grid with column headers (edit + view). Each row has inputs/read-only text + auto-calculated subtotal + delete. `addItem` with field defaults. Total = sum of subtotals.
@@ -132,6 +132,15 @@ Check at these widths:
 - [ ] Primary action is visible on mobile.
 - [ ] **Action button placement:** Desktop create button inside filter bar row (right-aligned via spacer). Mobile create button is circle `+` icon in breadcrumb row top-right (`md:hidden`). No standalone button rows.
 - [ ] Collapsed sidebar has `overflow-x: hidden` to prevent horizontal scrollbar from overflow content.
+
+## 7b. Form Width (Desktop)
+
+- [ ] Each section card has `max-w-6xl` — doesn't stretch infinitely on large screens (>= 1280px).
+- [ ] All field rows use unified grid `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` — same grid class for 1, 2, or 3 fields.
+- [ ] Full-width content (textarea, O2M sub-forms, permission trees) at section end, fills card width with no max-w constraint.
+- [ ] Mobile (< 768px) fields stack in single column, unaffected by max-w or multi-column grids.
+- [ ] Tabbed form section cards (inside tab panes) follow the same `max-w-6xl` + unified grid rules.
+- [ ] Form cards are left-aligned, not centered — no `mx-auto`.
 
 ## 8. Accessibility
 
